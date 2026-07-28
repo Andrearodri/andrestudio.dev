@@ -1,0 +1,11 @@
+{
+  "name": "AndreStudio.dev",
+  "short_name": "AndreStudio.dev",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
+  "icons": [
+    {"src": "/assets/optimized/logo-96.png", "sizes": "96x96", "type": "image/png"}
+  ]
+}

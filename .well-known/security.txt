@@ -1,0 +1,4 @@
+Contact: mailto:andre@andrestudio.dev.br
+Preferred-Languages: pt-BR, en
+Canonical: https://andrestudio.dev.br/.well-known/security.txt
+Expires: 2027-06-26T00:00:00Z

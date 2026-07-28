@@ -1,0 +1,27 @@
+# Canonical host and HTTPS redirects for Netlify/Cloudflare Pages style hosts.
+http://andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
+http://www.andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
+https://www.andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
+
+# Legacy URL kept as HTML fallback in the repo, but should be a real 301 in production.
+/sobre.html /sobre/ 301
+
+# Defensive blocks for files that should never be public.
+/_headers /404.html 404
+/_redirects /404.html 404
+/.DS_Store /404.html 404
+/assets/.DS_Store /404.html 404
+/.env /404.html 404
+/.env.* /404.html 404
+/*.sql /404.html 404
+/*.zip /404.html 404
+/*.bak /404.html 404
+/*.old /404.html 404
+/*.orig /404.html 404
+/*.pem /404.html 404
+/*.key /404.html 404
+/assets/*.mov /404.html 404
+/assets/*.wav /404.html 404
+/assets/*.WAV /404.html 404
+/assets/Inserir%20um%20título.png /404.html 404
+/assets/Inserir%20um%20título.svg /404.html 404

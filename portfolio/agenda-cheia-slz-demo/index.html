@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadFlow CRM — Sistema ao Vivo & Demo Interativa</title>
+  <meta name="description" content="Plataforma Omnichannel & Gestão Comercial com CRM Kanban, WhatsApp Multiatendimento e Agentes de IA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==================== VIEW 1: LANDING PAGE HERO (OVERVIEW) ==================== -->
+  <div id="landing-view" class="view-container active">
+    
+    <!-- Top Navigation Header -->
+    <header class="landing-header">
+      <div class="landing-header-inner">
+        <div class="brand">
+          <div class="brand-icon">🚀</div>
+          <span class="brand-name">LeadFlow <span>CRM</span></span>
+        </div>
+        <div class="landing-nav-actions">
+          <a href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">💬 Suporte</a>
+          <button class="btn btn-primary btn-sm" onclick="openDemoSystem()">🚀 Acessar Sistema Ao Vivo (Demo)</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="landing-hero-section">
+      <div class="container">
+        
+        <!-- Hero Badge -->
+        <div class="hero-badge">
+          <span class="badge-icon">🚀</span>
+          <span>Plataforma Omnichannel &amp; Gestão Comercial</span>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="hero-title">
+          Gerencie Vendas, WhatsApp e Automações com o <span class="highlight-text">LeadFlow CRM</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="hero-description">
+          Uma solução de alto impacto para empresas acompanharem funis de vendas, automatizarem atendimento no WhatsApp e centralizarem relatórios gerenciais.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg pulse-effect" onclick="openDemoSystem('dashboard')">
+            <span>🚀 Acessar Sistema Ao Vivo (Demo)</span>
+          </button>
+          <a href="https://wa.me/5598981483900?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20LeadFlow%20CRM." target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+            <span>💬 Falar com Desenvolvedor</span>
+          </a>
+        </div>
+
+        <!-- System Demo Live Status Indicator -->
+        <div class="live-status-pill" onclick="openDemoSystem('dashboard')">
+          <span class="status-dot"></span>
+          <span>Demonstração totalmente interativa disponível. Nenhuma senha necessária.</span>
+          <span class="pill-action">Abrir agora →</span>
+        </div>
+
+        <!-- Feature Cards Grid (Matching Mockup) -->
+        <div class="features-grid">
+          
+          <!-- Card 1 -->
+          <div class="feature-card" onclick="openDemoSystem('mensagens')">
+            <div class="feature-card-header">
+              <div class="feature-icon bg-cyan">💬</div>
+              <span class="feature-tag">WhatsApp API</span>
+            </div>
+            <h3>Multiatendimento WhatsApp</h3>
+            <p>Centralize atendimentos da sua equipe em um único número com suporte a disparo em massa, histórico de conversas e distribuição.</p>
+            <div class="feature-card-footer">
+              <span>Testar no sistema</span>
+              <span class="arrow">→</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card" onclick="openDemoSystem('kanban')">
+            <div class="feature-card-header">
+              <div class="feature-icon bg-emerald">📊</div>
+              <span class="feature-tag">Pipeline Visível</span>
+            </div>
+            <h3>Funil de Vendas Kanban</h3>
+            <p>Acompanhe propostas e negociações em tempo real com visualização Kanban, valores potenciais e fases customizáveis.</p>
+            <div class="feature-card-footer">
+              <span>Testar no sistema</span>
+              <span class="arrow">→</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="feature-card" onclick="openDemoSystem('agentes-ia')">
+            <div class="feature-card-header">
+              <div class="feature-icon bg-purple">🤖</div>
+              <span class="feature-tag">Inteligência Artificial</span>
+            </div>
+            <h3>Agentes de IA &amp; Automações</h3>
+            <p>Crie fluxos automatizados de atendimento, respostas inteligentes com IA e gatilhos de disparo com base em ações do cliente.</p>
+            <div class="feature-card-footer">
+              <span>Testar no sistema</span>
+              <span class="arrow">→</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="landing-footer">
+      <p>© 2026 LeadFlow CRM por AndreStudio.dev • Sistema Demonstrativo Comercial para Clientes</p>
+    </footer>
+
+  </div>
+
+  <!-- ==================== VIEW 2: INTERACTIVE LIVE CRM SYSTEM APP ==================== -->
+  <div id="demo-view" class="view-container">
+
+    <div class="app">
+
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-logo" onclick="backToLanding()">
+          <div class="sidebar-brand-icon">🚀</div>
+          <div>
+            <h1>LeadFlow <span>CRM</span></h1>
+            <p class="sidebar-tagline">Sistema ao Vivo • Cliente Demo</p>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a class="active" data-page="dashboard" onclick="showPage('dashboard')">
+            <span class="nav-icon">📊</span> Dashboard
+          </a>
+          <a data-page="kanban" onclick="showPage('kanban')">
+            <span class="nav-icon">📋</span> Funil Kanban <span class="nav-badge" id="leads-count-badge">8</span>
+          </a>
+          <a data-page="mensagens" onclick="showPage('mensagens')">
+            <span class="nav-icon">💬</span> WhatsApp Chat
+          </a>
+          <a data-page="agentes-ia" onclick="showPage('agentes-ia')">
+            <span class="nav-icon">🤖</span> Agentes de IA
+          </a>
+          <a data-page="reativacao" onclick="showPage('reativacao')">
+            <span class="nav-icon">🔔</span> Reativação &amp; Encaixe
+          </a>
+          <a data-page="resultado" onclick="showPage('resultado')">
+            <span class="nav-icon">🏆</span> Métricas &amp; ROI
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn btn-secondary btn-full btn-sm" onclick="backToLanding()">
+            <span>← Voltar à Apresentação</span>
+          </button>
+          <div class="demo-badge-pill">
+            <span class="pulse-dot"></span> Modo Cliente Interativo
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <div class="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="menu-toggle-btn" onclick="toggleSidebar()">☰</button>
+            <div class="topbar-clinic">
+              <span class="topbar-icon">🏥</span>
+              <div>
+                <span class="clinic-name">Clínica &amp; Estética SLZ</span>
+                <span class="clinic-sub">LeadFlow CRM Workspace #1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button class="btn btn-emerald btn-sm" onclick="openNewLeadModal()">
+              <span>+ Criar Lead Demo</span>
+            </button>
+            <a href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <span>💬 Contactar Dev</span>
+            </a>
+            <div class="topbar-avatar" title="Modo Cliente Demo">CD</div>
+          </div>
+        </header>
+
+        <!-- PAGE 1: DASHBOARD -->
+        <section id="dashboard" class="page active">
+          <div class="page-header">
+            <div>
+              <h2>Dashboard Comercial</h2>
+              <p>Visão geral de métricas, conversões de IA e faturamento da operação</p>
+            </div>
+            <div class="header-action-group">
+              <span class="live-pill">🟢 Dados em Tempo Real</span>
+            </div>
+          </div>
+
+          <!-- Highlight Banner -->
+          <div class="highlight-banner">
+            <div class="highlight-icon">✨</div>
+            <div class="highlight-content">
+              <h3>Orçamento recuperado via Agente de IA WhatsApp</h3>
+              <p>O robô automatizado reativou 3 negociações paradas e preencheu horário vago por cancelamento em menos de 8 minutos.</p>
+            </div>
+            <div class="highlight-value">R$ 2.450 recuperados</div>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card primary">
+              <div class="metric-head">
+                <div class="metric-icon">📋</div>
+                <span class="metric-trend positive">+14% este mês</span>
+              </div>
+              <div class="metric-value" id="stat-total-leads">8</div>
+              <div class="metric-label">Leads no Funil Ativo</div>
+            </div>
+
+            <div class="metric-card success">
+              <div class="metric-head">
+                <div class="metric-icon">💰</div>
+                <span class="metric-trend positive">Propostas ativas</span>
+              </div>
+              <div class="metric-value" id="stat-total-revenue">R$ 14.350</div>
+              <div class="metric-label">Receita em Negociação</div>
+            </div>
+
+            <div class="metric-card info">
+              <div class="metric-head">
+                <div class="metric-icon">💬</div>
+                <span class="metric-trend positive">98.4% automatizado</span>
+              </div>
+              <div class="metric-value">42</div>
+              <div class="metric-label">Conversas WhatsApp / dia</div>
+            </div>
+
+            <div class="metric-card warning">
+              <div class="metric-head">
+                <div class="metric-icon">🤖</div>
+                <span class="metric-trend">IA Ativa</span>
+              </div>
+              <div class="metric-value">3.5 min</div>
+              <div class="metric-label">Tempo Médio de Resposta</div>
+            </div>
+          </div>
+
+          <!-- Quick Charts / Overview Cards -->
+          <div class="dashboard-details-grid">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h3>Últimas Atividades no CRM</h3>
+                <span class="badge badge-success">Ao Vivo</span>
+              </div>
+              <div class="activity-feed">
+                <div class="feed-item">
+                  <div class="feed-icon bg-emerald">✅</div>
+                  <div class="feed-info">
+                    <strong>Ana Costa</strong> confirmou agendamento para Botox via WhatsApp
+                    <span class="feed-time">Há 5 minutos</span>
+                  </div>
+                  <span class="feed-val">R$ 850</span>
+                </div>
+                <div class="feed-item">
+                  <div class="feed-icon bg-cyan">🤖</div>
+                  <div class="feed-info">
+                    <strong>Agente IA</strong> enviou proposta de Harmonização para Joana Mendes
+                    <span class="feed-time">Há 12 minutos</span>
+                  </div>
+                  <span class="feed-val">R$ 1.200</span>
+                </div>
+                <div class="feed-item">
+                  <div class="feed-icon bg-purple">⚡</div>
+                  <div class="feed-info">
+                    <strong>Novo Lead: Marcos Souza</strong> entrou via Instagram Ads
+                    <span class="feed-time">Há 25 minutos</span>
+                  </div>
+                  <span class="feed-val">R$ 1.800</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h3>Automação de WhatsApp (IA)</h3>
+                <span class="badge badge-info">Conectado</span>
+              </div>
+              <div class="bot-status-widget">
+                <div class="bot-status-header">
+                  <span class="status-indicator online"></span>
+                  <div>
+                    <strong>Agente Vendedor #1</strong>
+                    <p>Qualificação de Leads &amp; Agendamento</p>
+                  </div>
+                </div>
+                <div class="bot-stats-row">
+                  <div>
+                    <span class="stat-num">98%</span>
+                    <span class="stat-desc">Precisão nas Respostas</span>
+                  </div>
+                  <div>
+                    <span class="stat-num">14</span>
+                    <span class="stat-desc">Vendas Fechadas/Semana</span>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-full btn-sm" onclick="showPage('mensagens')">
+                  <span>Ver Chat em Tempo Real →</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGE 2: FUNIL KANBAN -->
+        <section id="kanban" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Funil de Vendas Kanban</h2>
+              <p>Arraste os cards ou mude o estágio para acompanhar suas negociações em tempo real</p>
+            </div>
+            <button class="btn btn-emerald btn-sm" onclick="openNewLeadModal()">+ Adicionar Lead</button>
+          </div>
+
+          <!-- Kanban Board -->
+          <div class="kanban-board">
+            
+            <!-- Column 1: Novo Lead -->
+            <div class="kanban-col" data-stage="novo">
+              <div class="kanban-col-header">
+                <div class="col-title">
+                  <span class="col-dot dot-blue"></span>
+                  <h3>Novo Lead</h3>
+                </div>
+                <span class="col-count" id="count-novo">2</span>
+              </div>
+              <div class="kanban-cards-wrapper" id="col-novo">
+                <!-- Card 1 -->
+                <div class="kanban-card" data-id="1">
+                  <div class="card-tag tag-blue">Instagram Ads</div>
+                  <h4 class="card-name">Marcos Souza</h4>
+                  <p class="card-desc">Harmonização Facial • slz/MA</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 1.800</span>
+                    <button class="btn-card-action" onclick="moveCardNext('1')">Mover →</button>
+                  </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="kanban-card" data-id="2">
+                  <div class="card-tag tag-blue">Site Direct</div>
+                  <h4 class="card-name">Camila Silva</h4>
+                  <p class="card-desc">Botox + Preenchimento</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 1.100</span>
+                    <button class="btn-card-action" onclick="moveCardNext('2')">Mover →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Qualificação IA -->
+            <div class="kanban-col" data-stage="atendimento">
+              <div class="kanban-col-header">
+                <div class="col-title">
+                  <span class="col-dot dot-purple"></span>
+                  <h3>Atendimento IA</h3>
+                </div>
+                <span class="col-count" id="count-atendimento">2</span>
+              </div>
+              <div class="kanban-cards-wrapper" id="col-atendimento">
+                <div class="kanban-card" data-id="3">
+                  <div class="card-tag tag-purple">Robô Ativo</div>
+                  <h4 class="card-name">Renata Alves</h4>
+                  <p class="card-desc">Limpeza de Pele Profunda</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 380</span>
+                    <button class="btn-card-action" onclick="moveCardNext('3')">Mover →</button>
+                  </div>
+                </div>
+                <div class="kanban-card" data-id="4">
+                  <div class="card-tag tag-purple">Qualificado</div>
+                  <h4 class="card-name">Rodrigo Santos</h4>
+                  <p class="card-desc">Bioestimulador de Colágeno</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 2.200</span>
+                    <button class="btn-card-action" onclick="moveCardNext('4')">Mover →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Proposta Enviada -->
+            <div class="kanban-col" data-stage="proposta">
+              <div class="kanban-col-header">
+                <div class="col-title">
+                  <span class="col-dot dot-yellow"></span>
+                  <h3>Proposta Enviada</h3>
+                </div>
+                <span class="col-count" id="count-proposta">2</span>
+              </div>
+              <div class="kanban-cards-wrapper" id="col-proposta">
+                <div class="kanban-card" data-id="5">
+                  <div class="card-tag tag-yellow">Aguardando Aceite</div>
+                  <h4 class="card-name">Joana Mendes</h4>
+                  <p class="card-desc">Peeling Químico + Retorno</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 820</span>
+                    <button class="btn-card-action" onclick="moveCardNext('5')">Mover →</button>
+                  </div>
+                </div>
+                <div class="kanban-card" data-id="6">
+                  <div class="card-tag tag-yellow">Encaixe Oferecido</div>
+                  <h4 class="card-name">Patrícia Rocha</h4>
+                  <p class="card-desc">Lifting Facial sem Corte</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 3.500</span>
+                    <button class="btn-card-action" onclick="moveCardNext('6')">Mover →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 4: Fechado Venda -->
+            <div class="kanban-col" data-stage="fechado">
+              <div class="kanban-col-header">
+                <div class="col-title">
+                  <span class="col-dot dot-green"></span>
+                  <h3>Venda Confirmada</h3>
+                </div>
+                <span class="col-count" id="count-fechado">2</span>
+              </div>
+              <div class="kanban-cards-wrapper" id="col-fechado">
+                <div class="kanban-card card-win" data-id="7">
+                  <div class="card-tag tag-green">Pago / Agendado</div>
+                  <h4 class="card-name">Ana Costa</h4>
+                  <p class="card-desc">Botox • Horário de Encaixe</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 850</span>
+                    <span class="badge badge-success">Venda Fechada</span>
+                  </div>
+                </div>
+                <div class="kanban-card card-win" data-id="8">
+                  <div class="card-tag tag-green">Pago / Agendado</div>
+                  <h4 class="card-name">Maria Silva</h4>
+                  <p class="card-desc">Limpeza de Pele + Dermaroller</p>
+                  <div class="card-footer">
+                    <span class="card-price">R$ 450</span>
+                    <span class="badge badge-success">Venda Fechada</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- PAGE 3: MULTIATENDIMENTO WHATSAPP -->
+        <section id="mensagens" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Multiatendimento WhatsApp</h2>
+              <p>Simulador interativo de conversas com clientes e automação do Agente de IA</p>
+            </div>
+            <div class="chat-toggle-ai">
+              <span>Robô Agente IA:</span>
+              <label class="switch">
+                <input type="checkbox" id="ai-toggle-switch" checked onchange="toggleAiBot(this)">
+                <span class="slider round"></span>
+              </label>
+              <strong id="ai-status-label" style="color: var(--color-success)">ATIVO</strong>
+            </div>
+          </div>
+
+          <div class="chat-app-container">
+            
+            <!-- Chat List Sidebar -->
+            <div class="chat-list-sidebar">
+              <div class="chat-search">
+                <input type="text" placeholder="Buscar cliente..." onkeyup="filterChats(this)">
+              </div>
+              <div class="chat-threads">
+                
+                <div class="chat-thread-item active" onclick="selectChatThread('marcos')">
+                  <div class="thread-avatar">MS</div>
+                  <div class="thread-info">
+                    <div class="thread-name">
+                      <span>Marcos Souza</span>
+                      <span class="thread-time">11:42</span>
+                    </div>
+                    <p class="thread-snippet">Gostaria de saber os valores da Harmonização...</p>
+                  </div>
+                </div>
+
+                <div class="chat-thread-item" onclick="selectChatThread('ana')">
+                  <div class="thread-avatar">AC</div>
+                  <div class="thread-info">
+                    <div class="thread-name">
+                      <span>Ana Costa</span>
+                      <span class="thread-time">11:30</span>
+                    </div>
+                    <p class="thread-snippet">SIM, posso ocupar o horário de 11:00!</p>
+                  </div>
+                </div>
+
+                <div class="chat-thread-item" onclick="selectChatThread('joana')">
+                  <div class="thread-avatar">JM</div>
+                  <div class="thread-info">
+                    <div class="thread-name">
+                      <span>Joana Mendes</span>
+                      <span class="thread-time">10:15</span>
+                    </div>
+                    <p class="thread-snippet">Consegue enviar o orçamento em PDF?</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Active Chat Window -->
+            <div class="chat-window-main">
+              <div class="chat-header-bar">
+                <div class="chat-user-details">
+                  <div class="thread-avatar" id="active-chat-avatar">MS</div>
+                  <div>
+                    <h4 id="active-chat-name">Marcos Souza</h4>
+                    <span class="active-status" id="active-chat-status">🟢 Online • Atendido por Agente IA LeadFlow</span>
+                  </div>
+                </div>
+                <div class="chat-actions">
+                  <span class="badge badge-info">Lead Qualificado</span>
+                </div>
+              </div>
+
+              <!-- Message Stream -->
+              <div class="chat-messages-body" id="chat-messages-body">
+                <div class="chat-divider"><span>Hoje • Conversa Iniciada</span></div>
+                
+                <div class="chat-bubble received">
+                  Olá! Vi o anúncio no Instagram e gostaria de saber como funciona a Harmonização Facial na clínica de vocês.
+                  <div class="bubble-time">11:40</div>
+                </div>
+
+                <div class="chat-bubble sent ai-bubble">
+                  <div class="ai-badge">🤖 Agente IA LeadFlow</div>
+                  Olá Marcos! Seja muito bem-vindo à Clínica Belle Face SLZ. ✨<br><br>
+                  A Harmonização Facial é personalizada para cada rosto. Temos horários com nossa especialista ainda para esta semana.<br><br>
+                  Você gostaria de agendar uma avaliação cortesia ou prefere receber a tabela de valores no WhatsApp?
+                  <div class="bubble-time">11:41 <span class="checkmarks">✓✓</span></div>
+                </div>
+
+                <div class="chat-bubble received">
+                  Gostaria de ver os valores primeiro e saber se tem horário na quinta-feira à tarde!
+                  <div class="bubble-time">11:42</div>
+                </div>
+              </div>
+
+              <!-- Chat Input Bar -->
+              <div class="chat-input-area">
+                <input type="text" id="chat-text-input" placeholder="Digite uma mensagem de teste..." onkeypress="handleChatKeyPress(event)">
+                <button class="btn btn-primary" onclick="sendDemoChatMessage()">Enviar</button>
+                <button class="btn btn-emerald" onclick="simulateAiReply()" title="Simular resposta do robô com IA">🤖 Gerar Resposta IA</button>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <!-- PAGE 4: AGENTES DE IA & AUTOMAÇÕES -->
+        <section id="agentes-ia" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Agentes de IA &amp; Automações</h2>
+              <p>Configure robôs de atendimento, regras de disparo automático e respostas inteligentes</p>
+            </div>
+            <span class="badge badge-success">3 Agentes Rodando</span>
+          </div>
+
+          <div class="ai-agents-grid">
+            
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-icon">🤖</div>
+                <div>
+                  <h3>Agente Qualificador &amp; Vendedor</h3>
+                  <p>Atende leads novos 24/7 e conduz até o agendamento</p>
+                </div>
+              </div>
+              <div class="agent-card-body">
+                <div class="setting-row">
+                  <span>Resposta Instantânea (&lt; 5 seg)</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Coleta de Nome e Procedimento</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Oferecer Horários Disponíveis</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+              </div>
+              <div class="agent-card-footer">
+                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Qualificador')">⚡ Testar Prompt de Resposta</button>
+              </div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-icon">🔄</div>
+                <div>
+                  <h3>Agente de Fila de Encaixe</h3>
+                  <p>Oferece horários vagos imediatamente para a lista de espera</p>
+                </div>
+              </div>
+              <div class="agent-card-body">
+                <div class="setting-row">
+                  <span>Disparo por Cancelamento</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Priorizar Leads de Maior Valor</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Tempo de Resposta Limite: 15 min</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+              </div>
+              <div class="agent-card-footer">
+                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Encaixe')">⚡ Testar Oferta de Encaixe</button>
+              </div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-icon">🔔</div>
+                <div>
+                  <h3>Agente de Reativação de Orçamentos</h3>
+                  <p>Retoma conversas paradas há mais de 10 dias com ofertas</p>
+                </div>
+              </div>
+              <div class="agent-card-body">
+                <div class="setting-row">
+                  <span>Gatilho: Orçamento Parado &gt; 7 dias</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Mensagem Personalizada</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+                <div class="setting-row">
+                  <span>Oferta de Desconto de Retorno</span>
+                  <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                </div>
+              </div>
+              <div class="agent-card-footer">
+                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Reativação')">⚡ Testar Reativação</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Test Terminal -->
+          <div class="ai-tester-box">
+            <div class="tester-header">
+              <h3>🧪 Simulador de Prompt do Agente de IA</h3>
+              <span class="badge badge-purple">Modelo Gemini 3.6 Flash Turbo</span>
+            </div>
+            <div class="tester-body">
+              <div class="tester-input-group">
+                <label>Mensagem simulada enviada pelo cliente:</label>
+                <input type="text" id="ai-test-input" value="Quais são os horários para botox na sexta-feira?">
+              </div>
+              <button class="btn btn-purple" onclick="runSimulatedAiPrompt()">Executar Teste de IA</button>
+              <div class="tester-output" id="ai-test-output">
+                Clique em "Executar Teste de IA" para ver como o agente processa a mensagem em tempo real...
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGE 5: REATIVAÇÃO & ENCAIXE -->
+        <section id="reativacao" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Fila de Reativação &amp; Encaixe</h2>
+              <p>Lista automatizada de horários vagos recuperados e leads reativados pelo sistema</p>
+            </div>
+          </div>
+
+          <div class="section-title">Clientes com Horários Recuperados</div>
+
+          <div class="reactivation-card">
+            <div class="reactivation-avatar">JM</div>
+            <div class="reactivation-info">
+              <div class="reactivation-name">Joana Mendes</div>
+              <div class="reactivation-detail">Peeling químico • Orçamento de 21 dias parado</div>
+              <div style="margin-top:6px"><span class="badge badge-reativado">Reativado via IA</span></div>
+            </div>
+            <div class="reactivation-value">
+              <div class="reactivation-amount">R$ 820</div>
+              <div class="reactivation-label">Receita Recuperada</div>
+            </div>
+          </div>
+
+          <div class="reactivation-card">
+            <div class="reactivation-avatar">RA</div>
+            <div class="reactivation-info">
+              <div class="reactivation-name">Renata Alves</div>
+              <div class="reactivation-detail">Limpeza de Pele • Orçamento de 13 dias parado</div>
+              <div style="margin-top:6px"><span class="badge badge-reativado">Reativado via IA</span></div>
+            </div>
+            <div class="reactivation-value">
+              <div class="reactivation-amount">R$ 380</div>
+              <div class="reactivation-label">Receita Recuperada</div>
+            </div>
+          </div>
+
+          <div class="reactivation-card">
+            <div class="reactivation-avatar">AC</div>
+            <div class="reactivation-info">
+              <div class="reactivation-name">Ana Costa</div>
+              <div class="reactivation-detail">Botox • Encaixe automático em vaga cancelada em 10min</div>
+              <div style="margin-top:6px"><span class="badge badge-encaixe">Encaixe Confirmado</span></div>
+            </div>
+            <div class="reactivation-value">
+              <div class="reactivation-amount">R$ 850</div>
+              <div class="reactivation-label">Receita Recuperada</div>
+            </div>
+          </div>
+
+          <div class="info-text" style="margin-top:20px;">
+            💰 <strong>Total de Receita Recuperada nesta semana: R$ 2.050</strong> sem gasto extra em anúncios.
+          </div>
+        </section>
+
+        <!-- PAGE 6: MÉTRICAS & ROI -->
+        <section id="resultado" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Métricas &amp; Retorno Financeiro (ROI)</h2>
+              <p>Relatório executivo dos resultados gerados pelo LeadFlow CRM</p>
+            </div>
+          </div>
+
+          <div class="result-hero">
+            <div class="result-emoji">🏆</div>
+            <h2>Receita Potencial Salva pelo Sistema</h2>
+            <p>Valor total de vendas que seriam perdidas sem automação de encaixe e reativação</p>
+            <div class="result-total">R$ 2.450</div>
+            <div class="result-total-label">Recuperados nos últimos 7 dias</div>
+          </div>
+
+          <div class="result-breakdown">
+            <div class="result-item">
+              <div class="result-item-icon">🔄</div>
+              <div class="result-item-value">R$ 850</div>
+              <div class="result-item-label">Fila de Encaixe Instantâneo</div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-icon">🔔</div>
+              <div class="result-item-value">R$ 1.200</div>
+              <div class="result-item-label">Reativação de Orçamentos Frios</div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-icon">🤖</div>
+              <div class="result-item-value">R$ 400</div>
+              <div class="result-item-label">Vendas Fora do Horário Comercial</div>
+            </div>
+          </div>
+
+          <div class="result-cta">
+            <h3>Quer o LeadFlow CRM na sua empresa?</h3>
+            <p>Implantação rápida sob medida com WhatsApp API oficial, Kanban e Agentes de IA configurados.</p>
+            <a href="https://wa.me/5598981483900?text=Quero%20implantar%20o%20LeadFlow%20CRM%20na%20minha%20empresa" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+              <span>💬 Solicitar Projeto Personalizado</span>
+            </a>
+          </div>
+        </section>
+
+      </div><!-- /main-content -->
+
+    </div><!-- /app -->
+
+  </div>
+
+  <!-- ==================== MODAL: CRIAR NOVO LEAD DEMO ==================== -->
+  <div id="new-lead-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>+ Adicionar Lead Demo</h3>
+        <button class="modal-close" onclick="closeNewLeadModal()">✕</button>
+      </div>
+      <form id="new-lead-form" onsubmit="handleCreateLead(event)">
+        <div class="form-group">
+          <label>Nome do Cliente / Empresa</label>
+          <input type="text" id="lead-name" required placeholder="Ex: Fernanda Lima">
+        </div>
+        <div class="form-group">
+          <label>Procedimento / Serviço de Interesse</label>
+          <input type="text" id="lead-service" required placeholder="Ex: Harmonização / Pacote Anual">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Valor Estimado (R$)</label>
+            <input type="number" id="lead-price" required placeholder="1500">
+          </div>
+          <div class="form-group">
+            <label>Fase Inicial no Funil</label>
+            <select id="lead-stage">
+              <option value="novo">Novo Lead</option>
+              <option value="atendimento">Atendimento IA</option>
+              <option value="proposta">Proposta Enviada</option>
+              <option value="fechado">Venda Confirmada</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeNewLeadModal()">Cancelar</button>
+          <button type="submit" class="btn btn-emerald">Inserir no Kanban</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

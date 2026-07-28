@@ -1,0 +1,44 @@
+# OS/editor noise
+.DS_Store
+**/.DS_Store
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account.json
+
+# Dumps, backups and local databases
+*.sql
+*.sqlite
+*.db
+*.bak
+*.old
+*.orig
+backup*
+dump*
+
+# Logs and dependency/build outputs if a build pipeline is added later
+*.log
+node_modules/
+dist/
+build/
+tmp/
+backups/
+.next/
+.vite/
+
+# Raw source media should not be deployed unless intentionally referenced.
+*.mov
+*.wav
+*.WAV
+Design sem nome.png
+assets/*.mov
+assets/*.wav
+assets/*.WAV
+assets/Inserir um título.*
