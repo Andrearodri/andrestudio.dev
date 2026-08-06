@@ -12,5 +12,5 @@ AGENTS.md
 *.old
 *.orig
 *.map
-_headers
-_redirects
+docs
+.backup-original-media

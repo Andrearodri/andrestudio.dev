@@ -23,6 +23,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/home.css">
+  <script>
+  (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';if(t==='light')document.documentElement.setAttribute('data-theme','light')})();
+  </script>
   
   <script type="application/ld+json">
   {
@@ -48,6 +51,10 @@
         <span>AndreStudio.dev</span>
       </a>
       <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu">☰</button>
+      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Alternar modo Cinema / Studio">
+        <span class="theme-toggle-label">Cinema</span>
+        <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+      </button>
       <nav class="site-nav" id="primary-nav" aria-label="Navegação principal">
         <ul>
           <li><a href="/portfolio/">Portfólio</a></li>
@@ -65,7 +72,7 @@
     <!-- 1. HERO COM VÍDEO -->
     <section class="home-hero" aria-labelledby="hero-title">
       <div class="hero-visual" aria-hidden="true">
-        <video autoplay muted loop playsinline preload="auto" poster="/assets/optimized/automotive.jpg" data-autopause>
+        <video autoplay muted loop playsinline preload="metadata" poster="/assets/optimized/automotive.jpg" data-autopause>
           <source src="/assets/hero-video.mp4" type="video/mp4">
           <img src="/assets/optimized/automotive.jpg" width="1024" height="1024" decoding="async" alt="">
         </video>

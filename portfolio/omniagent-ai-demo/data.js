@@ -53,7 +53,7 @@ window.OmniDemoData = {
     {
       id: "email",
       name: "E-mail Corporativo",
-      account: "contato@andrestudio.dev.br",
+      account: "andreaparecidor08@gmail.com",
       status: "Conectado em modo demonstração",
       active: true,
       iconType: "email",

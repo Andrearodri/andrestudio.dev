@@ -43,6 +43,9 @@
     "inLanguage": "pt-BR"
   }
   </script>
+  <script>
+  (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';if(t==='light')document.documentElement.setAttribute('data-theme','light')})();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -53,10 +56,11 @@
         <span>AndreStudio.dev</span>
       </a>
       <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu">☰</button>
+      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Alternar modo Cinema / Studio"><span class="theme-toggle-label">Cinema</span><span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span></button>
       <nav class="site-nav" id="primary-nav" aria-label="Navegação principal">
         <ul>
           <li><a href="/portfolio/" aria-current="page">Portfólio</a></li>
-          <li><a href="/#servicos">Serviços</a></li>
+          <li><a href="/servicos/">Serviços</a></li>
           <li><a href="/sobre/">Sobre</a></li>
           <li><a href="/blog/">Conteúdo</a></li>
           <li><a href="/contato/">Contato</a></li>
@@ -255,7 +259,7 @@
         <div>
           <h2>Contato direto</h2>
           <ul>
-            <li><a href="mailto:andreaparecidor08@gmail.com">contato@andrestudio.dev.br</a></li>
+            <li><a href="mailto:andreaparecidor08@gmail.com">andreaparecidor08@gmail.com</a></li>
             <li><a href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></li>
             <li><a href="/contato/">Enviar briefing</a></li>
           </ul>

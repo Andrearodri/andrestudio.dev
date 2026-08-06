@@ -34,10 +34,25 @@
   }
 
   document.querySelectorAll('video[data-autopause]').forEach((video) => {
+    const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      video.pause();
+      video.removeAttribute('autoplay');
+      return;
+    }
     if (!('IntersectionObserver' in window)) return;
     const videoObserver = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting && !video.paused) video.pause();
-    }, { threshold: 0.1 });
+      if (!entry.isIntersecting && !video.paused) {
+        video.pause();
+      } else if (entry.isIntersecting && video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Silently ignore browser autoplay restrictions without console errors
+          });
+        }
+      }
+    }, { threshold: 0.15 });
     videoObserver.observe(video);
   });
 
