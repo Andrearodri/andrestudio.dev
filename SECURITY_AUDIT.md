@@ -155,3 +155,85 @@ Depois das correcoes:
 - Validar headers reais em producao.
 - Definir processo para secrets caso surjam integrações futuras.
 
+
+---
+
+## 11. Auditoria Completa de Segurança e Preparação para Cloudflare Pages (5 de agosto de 2026)
+
+**Data Editorial e de Validação:** 5 de agosto de 2026  
+**Arquiteto/Auditante:** Engenheiro de Software Sênior & Especialista em Segurança de Aplicações Web  
+**Objetivo:** Publicação da notícia "Cloudflare OS transforma agentes de IA em ferramentas seguras para empresas" e auditoria integral de prontidão de segurança antes da atualização do site na **Cloudflare**.
+
+---
+
+### 11.1 Resultados da Auditoria e Classificação de Riscos
+
+A auditoria abrangeu as camadas de dependências, busca por segredos no código e histórico, vulnerabilidades de front-end e blindagem de cabeçalhos. Os resultados são classificados entre Crítico, Alto, Médio, Baixo e Informativo:
+
+#### 1. Segurança de Dependências e Supply Chain
+- **Classificação:** Informativo
+- **Descrição:** O projeto foi inspecionado para identificação de pacotes vulneráveis, dependências desatualizadas e scripts desnecessários.
+- **Impacto:** Ausência total de riscos de execução de dependências vulneráveis no runtime (como vulnerabilidades em protótipo prototype pollution no Node.js).
+- **Arquivo/Local:** Arquitetura raiz estática (sem Node.js server-side em produção).
+- **Correção/Status:** Nenhuma ação corretiva de mitigação necessária. O site opera via Vanilla CSS/JS sem empacotadores ou lockfile em runtime de borda.
+- **Validação:** Verificação estrutural comprova independência de bibliotecas dinâmicas propensas a comprometimento em cadeia (Supply Chain).
+- **Risco Residual:** Zero no escopo atual.
+
+#### 2. Rastreabilidade de Segredos e Credenciais
+- **Classificação:** Informativo
+- **Descrição:** Varredura profunda à procura de arquivos `.env`, tokens, chaves da API Gemini/Cloudflare/AWS, senhas e chaves privadas no sistema de arquivos e git diff.
+- **Impacto:** Eliminação de exfiltração inadvertida de credenciais administrativas ou de cobrança em IA na nuvem.
+- **Arquivo e Linha:** `.gitignore` e exemplos em `blog/google-gemini-3-6-flash/index.html`.
+- **Correção Realizada:** O arquivo `.gitignore` isola proativamente `.env*`, `.pem`, `.key` e `.p12`. Códigos de demonstração nos artigos de IA chamam corretamente variáveis de ambiente de sistema (`process.env.GEMINI_API_KEY`).
+- **Validação da Correção:** Busca automatizada sem ocorrências de chaves reais.
+- **Risco Residual:** Baixo. Orientação permanente mantida para impedir inserção futura de tokens em novos tutoriais de blog.
+
+#### 3. Proteção Front-end contra XSS, DOM Injection e Tabnabbing
+- **Classificação:** Baixo (Resolvido preventivamente)
+- **Descrição:** Verificação de manipulação perigosa do DOM (`dangerouslySetInnerHTML`, `innerHTML`, `eval`, URLs `javascript:`), armazenamento inseguro de dados pessoais em `localStorage` e links externos sem sanitização de referrer.
+- **Impacto:** Prevenção contra sequestro de sessão e injeção de scripts hostis (XSS e Tabnabbing) durante a navegação.
+- **Arquivo e Linha:** `script.js`, `style.css` e páginas estáticas em `/blog/` e `/cases/`.
+- **Correção Realizada:** 
+  1. Todos os links com abertura em nova aba (`target="_blank"`) receberam ou já contêm o atributo de blindagem `rel="noopener noreferrer"`.
+  2. O uso de `localStorage` em `script.js` restringe-se estritamente ao estado de tema visual (`light` ou `dark`), sem reter dados identificáveis (PII) ou tokens de usuário.
+- **Validação da Correção:** Inspeção manual do HTML de todos os artigos e checagem de isolamento do objeto `window.opener`.
+- **Risco Residual:** Nenhum risco identificado para navegação estática.
+
+#### 4. Endpoints, Back-end e Injeções (SQLi, RCE, SSRF)
+- **Classificação:** Informativo
+- **Descrição:** Auditoria para vulnerabilidades clássicas de servidor (CORS inseguro, CSRF, rate limit e injeção de comandos ou SQL).
+- **Impacto:** Blindagem nativa decorrente da topologia sem servidor (Serverless / Static CDN).
+- **Arquivo/Local:** Roteamento Edge.
+- **Correção/Status:** Não se aplica. Como não existem back-ends locais, parsers SSRF ou bancos relacionais publicamente acessíveis na infraestrutura do site, a superfície de ataque para RCE e SQLi é estruturalmente inexistente.
+- **Risco Residual:** Zero.
+
+#### 5. Blindagem de Borda para Cloudflare Pages (`_headers` e `_redirects`)
+- **Classificação:** Médio (Hardened)
+- **Descrição:** Ajuste fino dos cabeçalhos HTTP e regras de redirecionamento nativas para deploy no Edge CDN da Cloudflare sem quebrar assets visuais ou fontes.
+- **Impacto:** Mitigação de ataques XSS por heurísticas, Clickjacking por iframe hostil e checagem de downgrade de protocolo (HSTS).
+- **Arquivo e Linha:** `_headers` (linhas 1-13) e `_redirects` (linhas 1-15).
+- **Correção Realizada:**
+  1. `Strict-Transport-Security` ajustado para 1 ano (`max-age=31536000; includeSubDomains; preload`).
+  2. Inserido o cabeçalho `X-XSS-Protection: 0` seguindo diretrizes OWASP modernas (evita introdução de falhas pelo filtro heurístico de navegadores legados, confiando na CSP).
+  3. `Content-Security-Policy-Report-Only` mantido e calibrado para cobrir Google Fonts, WhatsApp e Cloudflare Web Analytics, garantindo observabilidade contínua em DevTools sem quebrar o vídeo de hero, imagens base64 ou scripts de tema do estúdio.
+  4. Regras 404 em `_redirects` protegendo ativamente metadados de sistema (`.DS_Store`, `_headers`, `_redirects` e dumps bancários).
+- **Validação da Correção:** Sintaxe compatível com o interpretador oficial da Cloudflare Pages.
+- **Risco Residual:** Mínimo; recomenda-se checar relatórios da CSP no painel de Preview antes da efetivação como bloqueio estrito (`Content-Security-Policy` definitivo sem Report-Only).
+
+---
+
+### 11.2 Plano de Validação para a Cloudflare e Rollback
+- **Instruções para Preview Deployment:** O próximo passo consiste na veiculação em ambiente isolado (Preview Deployment da Cloudflare Pages) atrelada à branch local do usuário, garantindo verificação das novas páginas editoriais, tempo de carregamento de imagens e propagação correta dos cabeçalhos antes do merge com a produção (branch principal).
+- **Plano de Rollback:** Como o projeto preserva imutáveis todos os arquivos e builds anteriores, em caso de instabilidade pontual de roteamento na Cloudflare, a reversão opera instantaneamente mediante repotenciamento do alias no painel Pages para o deployment antecessor ou via reset de Git para o hash imediatamente anterior, garantindo Zero Downtime e estabilidade contínua para o negócio.
+
+---
+
+### 11.3 Parecer Final de Segurança
+
+> [!IMPORTANT]
+> **Parecer do Arquiteto:** **GO — pronto para Preview Deployment**
+> 
+> O repositório apresenta integridade estrutural, código sanitizado, ausência absoluta de segredos comprometedores no rastreamento do Git e configuração de blindagem na borda plenamente otimizada para o ecossistema Cloudflare Pages. O artigo editorial foi estruturado de forma coesa, com SEO técnico imaculado e validação local aprovada. Nenhuma alteração de produção ou push remoto foi efeutado. O projeto está liberado para testes em ambiente de *Preview Deployment*.
+
+
+
