@@ -13,4 +13,6 @@ AGENTS.md
 *.orig
 *.map
 docs
+docs/*
+docs/editorial-backlog.md
 .backup-original-media
