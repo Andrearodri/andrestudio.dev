@@ -1,27 +1,28 @@
-# Canonical host and HTTPS redirects for Netlify/Cloudflare Pages style hosts.
-http://andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
-http://www.andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
-https://www.andrestudio.dev.br/* https://andrestudio.dev.br/:splat 301!
-
-# Legacy URL kept as HTML fallback in the repo, but should be a real 301 in production.
+# Cloudflare Pages Redirects (Exact matches first for maximum routing performance)
 /sobre.html /sobre/ 301
+/_headers /404.html 301
+/_redirects /404.html 301
+/.DS_Store /404.html 301
+/assets/.DS_Store /404.html 301
+/.env /404.html 301
+/SECURITY_AUDIT.md /404.html 301
+/AGENTS.md /404.html 301
+/.gitignore /404.html 301
+/.pagesignore /404.html 301
+/assets/Inserir%20um%20título.svg /404.html 301
+/assets/Inserir%20um%20título.png /404.html 301
 
-# Defensive blocks for files that should never be public.
-/_headers /404.html 404
-/_redirects /404.html 404
-/.DS_Store /404.html 404
-/assets/.DS_Store /404.html 404
-/.env /404.html 404
-/.env.* /404.html 404
-/*.sql /404.html 404
-/*.zip /404.html 404
-/*.bak /404.html 404
-/*.old /404.html 404
-/*.orig /404.html 404
-/*.pem /404.html 404
-/*.key /404.html 404
-/assets/*.mov /404.html 404
-/assets/*.wav /404.html 404
-/assets/*.WAV /404.html 404
-/assets/Inserir%20um%20título.png /404.html 404
-/assets/Inserir%20um%20título.svg /404.html 404
+# Wildcard defensive block rules
+/.env.* /404.html 301
+/*.sql /404.html 301
+/*.zip /404.html 301
+/*.bak /404.html 301
+/*.old /404.html 301
+/*.orig /404.html 301
+/*.pem /404.html 301
+/*.key /404.html 301
+/*.map /404.html 301
+/assets/*.mov /404.html 301
+/assets/*.wav /404.html 301
+/assets/*.WAV /404.html 301
+/.git/* /404.html 301

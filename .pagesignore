@@ -1,0 +1,16 @@
+# Cloudflare Pages Ignore List (files that must never be in published public directory)
+SECURITY_AUDIT.md
+AGENTS.md
+.git
+.gitignore
+.env*
+.DS_Store
+*.pem
+*.key
+*.sql
+*.bak
+*.old
+*.orig
+*.map
+_headers
+_redirects
