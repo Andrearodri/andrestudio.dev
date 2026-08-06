@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniAgent Studio — Central Omnichannel de IA | Demo AndréStudio.dev</title>
+  <meta name="description" content="Demonstração interativa e comercial do OmniAgent Studio: central de atendimento inteligente com triagem, agendamentos e integração ao Lead Flow Studio.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- =========================================================
+       MODAL DE ONBOARDING / INTRODUÇÃO (Etapa 2)
+       ========================================================= -->
+  <div id="onboarding-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="onboarding-title">
+    <div class="onboarding-card">
+      <div class="onboarding-badge">✨ DEMONSTRAÇÃO INTERATIVA ANDRÉSTUDIO.DEV</div>
+      <h2 id="onboarding-title" class="onboarding-title">Veja um agente de IA transformar uma conversa em oportunidade comercial.</h2>
+      <p class="onboarding-sub">Escolha um cenário, interaja com o agente e acompanhe em tempo real a qualificação, a análise da IA, o agendamento e o envio da oportunidade para o CRM.</p>
+      
+      <div class="onboarding-steps">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <strong>Escolha um cenário</strong>
+          <span>Vendas B2B, Suporte ou Integração com CRM</span>
+        </div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <strong>Interaja com o agente</strong>
+          <span>Use respostas rápidas ou digite perguntas de teste</span>
+        </div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <strong>Acompanhe a análise da IA</strong>
+          <span>Veja a qualificação e lead score sendo gerados ao vivo</span>
+        </div>
+        <div class="step-card">
+          <span class="step-num">4</span>
+          <strong>Veja o lead chegar ao CRM</strong>
+          <span>Sincronização imediata com o Kanban do Lead Flow Studio</span>
+        </div>
+      </div>
+
+      <div class="onboarding-actions">
+        <button id="btn-start-demo" class="btn-primary-xl" aria-label="Iniciar demonstração interativa">Iniciar demonstração</button>
+        <span class="disclaimer-mini">Ambiente demonstrativo de portfólio • Todos os dados são simulados e seguros.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL DE INTEGRAÇÃO COM LEAD FLOW STUDIO (Etapa 14)
+       ========================================================= -->
+  <div id="crm-modal" class="modal-backdrop hidden" aria-hidden="true" role="dialog" aria-labelledby="crm-modal-title">
+    <div class="crm-modal-card">
+      <div class="crm-modal-header">
+        <div class="crm-brand">
+          <span class="lfs-tag">SaaS Real Integrado</span>
+          <h3 id="crm-modal-title">Lead Flow Studio — Quadro Kanban de Oportunidades</h3>
+        </div>
+        <button id="btn-close-crm" class="btn-icon-close" aria-label="Fechar janela do CRM">&times;</button>
+      </div>
+      
+      <div class="crm-modal-body">
+        <div class="crm-notice">
+          <span class="status-dot green"></span>
+          <strong>Integração simulada no ambiente de portfólio.</strong> Sincronizado por Webhook N8N v2.4.
+        </div>
+        
+        <div class="kanban-preview">
+          <div class="kanban-col">
+            <div class="col-header">Novos Leads <span>2</span></div>
+            <div class="mini-card ghost">Grupo Apex <span>R$ 12.000</span></div>
+            <div class="mini-card ghost">InovaCorp <span>R$ 18.500</span></div>
+          </div>
+          <div class="kanban-col active-highlight">
+            <div class="col-header">Lead Qualificado (IA) <span class="badge-new">1 Novo</span></div>
+            <div class="mini-card active" id="crm-modal-card">
+              <div class="card-tags"><span class="tag hot">🔥 Quente (88/100)</span><span class="tag auto">🤖 Triagem IA</span></div>
+              <strong id="lfs-company">TechSolutions B2B</strong>
+              <span id="lfs-contact">Carlos Mendes • 15 usuários</span>
+              <div class="card-meta">
+                <span class="price" id="lfs-budget">R$ 15.000 a R$ 25.000</span>
+                <span class="date" id="lfs-date">Reunião: Quinta 07/08, 10h</span>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="col-header">Proposta Enviada <span>4</span></div>
+            <div class="mini-card ghost">Nexus BI <span>R$ 45.000</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="crm-modal-footer">
+        <a href="/portfolio/lead-flow-studio-demo/" target="_blank" rel="noopener noreferrer" class="btn-secondary-link">Abrir demonstração completa do Lead Flow Studio ↗</a>
+        <button id="btn-close-crm-2" class="btn-primary-sm">Voltar à conversa da IA</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       APLICAÇÃO PRINCIPAL VIA 3 COLUNAS
+       ========================================================= -->
+  <div class="app-viewport">
+    
+    <!-- BARRA SUPERIOR (Etapa 17) -->
+    <header class="navbar" role="banner">
+      <div class="navbar-left">
+        <a href="/cases/omniagent-ai-studio/" class="nav-back" title="Retornar para o case oficial">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Voltar ao Portfólio</span>
+        </a>
+        <div class="divider" aria-hidden="true"></div>
+        <div class="brand">
+          <span class="brand-name">OmniAgent <strong>Studio</strong></span>
+          <span class="brand-tier">ENTERPRISE EDITION</span>
+        </div>
+      </div>
+
+      <div class="navbar-center" aria-live="polite">
+        <div class="environment-badge" id="top-environment-badge">
+          <span class="status-indicator"></span>
+          <span id="header-transparency-text">Demonstração Interativa • Ambiente Seguro de Portfólio</span>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <a href="/contato/" class="btn-primary-header" aria-label="Solicitar proposta comercial para sua empresa">Solicitar Proposta Comercial ↗</a>
+      </div>
+    </header>
+
+    <!-- ÁREA DE TRABALHO (3 COLUNAS - Etapas 6, 7, 19) -->
+    <div class="workspace" role="main">
+      
+      <!-- COLUNA 1: CANAIS CONECTADOS & CENÁRIOS -->
+      <aside class="panel-sidebar" aria-label="Configurações e Canais">
+        
+        <!-- CANAIS CONECTADOS -->
+        <section class="sidebar-section">
+          <h2 class="section-label">Canais Conectados</h2>
+          <div class="channel-list" id="channel-list-container">
+            <!-- Renderizado via JS para incluir WhatsApp, Instagram, Web Chat e E-mail -->
+          </div>
+        </section>
+
+        <!-- CENÁRIOS DE DEMONSTRAÇÃO -->
+        <section class="sidebar-section">
+          <h2 class="section-label">Cenários de Demonstração</h2>
+          <p class="section-hint">Selecione um caso de uso real para simular o comportamento autônomo da IA:</p>
+          
+          <div class="scenario-tabs">
+            <button class="scenario-btn active" data-scenario="sales" aria-label="Cenário de Qualificação Comercial B2B">
+              <span class="scenario-icon" aria-hidden="true">💼</span>
+              <div>
+                <strong>Qualificação Comercial B2B</strong>
+                <span>Triagem de orçamento, porte e agendamento</span>
+              </div>
+            </button>
+            <button class="scenario-btn" data-scenario="support" aria-label="Cenário de Suporte Técnico e Contratos">
+              <span class="scenario-icon" aria-hidden="true">🛠️</span>
+              <div>
+                <strong>Suporte Técnico e Contratos</strong>
+                <span>Resolução N1/N2 sem intervenção humana via RAG</span>
+              </div>
+            </button>
+            <button class="scenario-btn" data-scenario="triage" aria-label="Cenário de Integração com Lead Flow Studio">
+              <span class="scenario-icon" aria-hidden="true">🔄</span>
+              <div>
+                <strong>Integração com Lead Flow Studio</strong>
+                <span>Criação automática de card no quadro Kanban</span>
+              </div>
+            </button>
+          </div>
+        </section>
+
+        <!-- IDENTIDADE DO AGENTE DE IA (Etapa 7) & MÉTRICAS (Etapa 16) -->
+        <div class="sidebar-footer-stack">
+          
+          <section class="agent-profile-box" aria-label="Perfil do Agente Ativo">
+            <h2 class="section-label">Agente Operando neste Canal</h2>
+            <div class="agent-card" id="active-agent-card">
+              <div class="agent-avatar" id="agent-avatar-container">
+                <!-- Ícone Abstrato via SVG -->
+              </div>
+              <div class="agent-info">
+                <strong id="agent-fullname">Luna AI — Agente Comercial da AndréStudio.dev</strong>
+                <span class="agent-status-tag" id="agent-channel-tag">Operando em WhatsApp Business API</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="sidebar-metrics" aria-label="Métricas de Operação">
+            <div class="metrics-header-row">
+              <span class="section-label">Métricas da Operação</span>
+              <span class="disclaimer-pill" title="Métricas simuladas no ambiente de portfólio">Dados demonstrativos</span>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <strong class="metric-val" id="met-chats">286</strong>
+                <span class="metric-lbl">Conversas hoje</span>
+              </div>
+              <div class="metric-box">
+                <strong class="metric-val" id="met-resp">0,8 s</strong>
+                <span class="metric-lbl">Primeira resposta</span>
+              </div>
+              <div class="metric-box">
+                <strong class="metric-val" id="met-rate">78%</strong>
+                <span class="metric-lbl">Resolvidas pela IA</span>
+              </div>
+              <div class="metric-box">
+                <strong class="metric-val" id="met-leads">42</strong>
+                <span class="metric-lbl">Leads qualificados</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </aside>
+
+      <!-- COLUNA 2: CENTRAL DE CONVERSA DINÂMICA (Etapas 3, 5, 8, 15, 18) -->
+      <section class="panel-console" aria-label="Central de Atendimento e Conversão">
+        
+        <!-- CABEÇALHO DO CENÁRIO & PROGRESSO (Etapa 5) -->
+        <div class="console-header">
+          <div class="progress-bar-container">
+            <div class="progress-meta">
+              <span class="scenario-pill" id="current-scenario-title">Cenário em execução: Qualificação Comercial B2B</span>
+              <span class="step-count" id="current-step-text">Etapa 1 de 5</span>
+            </div>
+            <div class="step-indicators">
+              <div class="step-item active" data-step="1">1. Identificação</div>
+              <div class="step-arrow">→</div>
+              <div class="step-item" data-step="2">2. Necessidade</div>
+              <div class="step-arrow">→</div>
+              <div class="step-item" data-step="3">3. Orçamento</div>
+              <div class="step-arrow">→</div>
+              <div class="step-item" data-step="4">4. Agenda</div>
+              <div class="step-arrow">→</div>
+              <div class="step-item" data-step="5">5. CRM</div>
+            </div>
+          </div>
+
+          <!-- BARRA DE ATENDIMENTO & TRANSFERÊNCIA (Etapa 8) -->
+          <div class="attendance-control-bar">
+            <div class="attendance-status">
+              <span class="status-dot green"></span>
+              <strong id="current-agent-status-label">Atendimento atual: Luna AI atendendo</strong>
+            </div>
+            <div class="console-action-btns">
+              <button id="btn-handoff" class="btn-handoff" title="Simular que um consultor humano assumiu esta conversa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Assumir atendimento</span>
+              </button>
+              <button id="btn-reset-demo" class="btn-ghost" title="Reiniciar esta conversa demonstrativa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Reiniciar conversa</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESPOSTAS RÁPIDAS (CHIPS DE ACELERAÇÃO DA DEMO) -->
+        <div class="quick-replies-bar">
+          <span class="quick-title">💡 Respostas rápidas (clique para avançar a demonstração):</span>
+          <div class="quick-chips-container" id="quick-replies-container">
+            <!-- Chips injetados dinamicamente de acordo com o estado do fluxo -->
+          </div>
+        </div>
+
+        <!-- ÁREA DE CONVERSA EM CHAT DÉBIDO AO CLIENTE -->
+        <div class="chat-viewport" id="chat-viewport" aria-live="polite">
+          <div class="chat-messages-stream" id="chat-stream">
+            <!-- As mensagens da IA e do visitante aparecem aqui com horário e canal de origem -->
+          </div>
+
+          <!-- INDICADOR DE DIGITAÇÃO DA IA -->
+          <div id="ai-typing-badge" class="typing-indicator hidden" aria-hidden="true">
+            <div class="typing-dots">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="typing-text" id="typing-agent-name">Luna AI analisando intenção e formulando resposta corporativa...</span>
+          </div>
+        </div>
+
+        <!-- CAMPO DE TEXTO FUNCIONAL NO RODAPÉ -->
+        <form class="chat-input-footer" id="chat-form" aria-label="Enviar mensagem de texto para a IA">
+          <input type="text" id="custom-user-input" placeholder="Digite uma pergunta comercial, técnica ou solicitação de suporte..." autocomplete="off" aria-label="Campo de mensagem">
+          <button type="submit" class="btn-send-chat" aria-label="Enviar mensagem">
+            <span>Enviar</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+
+      </section>
+
+      <!-- COLUNA 3: PAINEL DE ANÁLISE, DADOS, RAG & JSON (Etapas 9 ao 14) -->
+      <aside class="panel-inspector" aria-label="Painel de Inteligência e Dados Coletados">
+        
+        <!-- SELETOR DE MODO COMERCIAL vs MODO TÉCNICO (Etapa 9) -->
+        <div class="inspector-mode-switch-row">
+          <div class="mode-toggle-group">
+            <button class="mode-btn active" data-mode="commercial" aria-pressed="true">Modo Comercial</button>
+            <button class="mode-btn" data-mode="technical" aria-pressed="false">Modo Técnico</button>
+          </div>
+          <span class="mode-desc" id="mode-subtitle">Visualização executiva para negócios</span>
+        </div>
+
+        <!-- ABAS DE NAVEGAÇÃO DO PAINEL DIREITO -->
+        <div class="inspector-tabs-header" role="tablist">
+          <!-- Modo Comercial -->
+          <button class="ins-tab-btn active" role="tab" aria-selected="true" data-tab="ai-analysis" id="tab-btn-analysis">Análise da IA</button>
+          <button class="ins-tab-btn" role="tab" aria-selected="false" data-tab="collected-data" id="tab-btn-data">Dados coletados</button>
+          <button class="ins-tab-btn" role="tab" aria-selected="false" data-tab="rag-sources" id="tab-btn-sources">Fontes consultadas</button>
+          <button class="ins-tab-btn" role="tab" aria-selected="false" data-tab="timeline-log" id="tab-btn-timeline">Linha do tempo</button>
+
+          <!-- Modo Técnico (Invisíveis no modo comercial) -->
+          <button class="ins-tab-btn hidden" role="tab" aria-selected="false" data-tab="tech-telemetry" id="tab-btn-telemetry">Telemetry & Intent</button>
+          <button class="ins-tab-btn hidden" role="tab" aria-selected="false" data-tab="tech-payload" id="tab-btn-payload">Live JSON Payload</button>
+          <button class="ins-tab-btn hidden" role="tab" aria-selected="false" data-tab="tech-rag" id="tab-btn-ragtech">Base Documental (RAG)</button>
+        </div>
+
+        <!-- CONTEÚDO DAS ABAS (PANES) -->
+        <div class="inspector-content-viewport">
+          
+          <!-- ==========================================
+               ABA 1: ANÁLISE DA IA (Etapa 9)
+               ========================================== -->
+          <div class="tab-pane active" id="pane-ai-analysis" role="tabpanel" aria-labelledby="tab-btn-analysis">
+            
+            <section class="analysis-box">
+              <span class="ins-label">INTENÇÃO PRINCIPAL</span>
+              <div class="intent-chip-lg" id="ana-intent">Solicitação de orçamento</div>
+            </section>
+
+            <div class="analysis-grid-2">
+              <div class="analysis-box">
+                <span class="ins-label">SENTIMENTO</span>
+                <strong class="val-text green" id="ana-sentiment">😀 Positivo e interessado</strong>
+              </div>
+              <div class="analysis-box">
+                <span class="ins-label">URGÊNCIA</span>
+                <strong class="val-text amber" id="ana-urgency">⚡ Alta prioridade</strong>
+              </div>
+            </div>
+
+            <section class="analysis-box">
+              <span class="ins-label">PRODUTO RECOMENDADO</span>
+              <div class="product-chip" id="ana-product">CRM personalizado com automações B2B</div>
+            </section>
+
+            <section class="analysis-box">
+              <div class="flex-between">
+                <span class="ins-label">QUALIFICAÇÃO (LEAD SCORE)</span>
+                <span class="score-badge-hot" id="ana-score-text">🔥 Lead Quente — 82/100</span>
+              </div>
+              <div class="score-progress-bar">
+                <div class="score-progress-fill" id="ana-score-bar" style="width: 82%;"></div>
+              </div>
+            </section>
+
+            <section class="analysis-box highlight-border">
+              <span class="ins-label">PRÓXIMA MELHOR AÇÃO</span>
+              <div class="next-action-card" id="ana-next-action">
+                <span class="icon-bulb">🎯</span>
+                <div>
+                  <strong>Agendar reunião com especialista</strong>
+                  <span>Encaminhar para Arquiteto Tech (SLA Imadiato)</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- DESTAQUE DE INTEGRAÇÃO COM LEAD FLOW STUDIO (Etapa 14) -->
+            <section class="crm-integration-showcase-box" id="sidebar-crm-showcase">
+              <div class="showcase-header">
+                <span class="status-dot green"></span>
+                <strong>Integração com Lead Flow Studio</strong>
+              </div>
+              <p class="showcase-status-desc" id="crm-sync-status-desc">Oportunidade conectada ao pipeline em tempo real.</p>
+              
+              <div class="crm-summary-card">
+                <div class="crm-meta-row"><span>Pipeline:</span><strong>Comercial B2B</strong></div>
+                <div class="crm-meta-row"><span>Coluna Destino:</span><strong class="hl">Lead Qualificado</strong></div>
+                <div class="crm-meta-row"><span>Responsável:</span><strong>Equipe Comercial</strong></div>
+                <div class="crm-meta-row"><span>Lead Score:</span><strong id="sidebar-crm-score">82/100</strong></div>
+              </div>
+              <button id="btn-open-crm-modal" class="btn-secondary-crm">Ver oportunidade no CRM ↗</button>
+            </section>
+
+          </div>
+
+          <!-- ==========================================
+               ABA 2: DADOS COLETADOS (Etapa 10)
+               ========================================== -->
+          <div class="tab-pane" id="pane-collected-data" role="tabpanel" aria-labelledby="tab-btn-data">
+            <span class="ins-label">PERFIL ESTRUTURADO DO LEAD</span>
+            <p class="pane-hint">Os campos são preenchidos progressivamente conforme a IA dialoga com o visitante:</p>
+            
+            <dl class="profile-structured-list" id="collected-profile-list">
+              <!-- Renderizado dinamicamente pelo JS para os 14 campos com "Aguardando informação" -->
+            </dl>
+          </div>
+
+          <!-- ==========================================
+               ABA 3: FONTES CONSULTADAS RAG (Etapa 12)
+               ========================================== -->
+          <div class="tab-pane" id="pane-rag-sources" role="tabpanel" aria-labelledby="tab-btn-sources">
+            <div class="rag-notice-badge">
+              <span>⚡ <strong>Consulta documental simulada</strong> para fins demonstrativos. Motor opera sem invenção de dados.</span>
+            </div>
+
+            <span class="ins-label" style="margin-top: 1rem;">FONTE CONSULTADA NA RESPOSTA ATUAL</span>
+            <div class="active-source-banner" id="active-rag-doc">
+              <span class="icon-doc">📄</span>
+              <div>
+                <strong id="active-doc-title">Tabela de Serviços e Prazos 2026.pdf</strong>
+                <span>14 páginas • Atualizado há 2 dias • Status: <strong>Indexado (100%)</strong></span>
+              </div>
+            </div>
+
+            <span class="ins-label" style="margin-top: 1.5rem;">BASE DOCUMENTAL DISPONÍVEL (3 ARQUIVOS)</span>
+            <div class="documents-grid" id="documents-list-container">
+              <!-- Renderizado com os 3 manuais corporativos -->
+            </div>
+          </div>
+
+          <!-- ==========================================
+               ABA 4: LINHA DO TEMPO (Etapa 13)
+               ========================================== -->
+          <div class="tab-pane" id="pane-timeline-log" role="tabpanel" aria-labelledby="tab-btn-timeline">
+            <span class="ins-label">HISTÓRICO DE AÇÕES DA IA</span>
+            <p class="pane-hint">Acompanhe as confirmações de cada processo autônomo executado ao vivo:</p>
+            
+            <div class="timeline-feed" id="timeline-feed">
+              <div class="timeline-item success">
+                <span class="check-icon">✓</span>
+                <div>
+                  <strong>Sessão iniciada no WhatsApp Business API</strong>
+                  <span>Canal autenticado por Webhook demonstrativo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==========================================
+               ABAS TÉCNICAS (Etapa 11 & 9)
+               ========================================== -->
+          <div class="tab-pane" id="pane-tech-telemetry" role="tabpanel">
+            <span class="ins-label">SYSTEM TELEMETRY & ENTITY EXTRACTION</span>
+            <pre class="tech-code-block" id="tech-telemetry-block"><code>// Extracted Entities (NLP Engine)
+{
+  "confidence_threshold": 0.985,
+  "ner_status": "active",
+  "entities": {
+    "company": "Pending extraction...",
+    "users_count": "Pending extraction...",
+    "budget_tier": "Pending extraction..."
+  }
+}</code></pre>
+          </div>
+
+          <div class="tab-pane" id="pane-tech-payload" role="tabpanel">
+            <div class="flex-between">
+              <span class="ins-label">WEBHOOK EVENT PAYLOAD (HTTP 200 OK)</span>
+              <button id="btn-copy-json" class="btn-copy-mini">Copiar JSON</button>
+            </div>
+            <div class="http-meta">
+              <span>POST /webhooks/omniagent/messages</span>
+              <strong class="tag-http">200 OK</strong>
+              <span class="latency">183 ms</span>
+            </div>
+            <pre class="tech-code-block json-highlighter" id="tech-json-payload"><code>{
+  "event": "conversation.started",
+  "channel": "whatsapp",
+  "intent": "request_quote",
+  "lead_score": 35,
+  "sentiment": "neutral",
+  "recommended_action": "identify_needs",
+  "crm_sync": "idle"
+}</code></pre>
+          </div>
+
+          <div class="tab-pane" id="pane-tech-rag" role="tabpanel">
+            <span class="ins-label">VECTOR EMBEDDINGS & RAG RETRIEVAL LOG</span>
+            <pre class="tech-code-block" id="tech-rag-block"><code>// RAG Query Vector Match (Cosine Similarity: 0.94)
+[
+  { "doc": "services2026.pdf", "chunk_id": "section_3_enterprise", "score": 0.94 },
+  { "doc": "api_manual.md", "chunk_id": "webhook_auth", "score": 0.81 }
+]</code></pre>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÕES (TOASTS) -->
+  <div class="toast-viewport" id="toast-container" aria-live="assertive" role="alert"></div>
+
+  <!-- Scripts no final para excelente performance -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
