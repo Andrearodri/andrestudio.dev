@@ -19,17 +19,17 @@
     {
       id: 3, name: 'Smash Bacon BBQ', category: 'lanches',
       desc: 'Smash burger 120g com bacon crocante, onion rings, cheddar e molho barbecue defumado.',
-      price: 34.90, img: 'img/burger.png'
+      price: 34.90, img: 'img/smash_bacon_bbq.png'
     },
     {
       id: 4, name: 'Smash Clássico', category: 'lanches',
       desc: 'Smash burger 90g com queijo, alface, tomate, picles e maionese da casa.',
-      price: 24.90, img: 'img/burger.png'
+      price: 24.90, img: 'img/smash_classico.png'
     },
     {
       id: 5, name: 'Wrap Veggie', category: 'lanches',
       desc: 'Tortilla integral com cogumelos, abobrinha grelhada, rúcula, cream cheese e pesto.',
-      price: 25.90, img: 'img/wrap.png'
+      price: 25.90, img: 'img/wrap_veggie.png'
     },
 
     // Pizzas
@@ -41,12 +41,12 @@
     {
       id: 7, name: 'Pizza Margherita', category: 'pizzas',
       desc: 'Molho de tomate San Marzano, mozzarella de búfala, manjericão fresco e azeite extra virgem.',
-      price: 44.90, img: 'img/pizza.png'
+      price: 44.90, img: 'img/pizza_margherita.png'
     },
     {
       id: 8, name: 'Pizza Quatro Queijos', category: 'pizzas',
       desc: 'Mozzarella, gorgonzola, parmesão e catupiry sobre massa fina e crocante.',
-      price: 52.90, img: 'img/pizza.png'
+      price: 52.90, img: 'img/pizza_quatro_queijos.png'
     },
 
     // Porções
@@ -58,12 +58,12 @@
     {
       id: 10, name: 'Onion Rings', category: 'porcoes',
       desc: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.',
-      price: 22.90, img: 'img/fries.png'
+      price: 22.90, img: 'img/onion_rings.png'
     },
     {
       id: 11, name: 'Nuggets (12 un)', category: 'porcoes',
       desc: 'Nuggets artesanais de frango com molho honey mustard.',
-      price: 24.90, img: 'img/fries.png'
+      price: 24.90, img: 'img/nuggets.png'
     },
 
     // Bebidas
@@ -75,12 +75,12 @@
     {
       id: 13, name: 'Suco Natural 500ml', category: 'bebidas',
       desc: 'Laranja, limão, maracujá ou abacaxi. Feito na hora.',
-      price: 12.90, img: 'img/drinks.png'
+      price: 12.90, img: 'img/suco_natural.png'
     },
     {
       id: 14, name: 'Água Mineral 500ml', category: 'bebidas',
       desc: 'Com ou sem gás.',
-      price: 5.90, img: 'img/drinks.png'
+      price: 5.90, img: 'img/agua_mineral.png'
     },
 
     // Sobremesas

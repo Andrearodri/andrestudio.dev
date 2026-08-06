@@ -493,28 +493,6 @@ html[data-theme="light"] .project-card {
 .project-card-media img, .project-card-media video { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .3s ease; }
 .project-card:hover .project-card-media img, .project-card:hover .project-card-media video { transform: scale(1.035); }
 
-.project-card-media--framed {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(1rem, 3.5vw, 2.5rem);
-  background: radial-gradient(circle at center, rgba(30, 35, 48, 0.95) 0%, rgba(10, 12, 18, 0.98) 100%);
-}
-
-.project-card-media--framed img {
-  width: 100%;
-  height: 100%;
-  max-height: 460px;
-  object-fit: contain !important;
-  object-position: center !important;
-  border-radius: 10px;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
-  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-.project-card:hover .project-card-media--framed img {
-  transform: scale(1.025);
-}
 
 .project-card-body { padding: 1.25rem; }
 .project-card-top { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .9rem; }
@@ -522,7 +500,7 @@ html[data-theme="light"] .project-card {
 .project-card p { margin-top: .7rem; color: var(--muted); }
 
 .project-feature { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(300px, .7fr); min-height: 520px; }
-.project-feature .project-card-media { aspect-ratio: auto; min-height: 100%; }
+.project-feature .project-card-media { aspect-ratio: auto; height: 100%; min-height: 100%; display: flex; }
 .project-feature .project-card-body { display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(1.5rem, 4vw, 3rem); }
 
 /* ===========================================
@@ -674,6 +652,48 @@ html[data-theme="light"] .cta-band::after {
       animation-timeline: view();
       animation-range: entry 5% cover 28%;
     }
+  }
+}
+
+/* ===========================================
+   STUDIO REPOSITIONING & INTERACTION STYLES
+   =========================================== */
+.pillar-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.project-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.55);
+}
+.project-card:hover .project-card-media img {
+  transform: scale(1.03);
+}
+.project-card-media img {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Accessible focus rings for keyboard navigation */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Ecosystem Banner responsive alignment */
+@media (max-width: 768px) {
+  .ecosystem-banner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left;
+  }
+  .pillars-grid, .deliverables-grid, .process-grid-6 {
+    grid-template-columns: 1fr !important;
   }
 }
 
