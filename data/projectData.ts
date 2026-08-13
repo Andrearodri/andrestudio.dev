@@ -137,7 +137,7 @@ export const projectData: Project[] = [
     image: '/assets/optimized/lead-flow-studio-crm.png',
     imageAlt: 'Interface em Dark Mode da plataforma Lead Flow Studio com quadro Kanban de vendas e cartões interativos',
     href: '/cases/lead-flow-studio/',
-    demoHref: '/portfolio/lead-flow-studio-demo/',
+    demoHref: '/demo/',
     caseStudyHref: '/cases/lead-flow-studio/',
     featured: true,
     implementationLevel: 'Operacional demonstrativo',

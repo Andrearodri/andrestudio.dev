@@ -1587,8 +1587,39 @@ input:checked + .slider:before {
   }
   .sidebar.open { left: 0; }
   .menu-toggle-btn { display: block; }
-  .topbar { padding: 1rem; }
+  .topbar { padding: 1rem; flex-wrap: wrap; gap: 1rem; }
+  .topbar-right { flex-wrap: wrap; }
   .page { padding: 1rem; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  
+  .features-grid, .metrics-grid, .dashboard-details-grid, .ai-agents-grid, .result-breakdown {
+    grid-template-columns: 1fr;
+  }
+  
+  .highlight-banner { flex-direction: column; text-align: center; }
+  .highlight-value { margin-left: 0; margin-top: 0.5rem; }
+  
+  .bot-status-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; text-align: left; }
+  .bot-stats-row { grid-template-columns: 1fr; }
+  
   .chat-app-container { flex-direction: column; height: auto; }
-  .chat-list-sidebar { width: 100%; height: 200px; }
+  .chat-list-sidebar { width: 100%; height: 200px; border-right: none; border-bottom: 1px solid var(--border-color); }
+  
+  .chat-header-bar { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  .chat-toggle-ai { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .chat-input-area { flex-direction: column; }
+  .chat-input-area input { width: 100%; }
+  .chat-input-area button { width: 100%; }
+  
+  .tester-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  
+  .reactivation-card { flex-direction: column; text-align: center; }
+  .reactivation-value { text-align: center; margin-top: 0.5rem; }
+  
+  .result-hero { padding: 2rem 1rem; }
+  
+  .modal-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  .modal-header h3 { order: 2; }
+  .modal-close { order: 1; align-self: flex-end; }
+  .form-row { grid-template-columns: 1fr; }
 }
