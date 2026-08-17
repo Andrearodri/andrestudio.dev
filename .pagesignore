@@ -15,4 +15,6 @@ AGENTS.md
 docs
 docs/*
 docs/editorial-backlog.md
+content
+content/*
 .backup-original-media
