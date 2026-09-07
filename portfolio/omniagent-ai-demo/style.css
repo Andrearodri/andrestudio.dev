@@ -515,6 +515,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .bubble-meta .time { color: var(--text-dim); font-weight: 400; }
 .bubble p { margin-bottom: 0.6rem; }
 .bubble p:last-of-type { margin-bottom: 0; }
+.quick-replies-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; }
 
 /* RESUMO DE TRANSFERÊNCIA HUMANA (Etapa 8) */
 .handoff-summary-box {

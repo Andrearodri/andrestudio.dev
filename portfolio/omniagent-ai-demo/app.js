@@ -249,7 +249,7 @@
     
     appendMessage('user', scen.initialMessage, agent.channel);
     setTimeout(() => {
-      appendMessage('ai', scen.agentGreeting, agent.name);
+      appendMessage('ai', scen.agentGreeting, agent.name, true);
       renderQuickReplies(scen.quickReplies);
       addTimelineEvent(`Sessão iniciada no ${agent.channel}`, `Intenção preliminar de ${scen.name}`);
       updateJsonPayload({ event: "conversation.started", scenario: scen.name, agent: agent.name, channel: agent.channel, status: "200 OK" });
@@ -281,7 +281,7 @@
 
   function clearChatStream() {
     const stream = document.getElementById('chat-stream');
-    if (stream) stream.innerHTML = '';
+    if (stream) stream.textContent = '';
   }
 
   function getCurrentTimeStr() {
@@ -292,7 +292,7 @@
   /**
    * Adiciona mensagem à tela de chat e executa rolagem automática (Etapa 3)
    */
-  function appendMessage(sender, textHtml, originLabel) {
+  function appendMessage(sender, textContent, originLabel, allowTrustedMarkup = false) {
     const stream = document.getElementById('chat-stream');
     if (!stream) return;
 
@@ -304,10 +304,20 @@
     
     const meta = document.createElement('div');
     meta.className = 'bubble-meta';
-    meta.innerHTML = `<span>${sender === 'user' ? 'Visitante' : originLabel}</span><span class="time">${getCurrentTimeStr()}</span>`;
+    const metaOrigin = document.createElement('span');
+    metaOrigin.textContent = sender === 'user' ? 'Visitante' : originLabel;
+    const metaTime = document.createElement('span');
+    metaTime.className = 'time';
+    metaTime.textContent = getCurrentTimeStr();
+    meta.append(metaOrigin, metaTime);
     
     const content = document.createElement('div');
-    content.innerHTML = textHtml;
+    if (allowTrustedMarkup) {
+      appendTrustedAuthorMarkup(content, textContent);
+    } else {
+      content.style.whiteSpace = 'pre-line';
+      content.textContent = textContent;
+    }
 
     bubble.appendChild(meta);
     bubble.appendChild(content);
@@ -315,6 +325,14 @@
     stream.appendChild(row);
 
     scrollToBottom();
+  }
+
+  // Only static author-authored templates from demo data use markup. Visitor text
+  // always takes the textContent path above.
+  function appendTrustedAuthorMarkup(container, markup) {
+    const template = document.createElement('template');
+    template.innerHTML = markup;
+    container.appendChild(template.content.cloneNode(true));
   }
 
   function scrollToBottom() {
@@ -355,19 +373,24 @@
     if (!container) return;
 
     if (!replies || replies.length === 0) {
-      container.innerHTML = `<span style="font-size:0.82rem;color:var(--text-dim);font-style:italic;">Nenhuma resposta rápida pendente nesta etapa.</span>`;
+      const empty = document.createElement('span');
+      empty.className = 'quick-replies-empty';
+      empty.textContent = 'Nenhuma resposta rápida pendente nesta etapa.';
+      container.replaceChildren(empty);
       return;
     }
 
-    container.innerHTML = replies.map((rep, idx) => `
-      <button class="quick-chip" data-idx="${idx}">${rep.label}</button>
-    `).join('');
-
-    container.querySelectorAll('.quick-chip').forEach((chip, idx) => {
+    container.replaceChildren(...replies.map((rep, idx) => {
+      const chip = document.createElement('button');
+      chip.className = 'quick-chip';
+      chip.type = 'button';
+      chip.dataset.idx = String(idx);
+      chip.textContent = rep.label;
       chip.addEventListener('click', () => {
         handleQuickReplyClick(replies[idx]);
       });
-    });
+      return chip;
+    }));
   }
 
   /**
@@ -424,7 +447,7 @@
         updateProfileUI();
       }
 
-      appendMessage('ai', responseHtml, agent.name);
+      appendMessage('ai', responseHtml, agent.name, true);
       renderQuickReplies(stepDef.quickReplies);
 
       // Atualiza documentação RAG consultada (Etapa 12)
@@ -540,13 +563,21 @@
 
     const item = document.createElement('div');
     item.className = 'timeline-item';
-    item.innerHTML = `
-      <span class="check-icon">✓</span>
-      <div>
-        <strong>${title}</strong>
-        <span>${subtitle} • <small style="font-family:var(--font-mono);color:var(--text-dim);">${getCurrentTimeStr()}</small></span>
-      </div>
-    `;
+    const icon = document.createElement('span');
+    icon.className = 'check-icon';
+    icon.textContent = '✓';
+    const details = document.createElement('div');
+    const titleEl = document.createElement('strong');
+    titleEl.textContent = title;
+    const subtitleEl = document.createElement('span');
+    subtitleEl.append(document.createTextNode(`${subtitle} • `));
+    const timeEl = document.createElement('small');
+    timeEl.style.fontFamily = 'var(--font-mono)';
+    timeEl.style.color = 'var(--text-dim)';
+    timeEl.textContent = getCurrentTimeStr();
+    subtitleEl.appendChild(timeEl);
+    details.append(titleEl, subtitleEl);
+    item.append(icon, details);
     feed.insertBefore(item, feed.firstChild);
   }
 
@@ -554,7 +585,9 @@
     const block = document.getElementById('tech-json-payload');
     if (block) {
       const formatted = JSON.stringify(dataObj, null, 2);
-      block.innerHTML = `<code>${formatted}</code>`;
+      const code = document.createElement('code');
+      code.textContent = formatted;
+      block.replaceChildren(code);
     }
   }
 
@@ -668,7 +701,7 @@
         setTimeout(() => {
           hideTypingIndicator();
           // Resposta determinística educada para inputs avulsos
-          appendMessage('ai', `Compreendo perfeitamente sua dúvida sobre <strong>"${text}"</strong>. Nosso ecossistema processa solicitações customizadas como esta conectando APIs ao seu banco de dados na AWS ou Supabase de forma nativa e segura.<br><br>💡 <em>Para ver a automação de funil em tempo real, recomendamos clicar em uma das respostas rápidas abaixo ou assumir o atendimento com o consultor!</em>`, agent.name);
+          appendMessage('ai', `Compreendo perfeitamente sua dúvida sobre "${text}". Nosso ecossistema processa solicitações customizadas como esta conectando APIs ao seu banco de dados na AWS ou Supabase de forma nativa e segura.\n\n💡 Para ver a automação de funil em tempo real, recomendamos clicar em uma das respostas rápidas abaixo ou assumir o atendimento com o consultor!`, agent.name);
           addTimelineEvent("Consulta customizada analisada", "Processado via NLP demonstrativo");
         }, 650);
       });
@@ -732,7 +765,9 @@
 
     const box = document.createElement('div');
     box.className = 'toast-box';
-    box.innerHTML = `<span>${msg}</span>`;
+    const message = document.createElement('span');
+    message.textContent = msg;
+    box.appendChild(message);
     container.appendChild(box);
 
     setTimeout(() => {

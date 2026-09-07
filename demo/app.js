@@ -56,7 +56,7 @@
     // Clear containers
     ['novos', 'contato', 'proposta', 'fechado'].forEach(stage => {
       const cont = $(`#cards-${stage}`);
-      if (cont) cont.innerHTML = '';
+      if (cont) cont.textContent = '';
     });
 
     let counts = { novos: 0, contato: 0, proposta: 0, fechado: 0 };
@@ -111,26 +111,67 @@
     // Determine target stages for mobile click-to-move
     const nextStage = getNextStage(lead.stage);
 
-    el.innerHTML = `
-      <div class="card-top">
-        <div class="client-info">
-          <div class="client-avatar">${initials}</div>
-          <strong class="client-name">${lead.name}</strong>
-        </div>
-        <button class="btn-wa" title="Simular conversa no WhatsApp" data-wa-name="${lead.name}" data-wa-initials="${initials}">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.98 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16Z"/></svg>
-        </button>
-      </div>
-      <div class="card-company">🏢 ${lead.company}</div>
-      <div class="card-value">${formatBRL(lead.value)}</div>
-      <div class="card-footer">
-        <div class="tags-group">
-          <span class="tag ${getTagClass(lead.tag1)}">${lead.tag1}</span>
-          <span class="tag ${getTagClass(lead.tag2)}">${lead.tag2}</span>
-        </div>
-        ${nextStage ? `<button class="btn-move" data-move-id="${lead.id}" data-target="${nextStage.key}">Avançar ➔</button>` : `<span style="font-size:0.75rem; color:#10b981; font-weight:600;">✓ Concluído</span>`}
-      </div>
-    `;
+    const cardTop = document.createElement('div');
+    cardTop.className = 'card-top';
+    const clientInfo = document.createElement('div');
+    clientInfo.className = 'client-info';
+    const avatar = document.createElement('div');
+    avatar.className = 'client-avatar';
+    avatar.textContent = initials;
+    const clientName = document.createElement('strong');
+    clientName.className = 'client-name';
+    clientName.textContent = lead.name;
+    clientInfo.append(avatar, clientName);
+
+    const btnWa = document.createElement('button');
+    btnWa.className = 'btn-wa';
+    btnWa.title = 'Simular conversa no WhatsApp';
+    btnWa.dataset.waName = lead.name;
+    btnWa.dataset.waInitials = initials;
+    const waIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    waIcon.setAttribute('width', '18');
+    waIcon.setAttribute('height', '18');
+    waIcon.setAttribute('viewBox', '0 0 24 24');
+    waIcon.setAttribute('fill', 'currentColor');
+    waIcon.setAttribute('aria-hidden', 'true');
+    const waIconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    waIconPath.setAttribute('d', 'M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.98 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 8.11 20.28 9.71 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16Z');
+    waIcon.appendChild(waIconPath);
+    btnWa.appendChild(waIcon);
+    cardTop.append(clientInfo, btnWa);
+
+    const company = document.createElement('div');
+    company.className = 'card-company';
+    company.textContent = `🏢 ${lead.company}`;
+    const value = document.createElement('div');
+    value.className = 'card-value';
+    value.textContent = formatBRL(lead.value);
+
+    const cardFooter = document.createElement('div');
+    cardFooter.className = 'card-footer';
+    const tags = document.createElement('div');
+    tags.className = 'tags-group';
+    [lead.tag1, lead.tag2].forEach((tag) => {
+      const tagEl = document.createElement('span');
+      tagEl.className = `tag ${getTagClass(tag)}`;
+      tagEl.textContent = tag;
+      tags.appendChild(tagEl);
+    });
+    cardFooter.appendChild(tags);
+    if (nextStage) {
+      const move = document.createElement('button');
+      move.className = 'btn-move';
+      move.dataset.moveId = lead.id;
+      move.dataset.target = nextStage.key;
+      move.textContent = 'Avançar ➔';
+      cardFooter.appendChild(move);
+    } else {
+      const done = document.createElement('span');
+      done.style.cssText = 'font-size:0.75rem; color:#10b981; font-weight:600;';
+      done.textContent = '✓ Concluído';
+      cardFooter.appendChild(done);
+    }
+    el.append(cardTop, company, value, cardFooter);
 
     // Drag events
     el.addEventListener('dragstart', (e) => {
@@ -145,7 +186,6 @@
     });
 
     // WhatsApp Button Click
-    const btnWa = el.querySelector('.btn-wa');
     btnWa.addEventListener('click', (e) => {
       e.stopPropagation();
       openWhatsAppModal(lead.name, initials);
@@ -267,7 +307,12 @@
         if (!text) return;
         const div = document.createElement('div');
         div.className = 'wa-bubble sent';
-        div.innerHTML = `<p>${text}</p><span class="wa-time">Agora • ✓✓</span>`;
+        const message = document.createElement('p');
+        message.textContent = text;
+        const time = document.createElement('span');
+        time.className = 'wa-time';
+        time.textContent = 'Agora • ✓✓';
+        div.append(message, time);
         waHistory.appendChild(div);
         waInput.value = '';
         waHistory.scrollTop = waHistory.scrollHeight;
@@ -275,7 +320,12 @@
         setTimeout(() => {
           const reply = document.createElement('div');
           reply.className = 'wa-bubble received';
-          reply.innerHTML = `<p>Perfeito! Acabei de verificar a notificação aqui no WhatsApp Business. Vamos prosseguir com o fechamento!</p><span class="wa-time">Agora</span>`;
+          const replyText = document.createElement('p');
+          replyText.textContent = 'Perfeito! Acabei de verificar a notificação aqui no WhatsApp Business. Vamos prosseguir com o fechamento!';
+          const replyTime = document.createElement('span');
+          replyTime.className = 'wa-time';
+          replyTime.textContent = 'Agora';
+          reply.append(replyText, replyTime);
           waHistory.appendChild(reply);
           waHistory.scrollTop = waHistory.scrollHeight;
         }, 1200);
@@ -339,7 +389,9 @@
   function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<span>${message}</span>`;
+    const text = document.createElement('span');
+    text.textContent = message;
+    toast.appendChild(text);
     toastContainer.appendChild(toast);
 
     setTimeout(() => {

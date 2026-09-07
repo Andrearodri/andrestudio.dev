@@ -106,7 +106,6 @@
 
   const DELIVERY_FEE = 5.00;
   const FREE_DELIVERY_MIN = 60.00;
-  const WHATSAPP_NUMBER = '5598981483900';
 
   // =============================================
   // STATE
@@ -411,46 +410,17 @@
     document.body.style.overflow = '';
   }
 
-  function sendWhatsApp() {
-    const name = $('#customer-name').value.trim() || 'Cliente';
-    const orderType = document.querySelector('input[name="order-type"]:checked').value;
-    const address = $('#customer-address').value.trim();
-    const notes = $('#customer-notes').value.trim();
-    const payment = document.querySelector('input[name="payment"]:checked').value;
-
-    const paymentLabels = { pix: 'Pix', cartao: 'Cartão', dinheiro: 'Dinheiro' };
-
-    let msg = `🔥 *NOVO PEDIDO — Sabor da Casa*\n\n`;
-    msg += `👤 *Cliente:* ${name}\n`;
-    msg += `📦 *Tipo:* ${orderType === 'delivery' ? 'Delivery' : 'Retirada'}\n`;
-    if (orderType === 'delivery' && address) {
-      msg += `📍 *Endereço:* ${address}\n`;
-    }
-    msg += `💳 *Pagamento:* ${paymentLabels[payment]}\n\n`;
-    msg += `📋 *Itens do pedido:*\n`;
-
-    cart.forEach(c => {
-      const item = MENU.find(m => m.id === c.id);
-      if (item) {
-        msg += `  • ${c.qty}× ${item.name} — ${formatPrice(item.price * c.qty)}\n`;
-      }
-    });
-
-    const subtotal = getCartTotal();
-    const fee = getDeliveryFee();
-    msg += `\n💰 *Subtotal:* ${formatPrice(subtotal)}\n`;
-    msg += `🛵 *Entrega:* ${fee === 0 ? 'Grátis' : formatPrice(fee)}\n`;
-    msg += `✅ *TOTAL: ${formatPrice(subtotal + fee)}*\n`;
-
-    if (notes) {
-      msg += `\n📝 *Obs:* ${notes}\n`;
-    }
-
-    msg += `\n_Pedido via CardápioDigital — andrestudio.dev_`;
-
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
-
+  function completeCheckoutSimulation() {
+    // The checkout is intentionally local: these placeholders are fictitious and
+    // never become a commercial WhatsApp message or a network request.
+    const simulation = {
+      customer: 'Cliente demonstrativo',
+      orderType: 'Delivery',
+      payment: 'Pix',
+      items: cart.length,
+      total: formatPrice(getCartTotal() + getDeliveryFee())
+    };
+    successOverlay.dataset.simulation = JSON.stringify(simulation);
     closeCheckout();
     successOverlay.style.display = '';
     document.body.style.overflow = 'hidden';
@@ -524,7 +494,7 @@
   });
 
   // Send WhatsApp
-  $('#btn-whatsapp').addEventListener('click', sendWhatsApp);
+  $('#btn-whatsapp').addEventListener('click', completeCheckoutSimulation);
 
   // Success → new order
   $('#btn-new-order').addEventListener('click', () => {

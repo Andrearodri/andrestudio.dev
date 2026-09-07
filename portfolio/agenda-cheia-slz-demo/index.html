@@ -24,7 +24,7 @@
         </div>
         <div class="landing-nav-actions">
           <a href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">💬 Suporte</a>
-          <button class="btn btn-primary btn-sm" onclick="openDemoSystem()">🚀 Acessar Sistema Ao Vivo (Demo)</button>
+          <button class="btn btn-primary btn-sm" data-action="open-demo">🚀 Acessar Sistema Ao Vivo (Demo)</button>
         </div>
       </div>
     </header>
@@ -50,7 +50,7 @@
 
         <!-- CTA Buttons -->
         <div class="hero-actions">
-          <button class="btn btn-primary btn-lg pulse-effect" onclick="openDemoSystem('dashboard')">
+          <button class="btn btn-primary btn-lg pulse-effect" data-action="open-demo" data-page="dashboard">
             <span>🚀 Acessar Sistema Ao Vivo (Demo)</span>
           </button>
           <a href="https://wa.me/5598981483900?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20LeadFlow%20CRM." target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
@@ -59,7 +59,7 @@
         </div>
 
         <!-- System Demo Live Status Indicator -->
-        <div class="live-status-pill" onclick="openDemoSystem('dashboard')">
+        <div class="live-status-pill" data-action="open-demo" data-page="dashboard">
           <span class="status-dot"></span>
           <span>Demonstração totalmente interativa disponível. Nenhuma senha necessária.</span>
           <span class="pill-action">Abrir agora →</span>
@@ -69,7 +69,7 @@
         <div class="features-grid">
           
           <!-- Card 1 -->
-          <div class="feature-card" onclick="openDemoSystem('mensagens')">
+          <div class="feature-card" data-action="open-demo" data-page="mensagens">
             <div class="feature-card-header">
               <div class="feature-icon bg-cyan">💬</div>
               <span class="feature-tag">WhatsApp API</span>
@@ -83,7 +83,7 @@
           </div>
 
           <!-- Card 2 -->
-          <div class="feature-card" onclick="openDemoSystem('kanban')">
+          <div class="feature-card" data-action="open-demo" data-page="kanban">
             <div class="feature-card-header">
               <div class="feature-icon bg-emerald">📊</div>
               <span class="feature-tag">Pipeline Visível</span>
@@ -97,7 +97,7 @@
           </div>
 
           <!-- Card 3 -->
-          <div class="feature-card" onclick="openDemoSystem('agentes-ia')">
+          <div class="feature-card" data-action="open-demo" data-page="agentes-ia">
             <div class="feature-card-header">
               <div class="feature-icon bg-purple">🤖</div>
               <span class="feature-tag">Inteligência Artificial</span>
@@ -128,7 +128,7 @@
 
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
-        <div class="sidebar-logo" onclick="backToLanding()">
+        <div class="sidebar-logo" data-action="back-landing">
           <div class="sidebar-brand-icon">🚀</div>
           <div>
             <h1>LeadFlow <span>CRM</span></h1>
@@ -137,28 +137,28 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a class="active" data-page="dashboard" onclick="showPage('dashboard')">
+          <a class="active" data-page="dashboard" data-action="show-page">
             <span class="nav-icon">📊</span> Dashboard
           </a>
-          <a data-page="kanban" onclick="showPage('kanban')">
+          <a data-page="kanban" data-action="show-page">
             <span class="nav-icon">📋</span> Funil Kanban <span class="nav-badge" id="leads-count-badge">8</span>
           </a>
-          <a data-page="mensagens" onclick="showPage('mensagens')">
+          <a data-page="mensagens" data-action="show-page">
             <span class="nav-icon">💬</span> WhatsApp Chat
           </a>
-          <a data-page="agentes-ia" onclick="showPage('agentes-ia')">
+          <a data-page="agentes-ia" data-action="show-page">
             <span class="nav-icon">🤖</span> Agentes de IA
           </a>
-          <a data-page="reativacao" onclick="showPage('reativacao')">
+          <a data-page="reativacao" data-action="show-page">
             <span class="nav-icon">🔔</span> Reativação &amp; Encaixe
           </a>
-          <a data-page="resultado" onclick="showPage('resultado')">
+          <a data-page="resultado" data-action="show-page">
             <span class="nav-icon">🏆</span> Métricas &amp; ROI
           </a>
         </nav>
 
         <div class="sidebar-footer">
-          <button class="btn btn-secondary btn-full btn-sm" onclick="backToLanding()">
+          <button class="btn btn-secondary btn-full btn-sm" data-action="back-landing">
             <span>← Voltar à Apresentação</span>
           </button>
           <div class="demo-badge-pill">
@@ -173,7 +173,7 @@
         <!-- Topbar -->
         <header class="topbar">
           <div class="topbar-left">
-            <button class="menu-toggle-btn" onclick="toggleSidebar()">☰</button>
+            <button class="menu-toggle-btn" data-action="toggle-sidebar">☰</button>
             <div class="topbar-clinic">
               <span class="topbar-icon">🏥</span>
               <div>
@@ -184,7 +184,7 @@
           </div>
 
           <div class="topbar-right">
-            <button class="btn btn-emerald btn-sm" onclick="openNewLeadModal()">
+            <button class="btn btn-emerald btn-sm" data-action="open-new-lead">
               <span>+ Criar Lead Demo</span>
             </button>
             <a href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
@@ -313,7 +313,7 @@
                     <span class="stat-desc">Vendas Fechadas/Semana</span>
                   </div>
                 </div>
-                <button class="btn btn-primary btn-full btn-sm" onclick="showPage('mensagens')">
+                <button class="btn btn-primary btn-full btn-sm" data-action="show-page" data-page="mensagens">
                   <span>Ver Chat em Tempo Real →</span>
                 </button>
               </div>
@@ -328,7 +328,7 @@
               <h2>Funil de Vendas Kanban</h2>
               <p>Arraste os cards ou mude o estágio para acompanhar suas negociações em tempo real</p>
             </div>
-            <button class="btn btn-emerald btn-sm" onclick="openNewLeadModal()">+ Adicionar Lead</button>
+            <button class="btn btn-emerald btn-sm" data-action="open-new-lead">+ Adicionar Lead</button>
           </div>
 
           <!-- Kanban Board -->
@@ -351,7 +351,7 @@
                   <p class="card-desc">Harmonização Facial • slz/MA</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 1.800</span>
-                    <button class="btn-card-action" onclick="moveCardNext('1')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="1">Mover →</button>
                   </div>
                 </div>
                 <!-- Card 2 -->
@@ -361,7 +361,7 @@
                   <p class="card-desc">Botox + Preenchimento</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 1.100</span>
-                    <button class="btn-card-action" onclick="moveCardNext('2')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="2">Mover →</button>
                   </div>
                 </div>
               </div>
@@ -383,7 +383,7 @@
                   <p class="card-desc">Limpeza de Pele Profunda</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 380</span>
-                    <button class="btn-card-action" onclick="moveCardNext('3')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="3">Mover →</button>
                   </div>
                 </div>
                 <div class="kanban-card" data-id="4">
@@ -392,7 +392,7 @@
                   <p class="card-desc">Bioestimulador de Colágeno</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 2.200</span>
-                    <button class="btn-card-action" onclick="moveCardNext('4')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="4">Mover →</button>
                   </div>
                 </div>
               </div>
@@ -414,7 +414,7 @@
                   <p class="card-desc">Peeling Químico + Retorno</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 820</span>
-                    <button class="btn-card-action" onclick="moveCardNext('5')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="5">Mover →</button>
                   </div>
                 </div>
                 <div class="kanban-card" data-id="6">
@@ -423,7 +423,7 @@
                   <p class="card-desc">Lifting Facial sem Corte</p>
                   <div class="card-footer">
                     <span class="card-price">R$ 3.500</span>
-                    <button class="btn-card-action" onclick="moveCardNext('6')">Mover →</button>
+                <button class="btn-card-action" data-action="move-card" data-id="6">Mover →</button>
                   </div>
                 </div>
               </div>
@@ -473,7 +473,7 @@
             <div class="chat-toggle-ai">
               <span>Robô Agente IA:</span>
               <label class="switch">
-                <input type="checkbox" id="ai-toggle-switch" checked onchange="toggleAiBot(this)">
+                <input type="checkbox" id="ai-toggle-switch" checked data-action="toggle-ai">
                 <span class="slider round"></span>
               </label>
               <strong id="ai-status-label" style="color: var(--color-success)">ATIVO</strong>
@@ -489,7 +489,7 @@
               </div>
               <div class="chat-threads">
                 
-                <div class="chat-thread-item active" onclick="selectChatThread('marcos')">
+                <div class="chat-thread-item active" data-action="select-chat" data-chat="marcos">
                   <div class="thread-avatar">MS</div>
                   <div class="thread-info">
                     <div class="thread-name">
@@ -500,7 +500,7 @@
                   </div>
                 </div>
 
-                <div class="chat-thread-item" onclick="selectChatThread('ana')">
+                <div class="chat-thread-item" data-action="select-chat" data-chat="ana">
                   <div class="thread-avatar">AC</div>
                   <div class="thread-info">
                     <div class="thread-name">
@@ -511,7 +511,7 @@
                   </div>
                 </div>
 
-                <div class="chat-thread-item" onclick="selectChatThread('joana')">
+                <div class="chat-thread-item" data-action="select-chat" data-chat="joana">
                   <div class="thread-avatar">JM</div>
                   <div class="thread-info">
                     <div class="thread-name">
@@ -565,9 +565,9 @@
 
               <!-- Chat Input Bar -->
               <div class="chat-input-area">
-                <input type="text" id="chat-text-input" placeholder="Digite uma mensagem de teste..." onkeypress="handleChatKeyPress(event)">
-                <button class="btn btn-primary" onclick="sendDemoChatMessage()">Enviar</button>
-                <button class="btn btn-emerald" onclick="simulateAiReply()" title="Simular resposta do robô com IA">🤖 Gerar Resposta IA</button>
+                <input type="text" id="chat-text-input" placeholder="Digite uma mensagem de teste...">
+                <button class="btn btn-primary" data-action="send-chat">Enviar</button>
+                <button class="btn btn-emerald" data-action="simulate-ai" title="Simular resposta do robô com IA">🤖 Gerar Resposta IA</button>
               </div>
 
             </div>
@@ -610,7 +610,7 @@
                 </div>
               </div>
               <div class="agent-card-footer">
-                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Qualificador')">⚡ Testar Prompt de Resposta</button>
+                <button class="btn btn-secondary btn-sm btn-full" data-action="test-prompt" data-prompt="Qualificador">⚡ Testar Prompt de Resposta</button>
               </div>
             </div>
 
@@ -637,7 +637,7 @@
                 </div>
               </div>
               <div class="agent-card-footer">
-                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Encaixe')">⚡ Testar Oferta de Encaixe</button>
+                <button class="btn btn-secondary btn-sm btn-full" data-action="test-prompt" data-prompt="Encaixe">⚡ Testar Oferta de Encaixe</button>
               </div>
             </div>
 
@@ -664,7 +664,7 @@
                 </div>
               </div>
               <div class="agent-card-footer">
-                <button class="btn btn-secondary btn-sm btn-full" onclick="testPromptAi('Reativação')">⚡ Testar Reativação</button>
+                <button class="btn btn-secondary btn-sm btn-full" data-action="test-prompt" data-prompt="Reativação">⚡ Testar Reativação</button>
               </div>
             </div>
 
@@ -681,7 +681,7 @@
                 <label>Mensagem simulada enviada pelo cliente:</label>
                 <input type="text" id="ai-test-input" value="Quais são os horários para botox na sexta-feira?">
               </div>
-              <button class="btn btn-purple" onclick="runSimulatedAiPrompt()">Executar Teste de IA</button>
+              <button class="btn btn-purple" data-action="run-ai-prompt">Executar Teste de IA</button>
               <div class="tester-output" id="ai-test-output">
                 Clique em "Executar Teste de IA" para ver como o agente processa a mensagem em tempo real...
               </div>
@@ -799,9 +799,9 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3>+ Adicionar Lead Demo</h3>
-        <button class="modal-close" onclick="closeNewLeadModal()">✕</button>
+        <button class="modal-close" data-action="close-new-lead">✕</button>
       </div>
-      <form id="new-lead-form" onsubmit="handleCreateLead(event)">
+      <form id="new-lead-form">
         <div class="form-group">
           <label>Nome do Cliente / Empresa</label>
           <input type="text" id="lead-name" required placeholder="Ex: Fernanda Lima">
@@ -826,7 +826,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="closeNewLeadModal()">Cancelar</button>
+          <button type="button" class="btn btn-secondary" data-action="close-new-lead">Cancelar</button>
           <button type="submit" class="btn btn-emerald">Inserir no Kanban</button>
         </div>
       </form>

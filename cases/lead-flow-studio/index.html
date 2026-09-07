@@ -43,9 +43,7 @@
     "inLanguage": "pt-BR"
   }
   </script>
-  <script>
-  (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';if(t==='light')document.documentElement.setAttribute('data-theme','light')})();
-  </script>
+  <script src="/theme.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -113,7 +111,7 @@
       <section class="section-tight">
         <div class="container">
           <figure class="case-media case-media--interactive" style="position: relative; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease, border-color 0.3s ease;">
-            <a href="/demo/" target="_blank" rel="noopener noreferrer" title="Clique para explorar o Lead Flow Studio" style="display: block; position: relative; text-decoration: none;" onclick="this.querySelector('.btn-primary').innerHTML = '⏳ Abrindo demonstração...';">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer" title="Clique para explorar o Lead Flow Studio" style="display: block; position: relative; text-decoration: none;" data-demo-launch>
               <img src="/assets/optimized/lead-flow-studio-crm.png" width="1024" height="1024" alt="Interface real do Lead Flow Studio com funil Kanban, tags de leads e métricas financeiras" style="width: 100%; height: auto; display: block; transition: transform 0.4s ease;">
               <div class="media-hover-overlay" style="position: absolute; inset: 0; background: rgba(8, 9, 11, 0.4); display: flex; align-items: center; justify-content: center; opacity: 1; flex-direction: column; gap: 0.5rem; transition: background 0.3s ease;">
                 <span class="btn btn-primary" style="box-shadow: 0 0 30px rgba(139, 92, 246, 0.6); pointer-events: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 1.05rem; padding: 0.8rem 1.5rem; border-radius: 99px;">

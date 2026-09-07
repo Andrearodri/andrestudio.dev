@@ -97,17 +97,44 @@ function renderKanbanCards() {
     
     if (!colElement) return;
 
-    colElement.innerHTML = stageItems.map(item => `
-      <div class="kanban-card ${stage === 'fechado' ? 'card-win' : ''}" data-id="${item.id}">
-        <div class="card-tag ${item.tagClass}">${item.tag}</div>
-        <h4 class="card-name">${item.name}</h4>
-        <p class="card-desc">${item.service}</p>
-        <div class="card-footer">
-          <span class="card-price">R$ ${item.price.toLocaleString('pt-BR')}</span>
-          ${stage !== 'fechado' ? `<button class="btn-card-action" onclick="moveCardNext('${item.id}')">Mover →</button>` : '<span class="badge badge-success">Venda Fechada</span>'}
-        </div>
-      </div>
-    `).join('');
+    colElement.textContent = '';
+    stageItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = `kanban-card ${stage === 'fechado' ? 'card-win' : ''}`;
+      card.dataset.id = item.id;
+
+      const tag = document.createElement('div');
+      tag.className = `card-tag ${item.tagClass}`;
+      tag.textContent = item.tag;
+      const name = document.createElement('h4');
+      name.className = 'card-name';
+      name.textContent = item.name;
+      const service = document.createElement('p');
+      service.className = 'card-desc';
+      service.textContent = item.service;
+      const footer = document.createElement('div');
+      footer.className = 'card-footer';
+      const price = document.createElement('span');
+      price.className = 'card-price';
+      price.textContent = `R$ ${item.price.toLocaleString('pt-BR')}`;
+      footer.appendChild(price);
+
+      if (stage !== 'fechado') {
+        const moveButton = document.createElement('button');
+        moveButton.className = 'btn-card-action';
+        moveButton.dataset.action = 'move-card';
+        moveButton.dataset.id = item.id;
+        moveButton.textContent = 'Mover →';
+        footer.appendChild(moveButton);
+      } else {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-success';
+        badge.textContent = 'Venda Fechada';
+        footer.appendChild(badge);
+      }
+      card.append(tag, name, service, footer);
+      colElement.appendChild(card);
+    });
 
     const countElement = document.getElementById(`count-${stage}`);
     if (countElement) countElement.innerText = stageItems.length;
@@ -205,13 +232,13 @@ const chatData = {
 
 let currentChatKey = 'marcos';
 
-function selectChatThread(key) {
+function selectChatThread(key, trigger) {
   currentChatKey = key;
   const data = chatData[key];
   if (!data) return;
 
   document.querySelectorAll('.chat-thread-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  if (trigger) trigger.classList.add('active');
 
   document.getElementById('active-chat-avatar').innerText = data.avatar;
   document.getElementById('active-chat-name').innerText = data.name;
@@ -225,16 +252,49 @@ function renderChatMessages() {
   const data = chatData[currentChatKey];
   if (!container || !data) return;
 
-  container.innerHTML = '<div class="chat-divider"><span>Hoje • Conversa em Tempo Real</span></div>' +
-    data.messages.map(m => `
-      <div class="chat-bubble ${m.type} ${m.ai ? 'ai-bubble' : ''}">
-        ${m.ai ? '<div class="ai-badge">🤖 Agente IA LeadFlow</div>' : ''}
-        ${m.text}
-        <div class="bubble-time">${m.time} ${m.type === 'sent' ? '<span class="checkmarks">✓✓</span>' : ''}</div>
-      </div>
-    `).join('');
+  container.textContent = '';
+  const divider = document.createElement('div');
+  divider.className = 'chat-divider';
+  const dividerText = document.createElement('span');
+  dividerText.textContent = 'Hoje • Conversa em Tempo Real';
+  divider.appendChild(dividerText);
+  container.appendChild(divider);
+
+  data.messages.forEach(message => {
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${message.type}${message.ai ? ' ai-bubble' : ''}`;
+    if (message.ai) {
+      const badge = document.createElement('div');
+      badge.className = 'ai-badge';
+      badge.textContent = '🤖 Agente IA LeadFlow';
+      bubble.appendChild(badge);
+    }
+    appendSafeChatText(bubble, message.text);
+    const time = document.createElement('div');
+    time.className = 'bubble-time';
+    time.textContent = message.time;
+    if (message.type === 'sent') {
+      const checks = document.createElement('span');
+      checks.className = 'checkmarks';
+      checks.textContent = '✓✓';
+      time.appendChild(document.createTextNode(' '));
+      time.appendChild(checks);
+    }
+    bubble.appendChild(time);
+    container.appendChild(bubble);
+  });
 
   container.scrollTop = container.scrollHeight;
+}
+
+function appendSafeChatText(container, value) {
+  const parts = String(value).split(/<br\s*\/?\s*>/gi);
+  parts.forEach((part, index) => {
+    if (index > 0) container.appendChild(document.createElement('br'));
+    const text = document.createElement('span');
+    text.textContent = part;
+    container.appendChild(text);
+  });
 }
 
 function sendDemoChatMessage() {
@@ -332,6 +392,31 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
   renderKanbanCards();
   updateKanbanStats();
+
+  document.addEventListener('click', function(event) {
+    const control = event.target.closest('[data-action]');
+    if (!control) return;
+    const action = control.dataset.action;
+    if (action === 'open-demo') openDemoSystem(control.dataset.page || 'dashboard');
+    else if (action === 'back-landing') backToLanding();
+    else if (action === 'show-page') showPage(control.dataset.page);
+    else if (action === 'toggle-sidebar') toggleSidebar();
+    else if (action === 'open-new-lead') openNewLeadModal();
+    else if (action === 'close-new-lead') closeNewLeadModal();
+    else if (action === 'move-card') moveCardNext(control.dataset.id);
+    else if (action === 'select-chat') selectChatThread(control.dataset.chat, control);
+    else if (action === 'send-chat') sendDemoChatMessage();
+    else if (action === 'simulate-ai') simulateAiReply();
+    else if (action === 'test-prompt') testPromptAi(control.dataset.prompt);
+    else if (action === 'run-ai-prompt') runSimulatedAiPrompt();
+  });
+
+  const leadForm = document.getElementById('new-lead-form');
+  if (leadForm) leadForm.addEventListener('submit', handleCreateLead);
+  const chatInput = document.getElementById('chat-text-input');
+  if (chatInput) chatInput.addEventListener('keypress', handleChatKeyPress);
+  const aiToggle = document.getElementById('ai-toggle-switch');
+  if (aiToggle) aiToggle.addEventListener('change', () => toggleAiBot(aiToggle));
 
   // Check URL parameters for direct demo launch (?demo=true or #demo)
   const urlParams = new URLSearchParams(window.location.search);
