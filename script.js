@@ -85,4 +85,54 @@
       themeLabel.textContent = currentTheme === 'light' ? 'Studio' : 'Cinema';
     }
   }
+
+  // --- Showcase Tabs Filter & Mouse Spotlight ---
+  const filterTabs = document.querySelectorAll('.showcase-tab');
+  const bentoGrid = document.getElementById('showcase-grid');
+  const bentoCards = document.querySelectorAll('.bento-card');
+
+  if (filterTabs.length && bentoGrid) {
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.getAttribute('data-filter');
+        
+        filterTabs.forEach((t) => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+
+        if (filter === 'all') {
+          bentoGrid.classList.remove('is-filtered');
+          bentoCards.forEach((card) => {
+            card.classList.remove('is-hidden');
+          });
+        } else {
+          bentoGrid.classList.add('is-filtered');
+          bentoCards.forEach((card) => {
+            const category = card.getAttribute('data-category');
+            if (category === filter) {
+              card.classList.remove('is-hidden');
+            } else {
+              card.classList.add('is-hidden');
+            }
+          });
+        }
+      });
+    });
+
+    // Spotlight cursor effect on desktop pointer devices
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      bentoCards.forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+    }
+  }
 })();

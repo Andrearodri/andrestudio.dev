@@ -338,51 +338,190 @@
       </div>
     </section>
 
-    <section class="section surface" aria-labelledby="projetos-title">
+    <!-- SEÇÃO SHOWCASE: TRABALHOS SELECIONADOS & BENTO GRID -->
+    <section class="section surface showcase-section" id="trabalhos-selecionados" aria-labelledby="projetos-title">
       <div class="container">
-        <div class="section-heading reveal">
+        <div class="section-heading showcase-heading reveal">
           <div>
-            <p class="kicker">Trabalhos selecionados</p>
-            <h2 id="projetos-title">Processo visível. Natureza do projeto, também.</h2>
+            <div class="showcase-kicker-wrap">
+              <span class="showcase-kicker-badge"><span class="pulse-dot"></span> Portfólio &amp; Estudos</span>
+            </div>
+            <h2 id="projetos-title">Engenharia, inteligência artificial e direção visual de alto padrão.</h2>
           </div>
-          <p>Cases reais, conceitos autorais e experimentos com IA recebem rótulos distintos. Sem transformar estudo em resultado de cliente.</p>
+          <p>Cases reais, protótipos funcionais e conceitos autorais desenvolvidos com precisão técnica e rigor estético.</p>
         </div>
 
-        <article class="project-card project-feature reveal">
-          <a class="project-card-media" href="/cases/mundo-em-evolucao/" tabindex="-1" aria-hidden="true">
-            <img src="/assets/optimized/automotive.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="Carro esportivo em túnel escuro com rastros de luz vermelha">
-          </a>
-          <div class="project-card-body">
-            <div class="project-card-top"><span class="label label--concept">Conceito autoral</span><span class="label">Direção de arte</span></div>
-            <h3><a href="/cases/mundo-em-evolucao/">Mundo em Evolução</a></h3>
-            <p>Um sistema visual automotivo criado para explorar velocidade, contraste e linguagem cinematográfica.</p>
-          </div>
-        </article>
+        <!-- Filtros por Categoria -->
+        <div class="showcase-filter-bar reveal" role="tablist" aria-label="Filtrar projetos por categoria">
+          <button class="showcase-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">Todos os Trabalhos</button>
+          <button class="showcase-tab" type="button" role="tab" aria-selected="false" data-filter="sistemas">Sistemas &amp; IA</button>
+          <button class="showcase-tab" type="button" role="tab" aria-selected="false" data-filter="sites">Sites &amp; MVPs</button>
+          <button class="showcase-tab" type="button" role="tab" aria-selected="false" data-filter="visual">Visual Lab &amp; 3D</button>
+        </div>
 
-        <div class="grid-2" style="margin-top:1rem">
-          <article class="project-card reveal">
-            <a href="/cases/in-the-nuvens/">
-              <div class="project-card-media"><img src="/assets/optimized/in-the-nuvens.jpg" width="1200" height="895" loading="lazy" decoding="async" alt="Paisagem acima das nuvens usada em experimento visual com inteligência artificial"></div>
-              <div class="project-card-body">
-                <div class="project-card-top"><span class="label label--ai">Experimento com IA</span><span class="label">Motion</span></div>
-                <h3>In the Nuvens</h3>
-                <p>Pesquisa visual sobre atmosfera, profundidade e composição para peças em movimento.</p>
+        <!-- Bento Grid Principal -->
+        <div class="showcase-grid" id="showcase-grid">
+          
+          <!-- 1. OmniAgent Studio (Hero Bento - Sistemas & IA) -->
+          <article class="bento-card bento-card--hero reveal" data-category="sistemas">
+            <a href="/cases/omniagent-ai-studio/" class="bento-card-link" aria-label="Ver case do OmniAgent Studio">
+              <div class="bento-media">
+                <img src="/assets/optimized/omniagent-ai-hero.png" width="1024" height="1024" loading="lazy" decoding="async" alt="Interface corporativa do OmniAgent Studio com dashboard de agentes de IA e triagem">
+                <div class="bento-badges">
+                  <span class="badge-status badge--real"><span class="pulse-dot"></span> DEMO SAAS</span>
+                  <span class="badge-status">SISTEMA &amp; IA</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">OmniAgent Studio</h3>
+                <p class="bento-desc">Central corporativa autônoma para qualificação ao vivo de leads, base RAG sem alucinações e atendimento no WhatsApp.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">IA &amp; RAG</span>
+                    <span class="tech-chip">WhatsApp Cloud API</span>
+                    <span class="tech-chip">Next-Gen UX</span>
+                  </div>
+                  <span class="bento-link-text">Ver case <b aria-hidden="true">→</b></span>
+                </div>
               </div>
             </a>
           </article>
-          <article class="project-card reveal">
-            <a href="/cases/objeto-em-camadas/">
-              <div class="project-card-media"><video muted loop playsinline preload="none" poster="/assets/optimized/showcase-cinematic.jpg" data-autopause aria-label="Objeto abstrato se desmontando em camadas"><source src="/assets/object_disassembling.mp4" type="video/mp4"></video></div>
-              <div class="project-card-body">
-                <div class="project-card-top"><span class="label label--concept">Estudo autoral</span><span class="label">Motion</span></div>
-                <h3>Objeto em Camadas</h3>
-                <p>Exploração de tempo, matéria e desmontagem visual para aberturas e product films.</p>
+
+          <!-- 2. Objeto em Camadas (Visual Lab & 3D Video) -->
+          <article class="bento-card bento-card--motion reveal" data-category="visual">
+            <a href="/cases/objeto-em-camadas/" class="bento-card-link" aria-label="Ver estudo autoral Objeto em Camadas">
+              <div class="bento-media">
+                <video muted loop playsinline preload="metadata" poster="/assets/optimized/showcase-cinematic.jpg" data-autopause aria-label="Objeto abstrato se desmontando em camadas de precisão técnica com iluminação cinematográfica">
+                  <source src="/assets/object_disassembling.mp4" type="video/mp4">
+                </video>
+                <div class="bento-badges">
+                  <span class="badge-status badge--concept"><span class="pulse-dot pulse-dot--reel"></span> REEL 3D</span>
+                  <span class="badge-status">ESTUDO AUTORAL</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">Objeto em Camadas</h3>
+                <p class="bento-desc">Exploração de tempo, matéria e teardown 3D em tempo real para aberturas de sistemas e product films.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">Motion 3D</span>
+                    <span class="tech-chip">Product Film</span>
+                    <span class="tech-chip">Cinematic Shading</span>
+                  </div>
+                  <span class="bento-link-text">Ver estudo <b aria-hidden="true">→</b></span>
+                </div>
               </div>
             </a>
           </article>
+
+          <!-- 3. Lead Flow Studio (Sistemas & IA) -->
+          <article class="bento-card reveal" data-category="sistemas">
+            <a href="/cases/lead-flow-studio/" class="bento-card-link" aria-label="Ver protótipo funcional Lead Flow Studio">
+              <div class="bento-media">
+                <img src="/assets/optimized/lead-flow-studio-crm.png" width="1024" height="1024" loading="lazy" decoding="async" alt="Interface em dark mode do CRM Lead Flow Studio com funil Kanban interativo">
+                <div class="bento-badges">
+                  <span class="badge-status badge--real"><span class="pulse-dot"></span> PROTÓTIPO FUNCIONAL</span>
+                  <span class="badge-status">CRM &amp; VENDAS</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">Lead Flow Studio</h3>
+                <p class="bento-desc">Gestão comercial de alta velocidade em formato Kanban com automação de propostas e métricas de receita ao vivo.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">Kanban Dinâmico</span>
+                    <span class="tech-chip">Métricas em Tempo Real</span>
+                  </div>
+                  <span class="bento-link-text">Explorar <b aria-hidden="true">→</b></span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 4. Cardápio Digital (Sites & MVPs) -->
+          <article class="bento-card reveal" data-category="sites">
+            <a href="/cases/cardapio-digital/" class="bento-card-link" aria-label="Ver MVP demonstrativo do Cardápio Digital">
+              <div class="bento-media">
+                <img src="/portfolio/cardapio-digital-demo/img/burger.png" width="1024" height="1024" loading="lazy" decoding="async" alt="Interface demonstrativa em smartphone com hamburguer gourmet no Cardápio Digital">
+                <div class="bento-badges">
+                  <span class="badge-status badge--real"><span class="pulse-dot"></span> MVP AO VIVO</span>
+                  <span class="badge-status">ECOMMERCE &amp; WHATSAPP</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">Cardápio Digital — Delivery</h3>
+                <p class="bento-desc">Sistema de pedidos interativo e sem comissões com checkout nativo no WhatsApp e cálculo dinâmico de frete.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">Checkout WhatsApp</span>
+                    <span class="tech-chip">Carrinho Dinâmico</span>
+                  </div>
+                  <span class="bento-link-text">Testar MVP <b aria-hidden="true">→</b></span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 5. Mundo em Evolução (Visual Lab & 3D) -->
+          <article class="bento-card reveal" data-category="visual">
+            <a href="/cases/mundo-em-evolucao/" class="bento-card-link" aria-label="Ver conceito autoral Mundo em Evolução">
+              <div class="bento-media">
+                <img src="/assets/optimized/automotive.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="Carro esportivo em túnel escuro com iluminação vermelha dramática no projeto Mundo em Evolução">
+                <div class="bento-badges">
+                  <span class="badge-status badge--concept">CONCEITO AUTORAL</span>
+                  <span class="badge-status">DIREÇÃO DE ARTE</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">Mundo em Evolução</h3>
+                <p class="bento-desc">Sistema visual automotivo focado em velocidade, contraste luminescente e linguagem cinematográfica aplicada a marcas.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">Color Grading</span>
+                    <span class="tech-chip">Direção Visual</span>
+                  </div>
+                  <span class="bento-link-text">Ver case <b aria-hidden="true">→</b></span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 6. In the Nuvens (Visual Lab & IA) -->
+          <article class="bento-card reveal" data-category="visual">
+            <a href="/cases/in-the-nuvens/" class="bento-card-link" aria-label="Ver experimento In the Nuvens">
+              <div class="bento-media">
+                <img src="/assets/optimized/in-the-nuvens.jpg" width="1200" height="895" loading="lazy" decoding="async" alt="Paisagem atmosférica acima das nuvens em experimento com inteligência artificial">
+                <div class="bento-badges">
+                  <span class="badge-status badge--ai">EXPERIMENTO IA</span>
+                  <span class="badge-status">MOTION</span>
+                </div>
+                <div class="bento-action-btn" aria-hidden="true">↗</div>
+              </div>
+              <div class="bento-body">
+                <h3 class="bento-title">In the Nuvens</h3>
+                <p class="bento-desc">Pesquisa visual sobre profundidade de campo, transições volumétricas e composição gerativa para peças em movimento.</p>
+                <div class="bento-footer">
+                  <div class="bento-tech">
+                    <span class="tech-chip">Generative AI</span>
+                    <span class="tech-chip">Volumetric Light</span>
+                  </div>
+                  <span class="bento-link-text">Assistir <b aria-hidden="true">→</b></span>
+                </div>
+              </div>
+            </a>
+          </article>
+
         </div>
 
-        <div class="actions" style="margin-top:2rem"><a class="btn" href="/portfolio/">Explorar o portfólio</a></div>
+        <div class="showcase-actions reveal">
+          <a class="btn btn-primary" href="/portfolio/">Explorar portfólio completo</a>
+          <a class="btn" href="/contato/">Iniciar um projeto</a>
+        </div>
       </div>
     </section>
 
