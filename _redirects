@@ -15,6 +15,9 @@
 /assets/Inserir%20um%20título.svg /404.html 301
 /assets/Inserir%20um%20título.png /404.html 301
 
+/.vscode /404.html 301
+/.vscode/* /404.html 301
+
 # Wildcard defensive block rules
 /.env.* /404.html 301
 /*.sql /404.html 301

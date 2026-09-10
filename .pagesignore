@@ -18,3 +18,5 @@ docs/editorial-backlog.md
 content
 content/*
 .backup-original-media
+.vscode
+.vscode/*
