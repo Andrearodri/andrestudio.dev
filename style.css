@@ -559,8 +559,9 @@ html[data-theme="light"] .project-card {
    ARTICLE / BLOG
    =========================================== */
 .article-layout { display: grid; grid-template-columns: minmax(0, 760px) 260px; justify-content: space-between; gap: 4rem; }
-.article-body h2 { margin: 3.5rem 0 1rem; font-size: clamp(1.8rem, 3.8vw, 3rem); }
-.article-body h3 { margin: 2rem 0 .8rem; font-size: 1.4rem; }
+.article-body h2 { margin: 3.5rem 0 1rem; font-size: clamp(1.8rem, 3.8vw, 3rem); scroll-margin-top: 5.5rem; }
+.article-body h3 { margin: 2rem 0 .8rem; font-size: 1.4rem; scroll-margin-top: 5.5rem; }
+h2[id], h3[id], section[id] { scroll-margin-top: 5.5rem; }
 .article-body p + p, .article-body ul + p, .article-body p + ul { margin-top: 1.1rem; }
 .article-body ul { padding-left: 1.25rem; }
 .article-body li + li { margin-top: .55rem; }
