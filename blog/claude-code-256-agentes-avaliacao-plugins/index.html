@@ -176,7 +176,7 @@
 
             <p>Entre as mudanças da atualização está a nova configuração <code>CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS</code>, que permite aumentar para até 256 o número de agentes concorrentes dentro de uma execução de Workflow.</p>
 
-            <p>O intervalo permitido vai de 1 a 256 agentes e é destinado principalmente a tarefas que possam ser divididas em grande quantidade de trabalhos independentes e limitados pelo tempo de inferência.</p>
+            <p>O intervalo permitido vai de 1 a 256 agentes e é voltado principalmente a cenários de grande paralelismo limitados pelo tempo de inferência (fan-outs <em>inference-bound</em>).</p>
 
             <p>Isso não significa que o Claude Code deva sair criando 256 agentes para qualquer projeto.</p>
 
@@ -320,7 +320,7 @@
             <p>Este artigo é uma produção editorial original baseada na análise técnica das fontes oficiais:</p>
 
             <ul style="margin-top:1rem;margin-bottom:2.5rem">
-              <li><strong>Anthropic / GitHub — Claude Code v2.1.269 (11 de setembro de 2026):</strong> Release oficial confirmando <code>claude plugin eval</code> com relatórios JSON + HTML e <code>CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS</code> com limite de 1 a 256 agentes.</li>
+              <li><strong><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.269" target="_blank" rel="noopener noreferrer">Anthropic — Claude Code Release v2.1.269 (11 de setembro de 2026) ↗</a>:</strong> Release oficial confirmando a ferramenta <code>claude plugin eval</code> para avaliação reproduzível de plugins com resultados pontuados em relatórios JSON e HTML, e a configuração <code>CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS</code> com intervalo de 1 a 256 agentes, voltada a fan-outs <em>inference-bound</em>.</li>
             </ul>
 
             <div class="card" style="margin-top:2rem;background:var(--surface-2);border-left:4px solid var(--line-strong)">

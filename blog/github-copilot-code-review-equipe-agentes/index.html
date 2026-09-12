@@ -199,10 +199,10 @@
             <p>Em vez de:</p>
 
             <div class="card" style="margin:2rem 0;padding:1.5rem;background:var(--surface-2);border-left:4px solid var(--primary)">
-              <p style="margin:0 0 0.5rem;font-weight:700;color:var(--text)">Fluxo anterior:</p>
-              <p style="margin:0 0 1rem;font-family:var(--font-mono, monospace);font-size:0.95rem;color:var(--muted)">modelo analisa → modelo comenta</p>
-              <p style="margin:0 0 0.5rem;font-weight:700;color:var(--text)">Novo fluxo:</p>
-              <p style="margin:0;font-family:var(--font-mono, monospace);font-size:0.95rem;color:var(--text-soft)">agentes analisam → levantam hipótese → executam verificação → consolidam evidências → entregam review</p>
+              <p style="margin:0 0 0.5rem;font-weight:700;color:var(--text)">Fluxo puramente estático:</p>
+              <p style="margin:0 0 1rem;font-family:var(--font-mono, monospace);font-size:0.95rem;color:var(--muted)">leitura estática do diff → geração direta de comentário</p>
+              <p style="margin:0 0 0.5rem;font-weight:700;color:var(--text)">Fluxo com ferramentas:</p>
+              <p style="margin:0;font-family:var(--font-mono, monospace);font-size:0.95rem;color:var(--text-soft)">análise conceitual → validação ativa com ferramentas de shell (builds, testes e scripts) → revisão fundamentada</p>
             </div>
 
             <h2 id="ensemble">Vários agentes, uma única revisão</h2>
@@ -302,7 +302,7 @@
             <p>Este artigo é uma produção editorial original baseada na análise técnica das fontes oficiais:</p>
 
             <ul style="margin-top:1rem;margin-bottom:2.5rem">
-              <li><strong>GitHub Changelog — "Auto-resolution and analysis updates in Copilot code review" (11 de setembro de 2026):</strong> Fonte primária confirmando ensemble de agentes no Lite, ferramentas de shell, builds, testes e scripts. Percentuais de melhoria (47%, 31%, 11%) e redução de custo (~8%) são resultados de experimentos divulgados pelo GitHub.</li>
+              <li><strong><a href="https://github.blog/changelog/2026-09-11-auto-resolution-and-analysis-updates-in-copilot-code-review/" target="_blank" rel="noopener noreferrer">GitHub Changelog — "Auto-resolution and analysis updates in Copilot code review" (11 de setembro de 2026) ↗</a>:</strong> Anúncio oficial confirmando ensemble de agentes no Lite, uso ampliado de ferramentas de shell para execução de builds, testes e scripts direcionados. Os resultados (+47% alta severidade, +31% média severidade, +11% baixa severidade e ~8% redução de custo) representam dados de experimentos internos divulgados pelo próprio GitHub.</li>
             </ul>
 
             <div class="card" style="margin-top:2rem;background:var(--surface-2);border-left:4px solid var(--line-strong)">
