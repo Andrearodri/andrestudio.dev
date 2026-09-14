@@ -251,7 +251,7 @@
     setTimeout(() => {
       appendMessage('ai', scen.agentGreeting, agent.name, true);
       renderQuickReplies(scen.quickReplies);
-      addTimelineEvent(`Sessão iniciada no ${agent.channel}`, `Intenção preliminar de ${scen.name}`);
+          addTimelineEvent(`Sessão iniciada em ${agent.channel}`, `Intenção preliminar de ${scen.name}`);
       updateJsonPayload({ event: "conversation.started", scenario: scen.name, agent: agent.name, channel: agent.channel, status: "200 OK" });
     }, 400);
 
@@ -480,7 +480,7 @@
     row.innerHTML = `
       <div class="final-cta-box animate-fade-up">
         <h3>🌟 Oportunidade Qualificada com Sucesso!</h3>
-        <p>A inteligência artificial realizou a triagem em 0,8 segundo, documentou todas as necessidades empresariais e enviou o card em tempo real para o quadro Kanban do CRM.</p>
+        <p>A simulação concluiu a triagem em um fluxo local, documentou o cenário fictício e preparou um card demonstrativo para o quadro Kanban do CRM.</p>
         <div class="cta-buttons-row">
           <button class="btn-cta-primary" id="btn-cta-view-crm">Ver oportunidade no CRM ↗</button>
           <button class="btn-ghost" id="btn-cta-restart">Reiniciar demonstração</button>
@@ -526,7 +526,7 @@
             <p>"Cliente procura arquitetura SaaS e CRM customizado para substituir operações em planilhas na empresa ${State.contactData.empresa !== 'Aguardando informação' ? State.contactData.empresa : 'da sua marca'}. Orçamento informado em torno de ${State.contactData.orcamento !== 'Aguardando informação' ? State.contactData.orcamento : 'R$ 15.000+'}, com equipe de ${State.contactData.usuarios !== 'Aguardando informação' ? State.contactData.usuarios : 'múltiplos colaboradores'}. Reunião técnica altamente recomendada."</p>
           </div>
           <div class="handoff-details">
-            <div><span>Atendente Sugerido:</span> <strong>André Rodrigues (Engenheiro Sênior)</strong></div>
+            <div><span>Atendente Sugerido:</span> <strong>André Rodrigues (Desenvolvedor Full Stack)</strong></div>
             <div><span>Prioridade:</span> <strong style="color:#fbbf24;">Quente (Hot Deal) 🔥</strong></div>
             <div><span>Motivo:</span> <strong>Negociação de contrato Enterprise</strong></div>
             <div><span>Ação Recomendada:</span> <strong>Apresentação de arquitetura técnica</strong></div>
@@ -701,7 +701,7 @@
         setTimeout(() => {
           hideTypingIndicator();
           // Resposta determinística educada para inputs avulsos
-          appendMessage('ai', `Compreendo perfeitamente sua dúvida sobre "${text}". Nosso ecossistema processa solicitações customizadas como esta conectando APIs ao seu banco de dados na AWS ou Supabase de forma nativa e segura.\n\n💡 Para ver a automação de funil em tempo real, recomendamos clicar em uma das respostas rápidas abaixo ou assumir o atendimento com o consultor!`, agent.name);
+          appendMessage('ai', `Compreendo perfeitamente sua dúvida sobre "${text}". Esta vitrine usa uma simulação local, sem conexão com banco ou API externa.\n\n💡 Para explorar o fluxo demonstrativo, escolha uma das respostas rápidas abaixo ou encaminhe o atendimento para revisão!`, agent.name);
           addTimelineEvent("Consulta customizada analisada", "Processado via NLP demonstrativo");
         }, 650);
       });

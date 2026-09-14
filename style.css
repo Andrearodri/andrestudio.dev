@@ -406,7 +406,7 @@ html[data-theme="light"] .theme-toggle-track {
    PAGE HERO
    =========================================== */
 .page-hero { padding: clamp(5rem, 10vw, 9rem) 0 clamp(3.5rem, 7vw, 6rem); }
-.page-hero h1 { max-width: 1000px; }
+.page-hero h1 { max-width: 1000px; overflow-wrap: anywhere; }
 .page-hero .lede { margin-top: 1.6rem; }
 .page-hero .actions { margin-top: 2rem; }
 .breadcrumbs { margin-bottom: 2rem; color: var(--muted); font-size: .8rem; }
@@ -502,6 +502,21 @@ html[data-theme="light"] .project-card {
 .project-feature { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(300px, .7fr); min-height: 520px; }
 .project-feature .project-card-media { aspect-ratio: auto; height: 100%; min-height: 100%; display: flex; }
 .project-feature .project-card-body { display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(1.5rem, 4vw, 3rem); }
+
+.portfolio-proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+.proof-card { display: flex; flex-direction: column; min-height: 280px; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.proof-card h3 { margin-top: 1rem; font-size: clamp(1.45rem, 2.5vw, 2rem); }
+.proof-card p { margin-top: .75rem; color: var(--muted); }
+.proof-card .proof-stack { margin-top: auto; padding-top: 1.5rem; color: var(--text-soft); font-size: .84rem; }
+.proof-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.proof-links a { color: var(--red-soft); font-weight: 700; text-decoration: none; }
+.proof-links a:hover { text-decoration: underline; text-underline-offset: .2em; }
+
+.services-hero .hero-copy,
+.services-hero .hero-copy h1,
+.services-hero .hero-copy .lede,
+.services-hero .hero-copy .actions,
+.services-hero .hero-proof { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 
 /* ===========================================
    PROCESS LIST
@@ -785,6 +800,7 @@ html[data-theme="light"] .pillar-card span[style*="color: #f87171"] {
   .theme-toggle { padding: 0 .5rem; }
   .actions { flex-direction: column; align-items: stretch; }
   .actions .btn { width: 100%; }
+  .portfolio-proof-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {

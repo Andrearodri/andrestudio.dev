@@ -26,7 +26,7 @@ window.OmniDemoData = {
     {
       id: "whatsapp",
       name: "WhatsApp Business API",
-      account: "Linha Comercial (+55 11 98877-6655)",
+      account: "Linha comercial simulada",
       status: "Conectado em modo demonstração",
       active: true,
       iconType: "whatsapp",
@@ -35,7 +35,7 @@ window.OmniDemoData = {
     {
       id: "instagram",
       name: "Instagram Direct",
-      account: "@andrestudio.dev",
+      account: "Conta de demonstração",
       status: "Conectado em modo demonstração",
       active: true,
       iconType: "instagram",
@@ -44,7 +44,7 @@ window.OmniDemoData = {
     {
       id: "webchat",
       name: "Web Chat Widget",
-      account: "Portal Corporativo • andrestudio.dev.br",
+      account: "Portal de demonstração",
       status: "Ativo no ambiente demonstrativo",
       active: true,
       iconType: "web",
@@ -53,7 +53,7 @@ window.OmniDemoData = {
     {
       id: "email",
       name: "E-mail Corporativo",
-      account: "andreaparecidor08@gmail.com",
+      account: "Caixa de entrada simulada",
       status: "Conectado em modo demonstração",
       active: true,
       iconType: "email",
@@ -71,7 +71,7 @@ window.OmniDemoData = {
       role: "Agente Comercial",
       fullName: "Luna AI — Agente Comercial da AndréStudio.dev",
       status: "Luna AI atendendo",
-      channel: "WhatsApp Business API",
+      channel: "WhatsApp (simulação)",
       avatarSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="4" fill="#3b82f6" stroke="none"/></svg>`
     },
     support: {
@@ -80,7 +80,7 @@ window.OmniDemoData = {
       role: "Suporte Técnico",
       fullName: "Atlas AI — Suporte Técnico e Contratos N1/N2",
       status: "Atlas AI atendendo",
-      channel: "Web Chat Widget",
+      channel: "Web Chat (simulação)",
       avatarSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/><circle cx="12" cy="12" r="2" fill="#10b981" stroke="none"/></svg>`
     },
     triage: {
@@ -89,7 +89,7 @@ window.OmniDemoData = {
       role: "Agendamentos & CRM",
       fullName: "Nina AI — Especialista em Agendamentos e Pipeline",
       status: "Nina AI atendendo",
-      channel: "Instagram Direct",
+      channel: "Instagram (simulação)",
       avatarSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="2" fill="#8b5cf6" stroke="none"/></svg>`
     }
   },
@@ -104,10 +104,10 @@ window.OmniDemoData = {
       type: "PDF",
       pages: 14,
       updated: "Há 2 dias",
-      status: "Indexado (100%)",
+      status: "Indexação simulada",
       snippetsFound: 12,
       isCurrentSource: true,
-      description: "Contém honorários, arquitetura de sistemas de IA, prazos de entrega e escopo comercial de produtos SaaS."
+      description: "Documento fictício de portfólio com honorários, arquitetura de sistemas de IA, prazos e escopo comercial."
     },
     apiManual: {
       id: "apiManual",
@@ -115,10 +115,10 @@ window.OmniDemoData = {
       type: "Markdown",
       pages: 8,
       updated: "Há 5 dias",
-      status: "Indexado (100%)",
+      status: "Indexação simulada",
       snippetsFound: 7,
       isCurrentSource: false,
-      description: "Especificações de endpoints POST, sincronização bidirecional com Lead Flow Studio e autenticação de webhooks."
+      description: "Documento fictício de portfólio com endpoints, sincronização demonstrativa e autenticação de webhooks."
     },
     slaPolicy: {
       id: "slaPolicy",
@@ -126,10 +126,10 @@ window.OmniDemoData = {
       type: "DOCX",
       pages: 22,
       updated: "Ontem",
-      status: "Indexado (100%)",
+      status: "Indexação simulada",
       snippetsFound: 19,
       isCurrentSource: false,
-      description: "Normas de conformidade para atendimento 24/7, redefinição segura de credenciais e acionamento de consultores humanos."
+      description: "Documento fictício de portfólio com regras de atendimento, credenciais e acionamento de revisão humana."
     }
   },
 
@@ -141,7 +141,7 @@ window.OmniDemoData = {
     empresa: "Aguardando informação",
     telefone: "+55 (11) 98844-3210 (Simulado)",
     email: "Aguardando informação",
-    canal: "WhatsApp Business API",
+    canal: "WhatsApp (simulação)",
     segmento: "Aguardando informação",
     necessidade: "Aguardando informação",
     solucao: "Aguardando avaliação...",
@@ -167,7 +167,7 @@ window.OmniDemoData = {
       agentGreeting: "Olá! Seja bem-vindo à Central da AndréStudio.dev. Eu sou a <strong>Luna AI</strong> e posso ajudar com isso! Para te apresentar a melhor proposta e arquitetura, qual é o principal objetivo do sistema que você precisa?",
       quickReplies: [
         { label: "Gerenciar clientes", nextStep: "collectingCompanyData", val: "Gerenciar clientes e funil de vendas" },
-        { label: "Automatizar atendimento com IA", nextStep: "collectingCompanyData", val: "Automatizar atendimento omnichannel 24h" },
+        { label: "Automatizar atendimento com IA", nextStep: "collectingCompanyData", val: "Automatizar atendimento omnichannel (simulação)" },
         { label: "Controlar vendas e contratos", nextStep: "collectingCompanyData", val: "Controlar vendas e emitir cobranças" },
         { label: "Outro sistema personalizado", nextStep: "collectingCompanyData", val: "Plataforma SaaS sob medida" }
       ],
@@ -189,7 +189,7 @@ window.OmniDemoData = {
           stepNum: 3,
           stepTitle: "Orçamento",
           userTextPrompt: "Meu nome é {nome}, da {empresa}. Serão aproximadamente {usuarios} utilizando o sistema.",
-          aiResponse: "Prazer, <strong>{nome}</strong>! A <strong>{empresa}</strong> tem o perfil exato para nossa linha de desenvolvimento Enterprise.<br><br>Consultando a <em>Tabela de Serviços e Prazos 2026</em>, sistemas desse escopo possuem entrega ágil por blocos. Para alinharmos com o time de engenheiros, <strong>qual é o prazo desejado para colocarmos a primeira versão no ar e a faixa de orçamento estimada para este projeto?</strong>",
+          aiResponse: "Prazer, <strong>{nome}</strong>! A <strong>{empresa}</strong> entrou em um cenário demonstrativo de desenvolvimento de produto.<br><br>Consultando a <em>Tabela de Serviços e Prazos 2026</em>, a simulação organiza o escopo em blocos. Para seguir, <strong>qual é o prazo desejado para a primeira versão e qual faixa de orçamento você quer testar?</strong>",
           quickReplies: [
             { label: "Até 60 dias | Orçamento de R$ 15 mil a R$ 25 mil", nextStep: "qualifying", data: { prazo: "Até 60 dias", orcamento: "R$ 15.000 a R$ 25.000", solucao: "SaaS Customizado + Automação IA", email: "carlos@techsolutions.dev.br" } },
             { label: "Urgente (30 dias) | Orçamento acima de R$ 30 mil", nextStep: "qualifying", data: { prazo: "30 dias (Fast-Track)", orcamento: "Acima de R$ 30.000", solucao: "Ecossistema Omnichannel Completo", email: "diretoria@empresa.com.br" } },
@@ -202,7 +202,7 @@ window.OmniDemoData = {
           stepNum: 4,
           stepTitle: "Agenda",
           userTextPrompt: "Nosso prazo ideal é {prazo}, com orçamento previsto entre {orcamento}.",
-          aiResponse: "⚡ <strong>Análise da Inteligência Artificial concluída com sucesso!</strong><br><br>O seu perfil foi classificado como <strong>Lead Quente (Score: 88/100 🔥)</strong> e já separei nossa melhor arquitetura de software para a {empresa}.<br><br>Como próximo passo ideal, gostaria de agendar uma breve reunião de alinhamento técnico com nosso Arquiteto de Software sênior. <strong>Qual destas opções de horário na nossa agenda você prefere?</strong>",
+          aiResponse: "⚡ <strong>Análise demonstrativa concluída!</strong><br><br>O cenário foi classificado como <strong>Lead Quente (Score: 88/100 🔥)</strong> e a simulação preparou uma sugestão de próximo passo para {empresa}.<br><br>Como próximo passo, você pode encaminhar o caso para uma revisão técnica. <strong>Qual destas opções de horário na nossa agenda você prefere?</strong>",
           quickReplies: [
             { label: "📅 Quinta-feira, 07/08 às 10h00", nextStep: "transferring", dateStr: "Quinta-feira, 07/08 às 10h00" },
             { label: "📅 Quinta-feira, 07/08 às 15h00", nextStep: "transferring", dateStr: "Quinta-feira, 07/08 às 15h00" },
@@ -266,7 +266,7 @@ window.OmniDemoData = {
       name: "Integração com Lead Flow Studio",
       agentId: "triage",
       defaultDoc: "apiManual",
-      description: "Acompanhe nos bastidores de que forma um lead recebido no Instagram ou site é triado e injetado diretamente no CRM em tempo real.",
+      description: "Acompanhe nos bastidores como um lead de cenário fictício é triado e preparado para um CRM demonstrativo em um fluxo local.",
       initialMessage: "Olá! Somos uma incorporadora imobiliária e queremos integrar nossos corretores com inteligência artificial.",
       agentGreeting: "Olá! Aqui é a <strong>Nina AI</strong>, responsável pelo fluxo de integração entre canais e o CRM <strong>Lead Flow Studio</strong>. Para configurar a injeção do seu lead demonstrativo em nossa pipeline, qual é o ticket médio dos imóveis ou projetos da sua empresa?",
       quickReplies: [
@@ -279,7 +279,7 @@ window.OmniDemoData = {
           stepNum: 4,
           stepTitle: "Sincronizando",
           userTextPrompt: "Trabalhamos com: {option}. Queremos testar a chegada deste lead ao CRM.",
-          aiResponse: "Iniciando protocolo de sincronização via Webhook <code>POST /api/v1/leadflow/inject</code>...<br><br>⚡ <strong>Payload gerado com sucesso!</strong><br>• <strong>Origem:</strong> Instagram Direct<br>• <strong>Lead:</strong> Diretoria Comercial Imobiliária<br>• <strong>Estágio:</strong> Oportunidade VIP (Score: 94/100)<br>• <strong>Destino:</strong> Quadro Kanban • Coluna <em>Proposta Enviada</em>.<br><br>O card acaba de surgir de forma automática no painel do Lead Flow Studio!",
+          aiResponse: "Simulando a preparação do card para o Lead Flow Studio...<br><br>⚡ <strong>Payload demonstrativo gerado!</strong><br>• <strong>Origem:</strong> Instagram (simulação)<br>• <strong>Lead:</strong> Diretoria Comercial Imobiliária<br>• <strong>Estágio:</strong> Oportunidade VIP (Score: 94/100)<br>• <strong>Destino:</strong> Quadro Kanban • Coluna <em>Proposta Enviada</em>.<br><br>O card foi preparado no ambiente demonstrativo, sem envio para um painel externo.",
           quickReplies: [
             { label: "🌟 Ver card no Lead Flow Studio", nextStep: "finishTriage", val: "Abrir visualização no CRM" }
           ],

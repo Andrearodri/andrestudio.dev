@@ -56,7 +56,7 @@
     videoObserver.observe(video);
   });
 
-  // --- Toggle de Tema (Cinema / Studio) ---
+  // --- Toggle de tema ---
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -74,16 +74,18 @@
 
       const themeLabel = themeToggle.querySelector('.theme-toggle-label');
       if (themeLabel) {
-        themeLabel.textContent = newTheme === 'light' ? 'Studio' : 'Cinema';
+        themeLabel.textContent = newTheme === 'light' ? 'Escuro' : 'Claro';
       }
+      themeToggle.setAttribute('aria-label', newTheme === 'light' ? 'Ativar tema escuro' : 'Ativar tema claro');
     });
 
     // Set initial label on load
     const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const themeLabel = themeToggle.querySelector('.theme-toggle-label');
     if (themeLabel) {
-      themeLabel.textContent = currentTheme === 'light' ? 'Studio' : 'Cinema';
+      themeLabel.textContent = currentTheme === 'light' ? 'Escuro' : 'Claro';
     }
+    themeToggle.setAttribute('aria-label', currentTheme === 'light' ? 'Ativar tema escuro' : 'Ativar tema claro');
   }
 
   // --- Showcase Tabs Filter & Mouse Spotlight ---
