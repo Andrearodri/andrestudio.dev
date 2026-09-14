@@ -1,6 +1,6 @@
 # AndréStudio.dev
 
-Site e portfólio profissional de André Rodrigues para apresentar trabalhos em desenvolvimento Web, inteligência artificial aplicada, automação e criação digital.
+AndréStudio.dev is my professional portfolio and technology blog, where I showcase real projects, Web development, applied AI, automation, and digital solutions.
 
 ## Website
 
