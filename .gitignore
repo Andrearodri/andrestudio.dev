@@ -43,3 +43,22 @@ assets/*.wav
 assets/*.WAV
 .backup-original-media/
 .wrangler/
+
+# Local agent/editor configuration
+.agents/
+.vscode/
+
+# Internal audit and operational notes (kept locally, not published)
+SECURITY_AUDIT.md
+DEPLOY_VALIDATION.md
+EC2_DEPLOY_VALIDATION.md
+docs/IMPLEMENTACAO.md
+docs/PUBLICATION.md
+docs/SECURITY-FIXES-2026-09-07.md
+docs/editorial-backlog.md
+
+# Legacy DNS/Nginx references retained only in local history
+deploy/nginx/adigitalartes.duckdns.org.conf
+deploy/nginx/andrestudiodev.duckdns.org.conf
+deploy/nginx/default.conf
+deploy/nginx/feemdeusribamar-redirect.conf
