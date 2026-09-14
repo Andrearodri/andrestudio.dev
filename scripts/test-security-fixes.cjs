@@ -8,6 +8,14 @@ const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const must = (condition, message) => assert.ok(condition, message);
 
+const home = read('index.html');
+for (const expected of ['https://soufeeacao.com.br', 'https://github.com/Andrearodri/sistemandrestudio', 'https://lead-flow-studio.vetoropus.workers.dev/', 'https://github.com/Andrearodri/andrestudio.dev']) {
+  must(home.includes(expected), `Home highlights verified project: ${expected}`);
+}
+must(home.includes('Desenvolvedor Full Stack Júnior'), 'Home uses approved professional position');
+must(!home.includes('aria-label="Ver case do OmniAgent Studio"'), 'Bento links derive accessible names from visible content');
+must(read('script.js').includes("'Ativar tema escuro'"), 'Theme toggle exposes a clear action label');
+
 const demo = read('demo/app.js');
 must(demo.includes('clientName.textContent = lead.name'), 'Lead name uses textContent');
 must(demo.includes('company.textContent = `🏢 ${lead.company}`'), 'Lead company uses textContent');
@@ -30,6 +38,10 @@ must(omni.includes('metaOrigin.textContent'), 'OmniAgent metadata uses textConte
 must(omni.includes('appendMessage(\'ai\', `Compreendo perfeitamente sua dúvida sobre "${text}".'), 'OmniAgent simulated answer no longer creates markup around visitor text');
 must(omni.includes('message.textContent = msg'), 'OmniAgent toast uses textContent');
 must(omni.includes('code.textContent = formatted'), 'OmniAgent JSON preview uses textContent');
+must(!read('cases/omniagent-ai-studio/index.html').includes('Dados coletados em ambiente de produção de clientes'), 'OmniAgent has no unsupported client metric claim');
+
+const positioning = ['index.html', 'portfolio/index.html', 'servicos/index.html', 'cases/omniagent-ai-studio/index.html', 'portfolio/omniagent-ai-demo/app.js', 'blog/github-copilot-code-review-equipe-agentes/index.html', 'blog/claude-code-256-agentes-avaliacao-plugins/index.html', 'blog/meta-muse-agente-ia-whatsapp-secure-vm/index.html', 'blog/cloudflare-os-agentes-ia-empresas/index.html', 'blog/salesforce-agentforce-agentes-dias-semanas/index.html'].map(read).join('\n');
+must(!/Engenheiro de Software Sênior|Falar com Arquiteto Tech/.test(positioning), 'Public positioning has no unsupported senior or architect title');
 
 const checkout = read('portfolio/cardapio-digital-demo/app.js');
 const checkoutHtml = read('portfolio/cardapio-digital-demo/index.html');

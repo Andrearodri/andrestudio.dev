@@ -7,7 +7,7 @@
  */
 
 export type ProjectCategory = 'Sistemas e IA' | 'Sites e MVPs' | 'Visual Lab';
-export type ProjectStatus = 'Demonstração SaaS' | 'Protótipo funcional' | 'Estudo de produto' | 'MVP demonstrativo' | 'Conceito autoral' | 'Experimento com IA' | 'Estudo autoral' | 'Projeto real';
+export type ProjectStatus = 'Demonstração local' | 'Showcase funcional' | 'Estudo de produto' | 'MVP demonstrativo' | 'Conceito autoral' | 'Experimento com IA' | 'Estudo autoral' | 'Projeto real';
 export type ImplementationLevel = 'Operacional demonstrativo' | 'Ambiente interativo ao vivo' | 'Conceito em desenvolvimento' | 'Estudo visual autoral';
 
 export interface Project {
@@ -45,8 +45,8 @@ export const projectCategories: Record<string, ProjectCategory> = {
 };
 
 export const projectStatus: Record<string, ProjectStatus> = {
-  omniagent: 'Demonstração SaaS',
-  leadflow: 'Protótipo funcional',
+  omniagent: 'Demonstração local',
+  leadflow: 'Showcase funcional',
   nexus: 'Estudo de produto',
   cardapio: 'MVP demonstrativo',
   mundo: 'Conceito autoral',
@@ -111,11 +111,11 @@ export const projectData: Project[] = [
   {
     slug: 'omniagent-ai-studio',
     title: 'OmniAgent Studio',
-    shortDescription: 'Central corporativa de atendimento com inteligência artificial, qualificação de leads ao vivo, consulta RAG e automação WhatsApp.',
-    longDescription: 'Plataforma autônoma para equipes comerciais eliminarem filas no WhatsApp, qualificarem interessados por verba e cargo em tempo real e agendarem reuniões automaticamente no calendário sem intervenção humana.',
+    shortDescription: 'Demonstração local de triagem, recuperação de contexto e payloads com dados fictícios.',
+    longDescription: 'Showcase interativo de uma central de atendimento para explorar triagem, consulta de contexto e encaminhamento de oportunidades; não representa operação de clientes nem integrações de produção.',
     category: 'Sistemas e IA',
     tags: ['IA, AUTOMAÇÃO E RAG', 'WHATSAPP API'],
-    status: 'Demonstração SaaS',
+    status: 'Demonstração local',
     image: '/assets/optimized/omniagent-ai-hero.png',
     imageAlt: 'Interface corporativa do OmniAgent Studio para automação de atendimento e triagem B2B com inteligência artificial',
     href: '/cases/omniagent-ai-studio/',
@@ -129,11 +129,11 @@ export const projectData: Project[] = [
   {
     slug: 'lead-flow-studio',
     title: 'Lead Flow Studio',
-    shortDescription: 'Plataforma comercial demonstrativa para gestão de funil Kanban, respostas rápidas, marcação inteligente de oportunidades e automação.',
-    longDescription: 'Sistema completo de gerenciamento comercial em formato Kanban, desenvolvido para acelerar a conversão de leads, automatizar respostas no WhatsApp e dar visibilidade total ao funil de vendas.',
+    shortDescription: 'Showcase interativo de CRM com funil Kanban, dashboard, templates e dados fictícios.',
+    longDescription: 'Demonstração de produto para explorar gestão de leads, métricas calculadas localmente, templates e mensageria simulada; não representa um SaaS completo nem backend próprio.',
     category: 'Sistemas e IA',
     tags: ['CRM E AUTOMAÇÃO', 'KANBAN INTERATIVO'],
-    status: 'Protótipo funcional',
+    status: 'Showcase funcional',
     image: '/assets/optimized/lead-flow-studio-crm.png',
     imageAlt: 'Interface em Dark Mode da plataforma Lead Flow Studio com quadro Kanban de vendas e cartões interativos',
     href: '/cases/lead-flow-studio/',
@@ -142,13 +142,13 @@ export const projectData: Project[] = [
     featured: true,
     implementationLevel: 'Operacional demonstrativo',
     available: true,
-    ctaLabel: 'Ver protótipo funcional →',
+    ctaLabel: 'Explorar showcase →',
   },
   {
     slug: 'nexus-bi-finance',
     title: 'Nexus BI & Finance',
     shortDescription: 'Plataforma demonstrativa de inteligência financeira, projeções de caixa, faturas e indicadores executivos.',
-    longDescription: 'Estudo de produto focado na consolidação de dados financeiros, projeções de fluxo de caixa geradas por algoritmos preditivos e monitoramento em tempo real de faturas e KPIs empresariais.',
+    longDescription: 'Conceito visual com dados sintéticos para explorar organização de faturas, fluxo de caixa e KPIs, sem motor preditivo ou integração ativa.',
     category: 'Sistemas e IA',
     tags: ['BI E GESTÃO FINANCEIRA', 'DASHBOARD EXECUTIVO'],
     status: 'Estudo de produto',
@@ -204,8 +204,8 @@ export const projectData: Project[] = [
     category: 'Visual Lab',
     tags: ['MOTION DESIGN', 'EXPERIMENTO COM IA'],
     status: 'Experimento com IA',
-    image: '/assets/optimized/in-the-nuvens.jpg',
-    imageAlt: 'Paisagem acima das nuvens com composição atmosférica e iluminação generativa',
+      image: '/assets/optimized/showcase-cinematic.jpg',
+      imageAlt: 'Composição cinematográfica de criação digital com lente futurista e circuitos luminosos',
     href: '/cases/in-the-nuvens/',
     caseStudyHref: '/cases/in-the-nuvens/',
     featured: false,

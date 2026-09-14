@@ -50,8 +50,8 @@
         <span>AndreStudio.dev</span>
       </a>
       <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu">☰</button>
-      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Alternar modo Cinema / Studio">
-        <span class="theme-toggle-label">Cinema</span>
+      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema claro">
+        <span class="theme-toggle-label">Claro</span>
         <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
       </button>
       <nav class="site-nav" id="primary-nav" aria-label="Navegação principal">
@@ -82,22 +82,37 @@
           Explore sistemas, automações, interfaces e experiências visuais desenvolvidas para resolver problemas reais. Cada projeto apresenta com transparência seu contexto, processo e nível de implementação.
         </p>
         <div style="margin-top: 2rem;">
-          <a class="btn btn-secondary" href="#produtos-digitais" style="border-radius: 99px; padding: 0.6rem 1.4rem; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.03);">
+          <a class="btn btn-secondary" href="#projetos-principais" style="border-radius: 99px; padding: 0.6rem 1.4rem; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.03);">
             Explorar projetos ↓
           </a>
         </div>
       </div>
     </section>
 
-    <!-- SEÇÃO 1 — PRODUTOS E SISTEMAS -->
+    <section class="section section-rule" id="projetos-principais" aria-labelledby="projetos-principais-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><p class="kicker">PROJETOS PRINCIPAIS</p><h2 id="projetos-principais-title">Aplicações públicas com escopo e implementação verificáveis.</h2></div>
+          <p>Projetos selecionados por demonstrarem produto, código, decisões técnicas e entrega em produção.</p>
+        </div>
+        <div class="portfolio-proof-grid">
+          <article class="proof-card reveal"><span class="label label--real">EM PRODUÇÃO</span><h3>Sou Fé e Ação</h3><p><strong>Problema:</strong> oferecer uma experiência cristã acolhedora sem bloquear o primeiro uso por login.</p><p><strong>Solução:</strong> MVP local-first com leitura piloto, devocionais revisados, orações privadas locais, progresso e Auth opcional.</p><p class="proof-stack">Flutter · Dart · Supabase Auth · Cloudflare Pages</p><div class="proof-links"><a href="https://soufeeacao.com.br" target="_blank" rel="noopener noreferrer">Demo ↗</a><a href="https://github.com/Andrearodri/sou-fe-e-acao" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></article>
+          <article class="proof-card reveal"><span class="label label--real">PROJETO TÉCNICO</span><h3>SystemAndreStudio</h3><p><strong>Problema:</strong> organizar um fluxo editorial com evidências e revisão antes da publicação.</p><p><strong>Solução:</strong> backend modular para ingestão, deduplicação, verificação factual, rascunhos e decisões humanas auditáveis.</p><p class="proof-stack">TypeScript · Node.js · PostgreSQL · IA aplicada</p><div class="proof-links"><a href="https://github.com/Andrearodri/sistemandrestudio" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></article>
+          <article class="proof-card reveal"><span class="label label--real">DEMO INTERATIVA</span><h3>Lead Flow Studio</h3><p><strong>Problema:</strong> visualizar um fluxo comercial de forma simples em desktop e mobile.</p><p><strong>Solução:</strong> showcase de CRM com Kanban, dashboard, templates e mensageria simulada, usando apenas dados fictícios.</p><p class="proof-stack">React · TypeScript · TanStack · Cloudflare Workers</p><div class="proof-links"><a href="https://lead-flow-studio.vetoropus.workers.dev/" target="_blank" rel="noopener noreferrer">Demo ↗</a><a href="https://github.com/Andrearodri/lead-flow-studio" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></article>
+          <article class="proof-card reveal"><span class="label label--real">SITE EM PRODUÇÃO</span><h3>AndreStudio.dev</h3><p><strong>Problema:</strong> reunir projetos, conteúdo técnico e posicionamento profissional em um endereço próprio.</p><p><strong>Solução:</strong> portfólio e blog estáticos, responsivos, com SEO, acessibilidade, CSP e publicação por allowlist.</p><p class="proof-stack">HTML · CSS · JavaScript · GitHub Actions · Cloudflare Pages</p><div class="proof-links"><a href="https://andrestudio.dev.br">Site</a><a href="https://github.com/Andrearodri/andrestudio.dev" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2 — DEMONSTRAÇÕES E ESTUDOS -->
     <section class="section section-rule" id="produtos-digitais" aria-labelledby="produtos-digitais-title">
       <div class="container">
         <div class="section-heading reveal">
           <div>
-            <p class="kicker">PRODUTOS DIGITAIS</p>
-            <h2 id="produtos-digitais-title">Sistemas, IA e automações aplicadas a operações reais.</h2>
+            <p class="kicker">DEMONSTRAÇÕES E ESTUDOS</p>
+            <h2 id="produtos-digitais-title">Protótipos para explorar interfaces e hipóteses de produto.</h2>
           </div>
-          <p>Demonstrações funcionais e estudos de produto que mostram como processos empresariais podem ser modernizados com interfaces, dados e inteligência artificial.</p>
+          <p>Os itens abaixo são demonstrações ou conceitos. Não representam implantação em cliente, integrações externas ativas ou métricas reais de produção.</p>
         </div>
 
         <div class="grid-2" style="margin-top: 2.5rem;">
@@ -110,12 +125,12 @@
               <div class="project-card-body" style="display:flex; flex-direction:column; flex:1; justify-content:space-between;">
                 <div>
                   <div class="project-card-top">
-                    <span class="label label--real">DEMONSTRAÇÃO SAAS</span>
+                    <span class="label label--concept">DEMONSTRAÇÃO LOCAL</span>
                     <span class="label">IA, AUTOMAÇÃO E RAG</span>
                   </div>
                   <h3 style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top:0.5rem; margin-bottom:0.6rem;">OmniAgent Studio</h3>
                   <p style="color: var(--muted); margin-bottom: 1.5rem; line-height:1.6;">
-                    Central corporativa de atendimento com inteligência artificial, qualificação de leads ao vivo, consulta de conhecimento RAG sem alucinações e automação nativa no WhatsApp.
+                    Simulação no navegador de triagem, recuperação de contexto e payloads de integração. Usa cenários fictícios e não se conecta ao WhatsApp.
                   </p>
                 </div>
                 <div class="card-action" style="margin-top: auto; font-weight: 600; color: #60a5fa; display:flex; align-items:center; gap:0.4rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06);">
@@ -134,12 +149,12 @@
               <div class="project-card-body" style="display:flex; flex-direction:column; flex:1; justify-content:space-between;">
                 <div>
                   <div class="project-card-top">
-                    <span class="label label--real">PROTÓTIPO FUNCIONAL</span>
+                    <span class="label label--real">SHOWCASE FUNCIONAL</span>
                     <span class="label">CRM E AUTOMAÇÃO</span>
                   </div>
                   <h3 style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top:0.5rem; margin-bottom:0.6rem;">Lead Flow Studio</h3>
                   <p style="color: var(--muted); margin-bottom: 1.5rem; line-height:1.6;">
-                    Plataforma comercial demonstrativa para gestão de funil Kanban interativo, organização de propostas, respostas rápidas no WhatsApp e métricas de receita em tempo real.
+                    Showcase interativo de CRM com Kanban, dashboard, templates e mensagens simuladas. Os dados e indicadores exibidos são fictícios.
                   </p>
                 </div>
                 <div class="card-action" style="margin-top: auto; font-weight: 600; color: #c4b5fd; display:flex; align-items:center; gap:0.4rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06);">
@@ -163,7 +178,7 @@
                   </div>
                   <h3 style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top:0.5rem; margin-bottom:0.6rem;">Nexus BI &amp; Finance</h3>
                   <p style="color: var(--muted); margin-bottom: 1.5rem; line-height:1.6;">
-                    Plataforma demonstrativa de inteligência financeira, projeções de caixa, faturas e indicadores executivos em tempo real. <em style="color:#fbbf24; font-style:normal; font-size:0.88rem; display:block; margin-top:0.4rem;">(Em desenvolvimento / Estudo de produto)</em>
+                    Conceito visual de dashboard financeiro com dados sintéticos. Não inclui motor preditivo, integração bancária ou operação em tempo real. <em style="color:#fbbf24; font-style:normal; font-size:0.88rem; display:block; margin-top:0.4rem;">(Estudo de produto)</em>
                   </p>
                 </div>
                 <div class="card-action" style="margin-top: auto; font-weight: 600; color: #fbbf24; display:flex; align-items:center; gap:0.4rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06);">
@@ -240,7 +255,7 @@
           <article class="project-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; transition-delay: 50ms;">
             <a href="/cases/in-the-nuvens/" style="display:flex; flex-direction:column; height:100%;">
               <div class="project-card-media">
-                <img src="/assets/optimized/in-the-nuvens.jpg" width="1200" height="895" loading="lazy" decoding="async" alt="Paisagem acima das nuvens com iluminação atmosférica em experimento com inteligência artificial">
+                <img src="/assets/optimized/showcase-cinematic.jpg" width="960" height="960" loading="lazy" decoding="async" alt="Composição cinematográfica de criação digital com lente futurista e circuitos luminosos">
               </div>
               <div class="project-card-body" style="display:flex; flex-direction:column; flex:1; justify-content:space-between;">
                 <div>
@@ -276,7 +291,7 @@
                   </div>
                   <h3 style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top:0.5rem; margin-bottom:0.6rem;">Objeto em Camadas</h3>
                   <p style="color: var(--muted); margin-bottom: 1.5rem; line-height:1.6;">
-                    Exploration de tempo, matéria e desmontagem visual em tempo real (teardown animation) para aberturas de sistemas empresariais e product films.
+                    Exploração de tempo, matéria e desmontagem visual (teardown animation) para aberturas de sistemas empresariais e product films.
                   </p>
                 </div>
                 <div class="card-action" style="margin-top: auto; font-weight: 600; color: #e2e8f0; display:flex; align-items:center; gap:0.4rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06);">

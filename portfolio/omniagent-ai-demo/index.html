@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OmniAgent Studio — Central Omnichannel de IA | Demo AndréStudio.dev</title>
-  <meta name="description" content="Demonstração interativa e comercial do OmniAgent Studio: central de atendimento inteligente com triagem, agendamentos e integração ao Lead Flow Studio.">
+  <meta name="description" content="Demonstração interativa do OmniAgent Studio: fluxo local de triagem, contexto e preparação de oportunidades para um CRM demonstrativo.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@
     <div class="onboarding-card">
       <div class="onboarding-badge">✨ DEMONSTRAÇÃO INTERATIVA ANDRÉSTUDIO.DEV</div>
       <h2 id="onboarding-title" class="onboarding-title">Veja um agente de IA transformar uma conversa em oportunidade comercial.</h2>
-      <p class="onboarding-sub">Escolha um cenário, interaja com o agente e acompanhe em tempo real a qualificação, a análise da IA, o agendamento e o envio da oportunidade para o CRM.</p>
+      <p class="onboarding-sub">Escolha um cenário, interaja com a simulação e acompanhe a triagem, a análise de contexto, o agendamento demonstrativo e a preparação da oportunidade para o CRM.</p>
       
       <div class="onboarding-steps">
         <div class="step-card">
@@ -61,7 +61,7 @@
     <div class="crm-modal-card">
       <div class="crm-modal-header">
         <div class="crm-brand">
-          <span class="lfs-tag">SaaS Real Integrado</span>
+          <span class="lfs-tag">CRM Demonstrativo</span>
           <h3 id="crm-modal-title">Lead Flow Studio — Quadro Kanban de Oportunidades</h3>
         </div>
         <button id="btn-close-crm" class="btn-icon-close" aria-label="Fechar janela do CRM">&times;</button>
@@ -70,7 +70,7 @@
       <div class="crm-modal-body">
         <div class="crm-notice">
           <span class="status-dot green"></span>
-          <strong>Integração simulada no ambiente de portfólio.</strong> Sincronizado por Webhook N8N v2.4.
+          <strong>Fluxo local simulado no ambiente de portfólio.</strong> Nenhuma integração externa é executada.
         </div>
         
         <div class="kanban-preview">
@@ -120,7 +120,7 @@
         <div class="divider" aria-hidden="true"></div>
         <div class="brand">
           <span class="brand-name">OmniAgent <strong>Studio</strong></span>
-          <span class="brand-tier">ENTERPRISE EDITION</span>
+          <span class="brand-tier">PORTFÓLIO EDITION</span>
         </div>
       </div>
 
@@ -153,7 +153,7 @@
         <!-- CENÁRIOS DE DEMONSTRAÇÃO -->
         <section class="sidebar-section">
           <h2 class="section-label">Cenários de Demonstração</h2>
-          <p class="section-hint">Selecione um caso de uso real para simular o comportamento autônomo da IA:</p>
+          <p class="section-hint">Selecione um cenário para simular o comportamento de um fluxo de IA:</p>
           
           <div class="scenario-tabs">
             <button class="scenario-btn active" data-scenario="sales" aria-label="Cenário de Qualificação Comercial B2B">
@@ -167,7 +167,7 @@
               <span class="scenario-icon" aria-hidden="true">🛠️</span>
               <div>
                 <strong>Suporte Técnico e Contratos</strong>
-                <span>Resolução N1/N2 sem intervenção humana via RAG</span>
+                <span>Consulta de contexto com encaminhamento para revisão</span>
               </div>
             </button>
             <button class="scenario-btn" data-scenario="triage" aria-label="Cenário de Integração com Lead Flow Studio">
@@ -191,7 +191,7 @@
               </div>
               <div class="agent-info">
                 <strong id="agent-fullname">Luna AI — Agente Comercial da AndréStudio.dev</strong>
-                <span class="agent-status-tag" id="agent-channel-tag">Operando em WhatsApp Business API</span>
+                <span class="agent-status-tag" id="agent-channel-tag">Canal simulado</span>
               </div>
             </div>
           </section>
@@ -371,7 +371,7 @@
                 <span class="icon-bulb">🎯</span>
                 <div>
                   <strong>Agendar reunião com especialista</strong>
-                  <span>Encaminhar para Arquiteto Tech (SLA Imadiato)</span>
+                  <span>Encaminhar para revisão técnica</span>
                 </div>
               </div>
             </section>
@@ -382,7 +382,7 @@
                 <span class="status-dot green"></span>
                 <strong>Integração com Lead Flow Studio</strong>
               </div>
-              <p class="showcase-status-desc" id="crm-sync-status-desc">Oportunidade conectada ao pipeline em tempo real.</p>
+              <p class="showcase-status-desc" id="crm-sync-status-desc">Oportunidade preparada para o pipeline demonstrativo.</p>
               
               <div class="crm-summary-card">
                 <div class="crm-meta-row"><span>Pipeline:</span><strong>Comercial B2B</strong></div>
@@ -420,7 +420,7 @@
               <span class="icon-doc">📄</span>
               <div>
                 <strong id="active-doc-title">Tabela de Serviços e Prazos 2026.pdf</strong>
-                <span>14 páginas • Atualizado há 2 dias • Status: <strong>Indexado (100%)</strong></span>
+                <span>14 páginas • Documento de demonstração • Status: <strong>Indexação simulada</strong></span>
               </div>
             </div>
 
@@ -435,14 +435,14 @@
                ========================================== -->
           <div class="tab-pane" id="pane-timeline-log" role="tabpanel" aria-labelledby="tab-btn-timeline">
             <span class="ins-label">HISTÓRICO DE AÇÕES DA IA</span>
-            <p class="pane-hint">Acompanhe as confirmações de cada processo autônomo executado ao vivo:</p>
+            <p class="pane-hint">Acompanhe as confirmações de cada etapa executada na simulação local:</p>
             
             <div class="timeline-feed" id="timeline-feed">
               <div class="timeline-item success">
                 <span class="check-icon">✓</span>
                 <div>
-                  <strong>Sessão iniciada no WhatsApp Business API</strong>
-                  <span>Canal autenticado por Webhook demonstrativo</span>
+                <strong>Sessão iniciada em canal simulado</strong>
+                <span>Canal de atendimento demonstrativo, sem conexão externa</span>
                 </div>
               </div>
             </div>
