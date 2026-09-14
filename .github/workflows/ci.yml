@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Check patch formatting
+        run: git show --check --oneline --no-renames HEAD
+
+      - name: Test public package builder
+        run: python3 scripts/build-public.py --self-test
+
+      - name: Build public package
+        run: python3 scripts/build-public.py
+
+      - name: Run security regression checks
+        run: node scripts/test-security-fixes.cjs

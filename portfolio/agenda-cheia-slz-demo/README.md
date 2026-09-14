@@ -20,10 +20,10 @@ Basta abrir o arquivo `index.html` no navegador:
 
 ```bash
 # Opção 1 — abrir diretamente
-open frontend/demo-visual/index.html
+open portfolio/agenda-cheia-slz-demo/index.html
 
 # Opção 2 — servidor local (se preferir)
-cd frontend/demo-visual
+cd portfolio/agenda-cheia-slz-demo
 python3 -m http.server 8080
 # Acessar http://localhost:8080
 ```
@@ -69,6 +69,3 @@ Clique nos itens da sidebar para trocar entre as telas.
 Use as teclas `→` e `←` para navegar entre as telas de forma fluida. As animações de transição são suaves e adequadas para gravação de tela.
 
 Resolução recomendada: 1280×720 ou 1920×1080.
-
-Roteiro de gravação: `docs/roteiro-gravacao-video.md`
-Checklist: `docs/checklist-gravacao.md`
