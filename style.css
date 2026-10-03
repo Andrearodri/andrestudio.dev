@@ -243,7 +243,7 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.75rem, 7vw, 6.9rem); letter-spacing: -.055em; }
+h1 { font-size: clamp(2rem, 7vw, 6.9rem); letter-spacing: -.055em; }
 h2 { font-size: clamp(2.1rem, 4.8vw, 4.4rem); letter-spacing: -.045em; }
 h3 { font-size: clamp(1.3rem, 2.2vw, 2rem); letter-spacing: -.025em; }
 h4 { font-size: 1.05rem; }
@@ -406,7 +406,9 @@ html[data-theme="light"] .theme-toggle-track {
    PAGE HERO
    =========================================== */
 .page-hero { padding: clamp(5rem, 10vw, 9rem) 0 clamp(3.5rem, 7vw, 6rem); }
-.page-hero h1 { max-width: 1000px; overflow-wrap: anywhere; }
+.page-hero h1 { max-width: 1000px; overflow-wrap: break-word; }
+.page-hero .grid-2 h1 { font-size: clamp(1.85rem, 3.6vw, 3.4rem); }
+.page-hero .narrow h1 { font-size: clamp(2rem, 4.8vw, 3.8rem); }
 .page-hero .lede { margin-top: 1.6rem; }
 .page-hero .actions { margin-top: 2rem; }
 .breadcrumbs { margin-bottom: 2rem; color: var(--muted); font-size: .8rem; }
@@ -776,7 +778,8 @@ html[data-theme="light"] .pillar-card span[style*="color: #f87171"] {
   .js .site-nav.is-open { display: block; }
   .site-nav ul { align-items: stretch; flex-direction: column; gap: 0; }
   .site-nav a { display: block; padding: .8rem 0; font-size: 1rem; }
-  .project-feature, .article-layout { grid-template-columns: 1fr; }
+  .project-feature, .article-layout, .page-hero .grid-2 { grid-template-columns: 1fr; }
+  .page-hero .hero-illustration { max-width: 320px; }
   .project-feature .project-card-media { min-height: 380px; }
   .article-aside { display: none; }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
@@ -786,6 +789,7 @@ html[data-theme="light"] .pillar-card span[style*="color: #f87171"] {
 @media (max-width: 760px) {
   :root { --gutter: 1.15rem; }
   .section-heading, .grid-2, .grid-3, .grid-4, .contact-grid { grid-template-columns: 1fr; }
+  .page-hero .grid-2 h1 { font-size: clamp(1.85rem, 6.5vw, 2.75rem); }
   .service-row { grid-template-columns: 2.5rem 1fr auto; gap: .8rem; }
   .service-row p { grid-column: 2 / -1; }
   .project-feature { min-height: 0; }
