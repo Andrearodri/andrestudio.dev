@@ -9,10 +9,17 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const must = (condition, message) => assert.ok(condition, message);
 
 const home = read('index.html');
+const portfolio = read('portfolio/index.html');
+const solutions = read('servicos/index.html');
 for (const expected of ['https://soufeeacao.com.br', 'https://github.com/Andrearodri/sistemandrestudio', 'https://lead-flow-studio.vetoropus.workers.dev/', 'https://github.com/Andrearodri/andrestudio.dev']) {
-  must(home.includes(expected), `Home highlights verified project: ${expected}`);
+  must(solutions.includes(expected), `Combined services/projects page retains verified project: ${expected}`);
 }
-must(home.includes('Desenvolvedor Full Stack Júnior'), 'Home uses approved professional position');
+for (const demo of ['/portfolio/omniagent-ai-demo/', '/demo/', '/portfolio/cardapio-digital-demo/']) {
+  must(solutions.includes(`href="${demo}"`), `Combined page keeps the existing demo destination: ${demo}`);
+}
+must(portfolio.includes('url=/servicos/'), 'Legacy portfolio path forwards visitors to the combined page');
+must(read('_redirects').includes('/portfolio/ /servicos/ 301'), 'Legacy portfolio route redirects to the combined page');
+must(home.includes('Apresente <em>melhor</em> seu negócio.'), 'Home uses the approved business-first positioning');
 must(!home.includes('aria-label="Ver case do OmniAgent Studio"'), 'Bento links derive accessible names from visible content');
 must(read('script.js').includes("'Ativar tema escuro'"), 'Theme toggle exposes a clear action label');
 

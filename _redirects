@@ -1,4 +1,6 @@
 # Cloudflare Pages Redirects (Exact matches first for maximum routing performance)
+/portfolio /servicos/ 301
+/portfolio/ /servicos/ 301
 /sobre.html /sobre/ 301
 /_headers /404.html 301
 /_redirects /404.html 301

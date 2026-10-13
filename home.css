@@ -51,6 +51,7 @@
 .hero-copy h1 em { color: var(--red-soft); font-style: normal; }
 .hero-copy .lede { max-width: 680px; margin-top: 1.5rem; color: #d0d1d4; }
 .hero-copy .actions { margin-top: 2rem; }
+.hero-copy .btn-primary { background: var(--red); border-color: var(--red); color: #fff; }
 .hero-copy .btn:not(.btn-primary) { color: #fff; border-color: rgba(255,255,255,.22); }
 
 
