@@ -35,5 +35,7 @@
 /assets/*.WAV /404.html 301
 /.git/* /404.html 301
 /ROADMAP_ESTRATEGICO.md /404.html 301
+/ENTREGA_MADRUGADA.md /404.html 301
+/package.json /404.html 301
 /paid/* /404.html 301
 /private/* /404.html 301

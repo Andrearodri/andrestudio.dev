@@ -21,6 +21,8 @@ content/*
 .vscode
 .vscode/*
 ROADMAP_ESTRATEGICO.md
+ENTREGA_MADRUGADA.md
+package.json
 paid
 paid/*
 private
