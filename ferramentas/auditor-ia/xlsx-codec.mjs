@@ -37,11 +37,8 @@ async function deflateRaw(bytes) {
   if (typeof CompressionStream === 'undefined') {
     return { method: 0, compressed: bytes };
   }
-  const stream = new CompressionStream('deflate-raw');
-  const writer = stream.writable.getWriter();
-  await writer.write(bytes);
-  await writer.close();
-  const out = new Uint8Array(await new Response(stream.readable).arrayBuffer());
+  const compressed = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+  const out = new Uint8Array(await new Response(compressed).arrayBuffer());
   if (out.length >= bytes.length) {
     return { method: 0, compressed: bytes };
   }

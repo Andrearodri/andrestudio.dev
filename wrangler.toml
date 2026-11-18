@@ -1,0 +1,7 @@
+name = "andrestudio-dev"
+pages_build_output_dir = "build/public"
+compatibility_date = "2026-08-04"
+
+[[env.preview.kv_namespaces]]
+binding = "LEADS_KV"
+id = "d6205c3e67e24baa8db0d19361caab51"

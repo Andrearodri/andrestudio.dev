@@ -263,6 +263,19 @@ test('Edge API /api/auditor-lead valida WhatsApp BR e persiste em KV/D1 quando v
     env: {}
   });
   assert.equal(noBindingsRes.status, 200);
+  assert.deepEqual((await noBindingsRes.json()).persistedTargets, []);
+});
+
+test('Captura de contato só confirma o webhook após resposta HTTP de sucesso', async () => {
+  for (const status of [204, 500]) {
+    globalThis.fetch = async () => new Response(null, { status });
+    const res = await onAuditorLeadPost({
+      request: makePostRequest('/api/auditor-lead', { name: 'Teste QA', company: 'Empresa fictícia', whatsapp: '11000000000' }),
+      env: { LEAD_WEBHOOK_URL: 'https://crm.example.test/leads' }
+    });
+    assert.equal(res.status, 200);
+    assert.deepEqual((await res.json()).persistedTargets, status === 204 ? ['webhook'] : []);
+  }
 });
 
 test('Gerador executivo .XLSX gera arquivo OOXML valido com 3 abas, estilos, larguras <cols> e contatos reais', async () => {

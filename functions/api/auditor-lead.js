@@ -165,13 +165,13 @@ export async function onRequestPost(context) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 5000);
     try {
-      await fetch(env.LEAD_WEBHOOK_URL, {
+      const response = await fetch(env.LEAD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(record),
         signal: controller.signal
       });
-      persistedTargets.push('webhook');
+      if (response.ok) persistedTargets.push('webhook');
     } catch {
       // Nunca bloqueia o download do visitante
     } finally {

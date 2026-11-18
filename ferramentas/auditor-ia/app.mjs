@@ -521,7 +521,7 @@ export function mountAuditorApp(rootEl) {
       el(
         'div',
         { class: 'auditor-field auditor-field--full' },
-        el('label', { for: 'wa-sample', text: 'Cole trechos reais de conversas, dúvidas ou objeções dos clientes no WhatsApp' }),
+        el('label', { for: 'wa-sample', text: 'Descreva dúvidas ou objeções que você recebe no WhatsApp' }),
         el('textarea', {
           id: 'wa-sample',
           maxlength: '1800',
@@ -529,7 +529,7 @@ export function mountAuditorApp(rootEl) {
           value: wa.conversationsSample || '',
           oninput: (e) => { wa.conversationsSample = e.target.value; }
         }),
-        el('span', { class: 'auditor-field-hint', text: 'Seus scripts de recuperação serão personalizados com base nessas objeções reais.' })
+        el('span', { class: 'auditor-field-hint', text: 'Use exemplos anônimos. Remova nomes, telefones e informações pessoais dos clientes.' })
       )
     );
   }
@@ -808,6 +808,10 @@ export function mountAuditorApp(rootEl) {
         : state.moduleId === 'pricing'
           ? renderModuleBForm()
           : renderModuleCForm(),
+      el('p', { class: 'auditor-field-hint', id: 'auditor-analysis-notice' },
+        'Ao gerar o diagnóstico, você envia os dados do negócio ao Auditor. Um provedor de IA pode receber parte deles para redigir a análise. ',
+        el('a', { href: '/privacidade/#auditor-ia', text: 'Saiba como os dados são usados', target: '_blank', rel: 'noopener' })
+      ),
       state.statusMessage
         ? el('p', {
             class: `auditor-status-msg ${state.statusIsError ? 'auditor-status-msg--error' : ''}`.trim(),
@@ -832,6 +836,7 @@ export function mountAuditorApp(rootEl) {
           type: 'button',
           class: 'btn btn-primary',
           id: 'auditor-run-btn',
+          'aria-describedby': 'auditor-analysis-notice',
           text: 'Gerar Diagnóstico & Plano com IA →',
           onclick: runAuditFlow
         })
@@ -1139,6 +1144,10 @@ export function mountAuditorApp(rootEl) {
           class: 'auditor-block-sub',
           text: 'Inclui 3 abas organizadas: Diagnostico_Caixa, Ferramentas_e_Scripts e Plano_Implementacao_30D pronta para abrir no Excel ou Google Sheets.'
         }),
+        !state.lead.unlocked && el('p', { class: 'auditor-block-sub', id: 'auditor-lead-privacy' },
+          'Ao baixar, você envia nome, empresa, WhatsApp e um resumo do diagnóstico à André Studio, que pode falar com você sobre o resultado. ',
+          el('a', { href: '/privacidade/#auditor-ia', text: 'Política de privacidade', target: '_blank', rel: 'noopener' })
+        ),
         !state.lead.unlocked
           ? el(
               'form',
@@ -1234,6 +1243,7 @@ export function mountAuditorApp(rootEl) {
                 type: 'submit',
                 class: 'btn btn-primary',
                 id: 'auditor-unlock-xlsx-btn',
+                'aria-describedby': 'auditor-lead-privacy',
                 disabled: state.lead.submitting,
                 text: state.lead.submitting ? 'Gerando .XLSX...' : 'Liberar & Baixar Planilha .XLSX'
               })
