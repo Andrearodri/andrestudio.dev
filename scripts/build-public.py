@@ -65,6 +65,7 @@ ALLOWED_FILES = (
     "ferramentas/arquiteto-de-escopo/index.html",
     "ferramentas/arquiteto-de-escopo/app.mjs",
     "ferramentas/auditor-ia/financial-engine.mjs",
+    "ferramentas/auditor-ia/fallback-analyst.mjs",
     "ferramentas/auditor-ia/presets.mjs",
     "ferramentas/auditor-ia/xlsx-codec.mjs",
     "assets/recursos/checklist-briefing.md",
