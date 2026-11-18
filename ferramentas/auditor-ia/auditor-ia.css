@@ -716,6 +716,15 @@ html[data-theme="light"] .auditor-lead-box {
   background: linear-gradient(130deg, rgba(217, 4, 18, .08), #ffffff);
 }
 
+.auditor-shell select:focus-visible,
+.auditor-shell textarea:focus-visible,
+.auditor-shell input:focus-visible,
+.auditor-shell button:focus-visible,
+.auditor-shell a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .auditor-choice-card,
   .auditor-bar-fill,
