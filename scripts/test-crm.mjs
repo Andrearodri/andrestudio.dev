@@ -11,9 +11,9 @@ function setup() {
   const values = new Map([[key, lead], ['auth:crm-password-sha256', createHash('sha256').update('password-for-test-only').digest('hex')]]);
   const writes = [];
   const kv = {
-    list: async () => ({ keys: [{ name: key }], list_complete: true }),
+    list: async () => ({ keys: [...values.keys()].filter(id => id.startsWith('lead:')).map(name => ({name})), list_complete: true }),
     get: async k => Array.isArray(k) ? new Map(k.map(id => [id, values.get(id)])) : values.get(k),
-    put: async (k,v,opts) => { writes.push(opts); values.set(k,v); }
+    put: async (k,v,opts) => { writes.push(opts); values.set(k, k.startsWith('lead:') ? JSON.parse(v) : v); }
   };
   function send(options, env = { LEADS_KV: kv, AUDITOR_CRM_ENABLED: '1' }) {
     return onRequest({ request: new Request(origin + '/crm/', options), env });
@@ -49,4 +49,23 @@ test('Contato legado aparece em Novos, muda de etapa e preserva o vencimento ori
   const reload = await board();
   assert.match(inStage(reload, 'contato'), /Nome &lt;teste&gt;/);
   assert.doesNotMatch(inStage(reload, 'novos'), /Nome &lt;teste&gt;/);
+});
+
+test('Área privada cadastra contatos manuais e guarda nota sem alterar a etapa', async () => {
+  const { send, key, writes } = setup();
+  const headers = { authorization: auth, origin, accept: 'application/json' };
+  const post = body => send({ method: 'POST', headers, body: new URLSearchParams(body) });
+  assert.equal((await post({ action: 'create', name: 'Ana', phone: '+12 34567 8901234' })).status, 400);
+  const create = await post({ action: 'create', name: 'Ana <teste>', company: 'Oferta', phone: '+55 (98) 99999-1234' });
+  assert.equal(create.status, 303);
+  assert.match(create.headers.get('location'), /^\/crm\/\?created=/);
+  assert.equal(writes[0].expirationTtl, 180 * 86400);
+  assert.equal((await post({ key, stage: 'proposta' })).status, 204);
+  assert.equal((await post({ key, action: 'note', note: 'Retornar <amanhã>' })).status, 204);
+  const board = await (await send({ headers })).text();
+  assert.match(board, /data-source="Manual"[\s\S]*Ana &lt;teste&gt;/);
+  assert.match(board, /https:\/\/wa.me\/5598999991234/);
+  const proposal = board.split('data-stage="proposta"')[1].split('</section>')[0];
+  assert.match(proposal, /Retornar &lt;amanhã&gt;/);
+  assert.equal(writes[1].expiration, writes[2].expiration);
 });

@@ -140,6 +140,7 @@ ALLOWED_FILES = (
     "demo/index.html",
     "demo/style.css",
     "demo/crm.css",
+    "demo/crm.js",
     "portfolio/index.html",
     "portfolio/agenda-cheia-slz-demo/app.js",
     "portfolio/agenda-cheia-slz-demo/index.html",
