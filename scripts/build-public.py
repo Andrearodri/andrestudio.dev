@@ -42,6 +42,7 @@ ALLOWED_FILES = (
     "sobre.html",
     "theme.js",
     "platform.css",
+    "data/brandConfig.mjs",
     "data/commerce.mjs",
     "kits/commerce.mjs",
     "kits/index.html",

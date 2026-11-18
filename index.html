@@ -15,6 +15,9 @@
   <meta property="og:image" content="https://andrestudio.dev.br/assets/optimized/automotive.jpg">
   <meta property="og:image:alt" content="Carro esportivo em túnel escuro com rastros de luz vermelha">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sites, automações, sistemas web e treinamento em IA | AndreStudio.dev">
+  <meta name="twitter:description" content="Audite perdas de caixa, automatize atendimento no WhatsApp e capacite sua equipe em IA prática com a André Studio.">
+  <meta name="twitter:image" content="https://andrestudio.dev.br/assets/optimized/automotive.jpg">
   <link rel="icon" href="/assets/optimized/logo-96.png" type="image/png" sizes="96x96">
   <link rel="apple-touch-icon" href="/assets/optimized/logo-96.png">
   <link rel="manifest" href="/site.webmanifest">
@@ -26,15 +29,81 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "André Rodrigues",
-    "url": "https://andrestudio.dev.br/",
-    "logo": "https://andrestudio.dev.br/logooficial.png",
-    "email": "andre@andrestudio.dev.br",
-    "jobTitle": "Desenvolvedor Full Stack Júnior",
-    "description": "Desenvolvimento Web, Flutter, inteligência artificial aplicada e automação, com projetos públicos e demonstrações interativas.",
-    "sameAs": ["https://github.com/Andrearodri", "https://www.linkedin.com/in/andreaparecidorodrigues-dev/"],
-    "areaServed": "BR"
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://andrestudio.dev.br/#organization",
+        "name": "André Studio — AndreStudio.dev",
+        "alternateName": "AndreStudio.dev",
+        "url": "https://andrestudio.dev.br/",
+        "logo": "https://andrestudio.dev.br/logooficial.png",
+        "image": "https://andrestudio.dev.br/assets/optimized/automotive.jpg",
+        "email": "andre@andrestudio.dev.br",
+        "telephone": "+55-98-98148-3900",
+        "description": "Engenharia full-stack, desenvolvimento de sites de alta performance, sistemas web sob medida e automações com IA para PMEs no Brasil.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "São Luís",
+          "addressRegion": "MA",
+          "addressCountry": "BR"
+        },
+        "areaServed": "BR",
+        "founder": {
+          "@id": "https://andrestudio.dev.br/#founder"
+        },
+        "sameAs": [
+          "https://github.com/Andrearodri",
+          "https://www.linkedin.com/in/andreaparecidorodrigues-dev/"
+        ]
+      },
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://andrestudio.dev.br/#education",
+        "name": "André Studio — Educação e Treinamento Prático em IA",
+        "url": "https://andrestudio.dev.br/#verticais-pme",
+        "email": "andre@andrestudio.dev.br",
+        "telephone": "+55-98-98148-3900",
+        "description": "Cursos práticos, mentoria e capacitação in-company em inteligência artificial aplicada para empresários e equipes de PMEs aprenderem do zero com foco em resultado.",
+        "areaServed": "BR",
+        "parentOrganization": {
+          "@id": "https://andrestudio.dev.br/#organization"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://andrestudio.dev.br/#auditor-software",
+        "name": "Auditor de Lucro & Automação com IA",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "pt-BR",
+        "url": "https://andrestudio.dev.br/#auditor-ia",
+        "description": "Micro-software interativo para auditar perdas em orçamentos de WhatsApp, margem líquida vs markup e horas operacionais desperdiçadas, com geração de plano e planilha executiva .xlsx.",
+        "author": {
+          "@id": "https://andrestudio.dev.br/#organization"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://andrestudio.dev.br/#founder",
+        "name": "André Rodrigues",
+        "url": "https://andrestudio.dev.br/sobre/",
+        "email": "andre@andrestudio.dev.br",
+        "jobTitle": "Desenvolvedor Full Stack e Especialista em IA Aplicada",
+        "worksFor": {
+          "@id": "https://andrestudio.dev.br/#organization"
+        },
+        "sameAs": [
+          "https://github.com/Andrearodri",
+          "https://www.linkedin.com/in/andreaparecidorodrigues-dev/"
+        ],
+        "areaServed": "BR"
+      }
+    ]
   }
   </script>
   <script src="/theme.js"></script>
