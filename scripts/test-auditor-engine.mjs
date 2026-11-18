@@ -162,7 +162,37 @@ test('Modulo B (Margem vs Markup): diferencia markup de margem real, detecta pre
     items: [{ name: 'Teste Extremo', unitCost: 100, currentPrice: 150, monthlyQty: 10 }]
   });
   assert.equal(extreme.isTargetMathematicallyInfeasible, true);
-  assert.ok(Number.isFinite(extreme.items[0].idealPrice) && extreme.items[0].idealPrice > 0);
+  assert.equal(extreme.items[0].idealPrice, null);
+});
+
+test('Precificação preserva a margem atual e só projeta quando a meta é atingível', () => {
+  const pricing = {
+    cardFeePct: 40, taxRatePct: 10,
+    items: [{ name: 'Produto', unitCost: 50, currentPrice: 100, monthlyQty: 1 }]
+  };
+  for (const targetNetMarginPct of [50, 60]) {
+    const { details, summary } = runFinancialAudit({ moduleId: 'pricing', pricing: { ...pricing, targetNetMarginPct } });
+    assert.equal(details.isTargetMathematicallyInfeasible, true);
+    assert.equal(details.items[0].realMarginPct, 0);
+    assert.equal(details.items[0].idealPrice, null);
+    assert.equal(details.items[0].monthlyMarginGapBRL, null);
+    assert.equal(details.projectedNetOperatingResultBRL, null);
+    assert.equal(summary.cashPotential30dBRL, null);
+    assert.equal(summary.cashConservative30dBRL, null);
+    assert.equal(summary.cashAggressive30dBRL, null);
+    assert.equal(summary.projection12mBRL, null);
+    assert.deepEqual(summary.comparisonBars, []);
+  }
+  const nearLimit = calculatePricingAudit({ ...pricing, targetNetMarginPct: 49 });
+  assert.equal(nearLimit.items[0].idealPrice, 5000);
+  const highFees = calculatePricingAudit({ ...pricing, taxRatePct: 50, hiddenCostsPct: 9, targetNetMarginPct: 2 });
+  assert.equal(highFees.deductionPct, 99);
+  assert.equal(highFees.items[0].idealPrice, null);
+  const zeroCost = calculatePricingAudit({
+    ...pricing, targetNetMarginPct: 50, items: [{ ...pricing.items[0], unitCost: 0 }]
+  });
+  assert.equal(zeroCost.isTargetMathematicallyInfeasible, false);
+  assert.equal(zeroCost.items[0].realMarginPct, 50);
 });
 
 test('Modulo C (Automacao): calcula custo hora-homem real, desperdicio e cenarios 35%/72% sem divisao por zero', () => {

@@ -132,9 +132,11 @@ function buildExecutiveWhatsappMessage(state, result) {
     '',
     `Empresa/Nicho: ${company} (${nicheLabel})`,
     `Módulo auditado: ${modLabel}`,
-    `Vazamento mensal identificado: ${formatBRL(summary.monthlyLeakageBRL)}/mês`,
-    `Potencial de caixa em 30 dias: ${formatBRL(summary.cashPotential30dBRL)}`,
-    `Projeção acumulada em 12 meses: ${formatBRL(summary.projection12mBRL)}`,
+    ...(audit.details.isTargetMathematicallyInfeasible ? [] : [
+      `Vazamento mensal identificado: ${formatBRL(summary.monthlyLeakageBRL)}/mês`,
+      `Potencial de caixa em 30 dias: ${formatBRL(summary.cashPotential30dBRL)}`,
+      `Projeção acumulada em 12 meses: ${formatBRL(summary.projection12mBRL)}`,
+    ]),
     `Diagnóstico: ${analysis.executiveHeadline}`,
     '',
     'Quero conversar sobre os próximos passos (Treinamento da equipe ou Sistema/Agente sob medida).'
@@ -882,8 +884,8 @@ export function mountAuditorApp(rootEl) {
                 el('td', { text: formatPct(item.markupPct) }),
                 el('td', { text: formatPct(item.realMarginPct) }),
                 el('td', { text: formatBRL(item.currentPrice) }),
-                el('td', {}, el('strong', { text: formatBRL(item.idealPrice) })),
-                el('td', { text: formatBRL(item.monthlyMarginGapBRL) }),
+                el('td', {}, el('strong', { text: item.idealPrice === null ? 'Meta inviável' : formatBRL(item.idealPrice) })),
+                el('td', { text: item.monthlyMarginGapBRL === null ? '—' : formatBRL(item.monthlyMarginGapBRL) }),
                 el('td', {}, el('span', { class: `auditor-pill ${badge.cls}`, text: badge.text }))
               );
             })
@@ -899,14 +901,15 @@ export function mountAuditorApp(rootEl) {
 
     const { audit, analysis, meta } = result;
     const { summary, details, moduleId, nicheLabel } = audit;
+    const infeasible = details.isTargetMathematicallyInfeasible;
     const maxBarValue = Math.max(1, ...summary.comparisonBars.map((b) => Math.max(0, b.valueBRL)));
 
     const whatsappExecutiveHref = buildWhatsappLink(buildExecutiveWhatsappMessage(state, result));
     const trainingWaHref = buildWhatsappLink(
-      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Educação em IA após auditar ${state.lead.company || nicheLabel} (vazamento de ${formatBRL(summary.monthlyLeakageBRL)}/mês) e quero saber sobre cursos e treinamento prático para minha equipe.`
+      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Educação em IA após auditar ${state.lead.company || nicheLabel}${infeasible ? '' : ` (vazamento de ${formatBRL(summary.monthlyLeakageBRL)}/mês)`} e quero saber sobre cursos e treinamento prático para minha equipe.`
     );
     const engineeringWaHref = buildWhatsappLink(
-      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Engenharia Full-Stack após auditar ${state.lead.company || nicheLabel} (potencial de ${formatBRL(summary.projection12mBRL)}/ano) e quero cotar um site, sistema ou agente de IA no WhatsApp.`
+      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Engenharia Full-Stack após auditar ${state.lead.company || nicheLabel}${infeasible ? '' : ` (potencial de ${formatBRL(summary.projection12mBRL)}/ano)`} e quero cotar um site, sistema ou agente de IA no WhatsApp.`
     );
 
     const kpi4Label = moduleId === 'pricing'
@@ -957,27 +960,35 @@ export function mountAuditorApp(rootEl) {
       el(
         'div',
         { class: 'auditor-kpi-grid' },
-        el(
-          'article',
-          { class: 'auditor-kpi auditor-kpi--danger' },
-          el('span', { text: 'Vazamento Mensal' }),
-          el('strong', { text: formatBRL(summary.monthlyLeakageBRL) }),
-          el('small', { text: 'Dinheiro deixado na mesa todo mês' })
-        ),
-        el(
-          'article',
-          { class: 'auditor-kpi auditor-kpi--positive' },
-          el('span', { text: 'Potencial em 30 Dias' }),
-          el('strong', { text: formatBRL(summary.cashPotential30dBRL) }),
-          el('small', { text: `Faixa ${formatBRL(summary.cashConservative30dBRL)} a ${formatBRL(summary.cashAggressive30dBRL)}` })
-        ),
-        el(
+        infeasible ? el(
           'article',
           { class: 'auditor-kpi' },
-          el('span', { text: 'Projeção em 12 Meses' }),
-          el('strong', { text: formatBRL(summary.projection12mBRL) }),
-          el('small', { text: 'Impacto acumulado anualizado' })
-        ),
+          el('span', { text: 'Margem atual da carteira' }),
+          el('strong', { text: formatPct(details.weightedCurrentMarginPct) }),
+          el('small', { text: 'Revise as taxas ou a meta para projetar ganhos.' })
+        ) : [
+          el(
+            'article',
+            { class: 'auditor-kpi auditor-kpi--danger' },
+            el('span', { text: 'Vazamento Mensal' }),
+            el('strong', { text: formatBRL(summary.monthlyLeakageBRL) }),
+            el('small', { text: 'Dinheiro deixado na mesa todo mês' })
+          ),
+          el(
+            'article',
+            { class: 'auditor-kpi auditor-kpi--positive' },
+            el('span', { text: 'Potencial em 30 Dias' }),
+            el('strong', { text: formatBRL(summary.cashPotential30dBRL) }),
+            el('small', { text: `Faixa ${formatBRL(summary.cashConservative30dBRL)} a ${formatBRL(summary.cashAggressive30dBRL)}` })
+          ),
+          el(
+            'article',
+            { class: 'auditor-kpi' },
+            el('span', { text: 'Projeção em 12 Meses' }),
+            el('strong', { text: formatBRL(summary.projection12mBRL) }),
+            el('small', { text: 'Impacto acumulado anualizado' })
+          )
+        ],
         el(
           'article',
           { class: 'auditor-kpi' },
@@ -986,7 +997,7 @@ export function mountAuditorApp(rootEl) {
           el('small', { text: kpi4Sub })
         )
       ),
-      el(
+      infeasible ? null : el(
         'section',
         { class: 'auditor-section-card', 'aria-labelledby': 'auditor-chart-title' },
         el('h4', { id: 'auditor-chart-title', text: 'Comparativo Financeiro Mensal (Antes vs Otimizado)' }),
@@ -1121,6 +1132,7 @@ export function mountAuditorApp(rootEl) {
           style: 'font-size: clamp(1.2rem, 2.2vw, 1.65rem)',
           text: state.lead.unlocked
             ? 'Planilha Executiva (.XLSX) e Todos os Scripts Desbloqueados!'
+            : infeasible ? 'Baixe a planilha com as margens atuais e os itens para revisão'
             : 'Baixe sua Planilha Executiva (.XLSX) com Projeção de 12 Meses + Todos os Scripts'
         }),
         el('p', {

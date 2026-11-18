@@ -80,13 +80,13 @@ export interface PricingItemAnalysis {
   unitContributionBRL: number;
   realMarginPct: number;
   markupIllusionGapPct: number;
-  idealPrice: number;
+  idealPrice: number | null;
   isTargetMathematicallyInfeasible: boolean;
   status: PricingItemStatus;
   monthlyRevenue: number;
   monthlyContribution: number;
-  monthlyIdealContribution: number;
-  monthlyMarginGapBRL: number;
+  monthlyIdealContribution: number | null;
+  monthlyMarginGapBRL: number | null;
   directMonthlyLossBRL: number;
 }
 
@@ -107,10 +107,10 @@ export interface PricingAuditDetails {
   erodedCount: number;
   healthyCount: number;
   totalDirectMonthlyLossBRL: number;
-  monthlyRecoverableProfitBRL: number;
-  annualRecoverableProfitBRL: number;
-  totalPotentialContribution: number;
-  projectedNetOperatingResultBRL: number;
+  monthlyRecoverableProfitBRL: number | null;
+  annualRecoverableProfitBRL: number | null;
+  totalPotentialContribution: number | null;
+  projectedNetOperatingResultBRL: number | null;
   hoursRecoveredMonthly: number;
 }
 
@@ -150,11 +150,11 @@ export interface ComparisonBarMetric {
 }
 
 export interface FinancialAuditSummary {
-  monthlyLeakageBRL: number;
-  cashConservative30dBRL: number;
-  cashPotential30dBRL: number;
-  cashAggressive30dBRL: number;
-  projection12mBRL: number;
+  monthlyLeakageBRL: number | null;
+  cashConservative30dBRL: number | null;
+  cashPotential30dBRL: number | null;
+  cashAggressive30dBRL: number | null;
+  projection12mBRL: number | null;
   hoursRecoveredMonthly: number;
   criticalItemsCount: number;
   comparisonBars: ComparisonBarMetric[];

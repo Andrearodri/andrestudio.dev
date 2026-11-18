@@ -122,8 +122,8 @@ export async function onRequestPost(context) {
     whatsappFormatted: formatPhoneMaskBr(whatsappDigits),
     nicheLabel: sanitizeFreeText(body?.nicheLabel || 'PME', 80),
     moduleId: ['whatsapp', 'pricing', 'automation'].includes(body?.moduleId) ? body.moduleId : 'whatsapp',
-    monthlyLeakageBRL: Math.max(0, parsePtBrNumber(body?.monthlyLeakageBRL, 0)),
-    projection12mBRL: Math.max(0, parsePtBrNumber(body?.projection12mBRL, 0))
+    monthlyLeakageBRL: body?.monthlyLeakageBRL === null ? null : Math.max(0, parsePtBrNumber(body?.monthlyLeakageBRL, 0)),
+    projection12mBRL: body?.projection12mBRL === null ? null : Math.max(0, parsePtBrNumber(body?.projection12mBRL, 0))
   };
 
   const persistedTargets = [];

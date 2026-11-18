@@ -319,3 +319,34 @@ test('Gerador executivo .XLSX gera arquivo OOXML valido com 3 abas, estilos, lar
     await fs.rm(tmpDir, { recursive: true, force: true });
   }
 });
+
+test('Meta inviável usa o diagnóstico local e exporta margens atuais sem projetar ganhos', async () => {
+  const pricing = {
+    cardFeePct: 40, taxRatePct: 10, targetNetMarginPct: 60,
+    items: [{ name: 'Produto teste', unitCost: 50, currentPrice: 100, monthlyQty: 1 }]
+  };
+  let providerCalls = 0;
+  const response = await onAuditorIaPost({
+    request: makePostRequest('/api/auditor-ia', { moduleId: 'pricing', pricing }),
+    env: { AI: { run() { providerCalls++; } } }
+  });
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  assert.equal(providerCalls, 0);
+  assert.match(result.analysis.executiveHeadline, /meta de margem inviável/i);
+  assert.equal(result.audit.summary.projection12mBRL, null);
+  assert.doesNotMatch(JSON.stringify(result.analysis), /1\.000,00/);
+  const bytes = await buildExecutiveWorkbookXlsx(result);
+  execFileSync('python3', ['-c', [
+    'import io, sys, zipfile, xml.etree.ElementTree as ET',
+    'with zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read())) as z:',
+    '    sheets = [ET.fromstring(z.read(f"xl/worksheets/sheet{i}.xml")) for i in (1, 2, 3)]',
+    'texts = [" ".join(sheet.itertext()) for sheet in sheets]',
+    'row = next(row for row in sheets[0].findall(".//{*}row") if "Produto teste" in list(row.itertext()))',
+    'cells = ["".join(cell.itertext()) for cell in row.findall("{*}c")]',
+    'assert cells[1:3] == ["50", "100"] and cells[5:7] == ["Meta inviável", "—"], cells',
+    'assert "PROJEÇÃO DE CAIXA ACUMULADA" not in texts[0]',
+    'assert "Preço Ideal Sugerido" not in texts[1]',
+    'assert "Projeção indisponível" in texts[2] and "Meta 30d:" not in texts[2]'
+  ].join('\n')], { input: bytes });
+});

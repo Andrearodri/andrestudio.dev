@@ -577,6 +577,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
   const summary = audit.summary || {};
   const details = audit.details || {};
   const moduleId = audit.moduleId || 'whatsapp';
+  const infeasible = moduleId === 'pricing' && details.isTargetMathematicallyInfeasible;
   const moduleNames = {
     whatsapp: 'Módulo A — Recuperação de Orçamentos no WhatsApp',
     pricing: 'Módulo B — Auditoria de Margem, Taxas e Precificação',
@@ -596,26 +597,32 @@ export async function buildExecutiveWorkbookXlsx(report) {
     { cells: [] },
     { ht: 24, cells: [{ v: '1. INDICADORES FINANCEIROS AUDITADOS (DETERMINÍSTICOS)', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
     { cells: [{ v: 'Indicador', s: 3 }, { v: 'Valor Auditado', s: 3 }, { v: 'Unidade / Horizonte', s: 3 }, { v: 'Leitura Executiva', s: 3 }] },
-    { cells: [{ v: 'Vazamento / Oportunidade Mensal Identificada', s: 4 }, { v: Number(summary.monthlyLeakageBRL || 0), s: 6 }, { v: 'R$ / mês', s: 0 }, { v: 'Valor mensal em receita perdida, subprecificação ou retrabalho.', s: 0 }] },
-    { cells: [{ v: 'Potencial de Caixa em 30 Dias (Meta Realista)', s: 4 }, { v: Number(summary.cashPotential30dBRL || 0), s: 6 }, { v: 'R$ em 30 dias', s: 0 }, { v: 'Recuperação viável já no primeiro mês de execução disciplinada.', s: 0 }] },
-    { cells: [{ v: 'Faixa Conservadora em 30 Dias', s: 4 }, { v: Number(summary.cashConservative30dBRL || 0), s: 5 }, { v: 'R$ / mês', s: 0 }, { v: 'Cenário de implantação inicial com equipe atual.', s: 0 }] },
-    { cells: [{ v: 'Faixa Agressiva / Teto em 30 Dias', s: 4 }, { v: Number(summary.cashAggressive30dBRL || 0), s: 5 }, { v: 'R$ / mês', s: 0 }, { v: 'Cenário com automação integrada + cadência comercial ativa.', s: 0 }] },
-    { cells: [{ v: 'Projeção Acumulada em 12 Meses', s: 4 }, { v: Number(summary.projection12mBRL || 0), s: 6 }, { v: 'R$ / ano', s: 0 }, { v: 'Impacto acumulado em 1 ano mantendo a correção aplicada.', s: 0 }] },
-    { cells: [{ v: 'Horas Operacionais Recuperadas / Mês', s: 4 }, { v: Number(summary.hoursRecoveredMonthly || 0), s: 9 }, { v: 'horas / mês', s: 0 }, { v: 'Capacidade liberada para atendimento estratégico e vendas.', s: 0 }] },
-    { cells: [] },
-    { ht: 24, cells: [{ v: '2. PROJEÇÃO DE CAIXA ACUMULADA (30 A 365 DIAS)', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
-    { cells: [{ v: 'Horizonte', s: 3 }, { v: 'Cenário Conservador (R$)', s: 3 }, { v: 'Cenário Realista / Meta (R$)', s: 3 }, { v: 'Cenário Otimizado (R$)', s: 3 }] }
   ];
+  if (infeasible) {
+    sheet1Rows.push({ cells: [{ v: 'Meta de margem', s: 4 }, { v: 'Inviável com as taxas atuais', s: 11 }] });
+  } else {
+    sheet1Rows.push(
+      { cells: [{ v: 'Vazamento / Oportunidade Mensal Identificada', s: 4 }, { v: Number(summary.monthlyLeakageBRL || 0), s: 6 }, { v: 'R$ / mês', s: 0 }, { v: 'Valor mensal em receita perdida, subprecificação ou retrabalho.', s: 0 }] },
+      { cells: [{ v: 'Potencial de Caixa em 30 Dias (Meta Realista)', s: 4 }, { v: Number(summary.cashPotential30dBRL || 0), s: 6 }, { v: 'R$ em 30 dias', s: 0 }, { v: 'Recuperação viável já no primeiro mês de execução disciplinada.', s: 0 }] },
+      { cells: [{ v: 'Faixa Conservadora em 30 Dias', s: 4 }, { v: Number(summary.cashConservative30dBRL || 0), s: 5 }, { v: 'R$ / mês', s: 0 }, { v: 'Cenário de implantação inicial com equipe atual.', s: 0 }] },
+      { cells: [{ v: 'Faixa Agressiva / Teto em 30 Dias', s: 4 }, { v: Number(summary.cashAggressive30dBRL || 0), s: 5 }, { v: 'R$ / mês', s: 0 }, { v: 'Cenário com automação integrada + cadência comercial ativa.', s: 0 }] },
+      { cells: [{ v: 'Projeção Acumulada em 12 Meses', s: 4 }, { v: Number(summary.projection12mBRL || 0), s: 6 }, { v: 'R$ / ano', s: 0 }, { v: 'Impacto acumulado em 1 ano mantendo a correção aplicada.', s: 0 }] },
+      { cells: [{ v: 'Horas Operacionais Recuperadas / Mês', s: 4 }, { v: Number(summary.hoursRecoveredMonthly || 0), s: 9 }, { v: 'horas / mês', s: 0 }, { v: 'Capacidade liberada para atendimento estratégico e vendas.', s: 0 }] },
+      { cells: [] },
+      { ht: 24, cells: [{ v: '2. PROJEÇÃO DE CAIXA ACUMULADA (30 A 365 DIAS)', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
+      { cells: [{ v: 'Horizonte', s: 3 }, { v: 'Cenário Conservador (R$)', s: 3 }, { v: 'Cenário Realista / Meta (R$)', s: 3 }, { v: 'Cenário Otimizado (R$)', s: 3 }] }
+    );
 
-  for (const [label, mult] of [['30 dias (1 mês)', 1], ['90 dias (3 meses)', 3], ['180 dias (6 meses)', 6], ['365 dias (12 meses)', 12]]) {
-    sheet1Rows.push({
-      cells: [
-        { v: label, s: 4 },
-        { v: Math.round((summary.cashConservative30dBRL || 0) * mult * 100) / 100, s: 5 },
-        { v: Math.round((summary.cashPotential30dBRL || 0) * mult * 100) / 100, s: 6 },
-        { v: Math.round((summary.cashAggressive30dBRL || 0) * mult * 100) / 100, s: 5 }
-      ]
-    });
+    for (const [label, mult] of [['30 dias (1 mês)', 1], ['90 dias (3 meses)', 3], ['180 dias (6 meses)', 6], ['365 dias (12 meses)', 12]]) {
+      sheet1Rows.push({
+        cells: [
+          { v: label, s: 4 },
+          { v: Math.round((summary.cashConservative30dBRL || 0) * mult * 100) / 100, s: 5 },
+          { v: Math.round((summary.cashPotential30dBRL || 0) * mult * 100) / 100, s: 6 },
+          { v: Math.round((summary.cashAggressive30dBRL || 0) * mult * 100) / 100, s: 5 }
+        ]
+      });
+    }
   }
 
   sheet1Rows.push(
@@ -651,8 +658,8 @@ export async function buildExecutiveWorkbookXlsx(report) {
           { v: Number(item.currentPrice || 0), s: 5 },
           { v: Number(item.markupPct || 0) / 100, s: 7 },
           { v: Number(item.realMarginPct || 0) / 100, s: 7 },
-          { v: Number(item.idealPrice || 0), s: 6 },
-          { v: Number(item.monthlyMarginGapBRL || 0), s: 5 },
+          { v: item.idealPrice ?? 'Meta inviável', s: 6 },
+          { v: item.monthlyMarginGapBRL ?? '—', s: 5 },
           { v: statusMap[item.status] || item.status, s: styleDiag }
         ]
       });
@@ -692,7 +699,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
     });
   });
 
-  if (moduleId === 'pricing' && Array.isArray(details.items) && details.items.length > 0) {
+  if (moduleId === 'pricing' && !infeasible && Array.isArray(details.items) && details.items.length > 0) {
     sheet2Rows.push(
       { cells: [] },
       { ht: 24, cells: [{ v: 'TABELA SUGERIDA DE REAJUSTE E COMUNICAÇÃO COMERCIAL', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
@@ -703,7 +710,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
         cells: [
           { v: item.name, s: 4 },
           { v: Number(item.currentPrice || 0), s: 5 },
-          { v: Number(item.idealPrice || 0), s: 6 },
+          { v: item.idealPrice ?? 'Meta inviável', s: 6 },
           { v: Math.round((item.idealPrice - item.currentPrice) * 100) / 100, s: 5 }
         ]
       });
@@ -713,7 +720,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
   // --- ABA 3: Plano_Implementacao_30D ---
   const sheet3Rows = [
     { ht: 28, cells: [{ v: `Plano de Implementação em 30 Dias — ${companyName}`, s: 1 }, { v: '', s: 1 }, { v: '', s: 1 }, { v: '', s: 1 }] },
-    { cells: [{ v: 'Base Numérica', s: 4 }, { v: `Potencial de 30 dias: ${formatBRL(summary.cashPotential30dBRL || 0)} | Projeção 12 meses: ${formatBRL(summary.projection12mBRL || 0)}`, s: 0 }] },
+    { cells: [{ v: 'Base Numérica', s: 4 }, { v: infeasible ? 'Projeção indisponível para a meta informada.' : `Potencial de 30 dias: ${formatBRL(summary.cashPotential30dBRL || 0)} | Projeção 12 meses: ${formatBRL(summary.projection12mBRL || 0)}`, s: 0 }] },
     { cells: [] },
     { ht: 24, cells: [{ v: '1. AÇÕES IMEDIATAS DE 48 HORAS', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
     { cells: [{ v: 'Janela', s: 3 }, { v: 'Passo Prioritário', s: 3 }, { v: 'Execução Prática', s: 3 }, { v: 'Impacto Esperado', s: 3 }] }
@@ -762,7 +769,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
     { cells: [{ v: 'WhatsApp Direto', s: 4 }, { v: `${BRAND_CONFIG.whatsappFormatted} — ${BRAND_CONFIG.whatsappUrl}`, s: 10 }] },
     { cells: [{ v: 'E-mail Oficial', s: 4 }, { v: BRAND_CONFIG.email, s: 0 }] },
     { cells: [{ v: 'Site e Soluções', s: 4 }, { v: `${BRAND_CONFIG.siteUrl} | Capacitação: ${BRAND_CONFIG.siteUrl}${BRAND_CONFIG.links.kits} | Engenharia: ${BRAND_CONFIG.siteUrl}${BRAND_CONFIG.links.services}`, s: 0 }] },
-    { cells: [{ v: 'Resumo Compartilhável', s: 4 }, { v: `Horas poupadas/mês: ${formatInt(summary.hoursRecoveredMonthly || 0)}h · Variação conservadora: ${formatBRL(summary.cashConservative30dBRL || 0)} · Meta 30d: ${formatBRL(summary.cashPotential30dBRL || 0)} (${formatPct(details.currentConversionPct || details.weightedCurrentMarginPct || 0)} base)`, s: 0 }] }
+    { cells: [{ v: 'Resumo Compartilhável', s: 4 }, { v: infeasible ? analysis.executiveHeadline : `Horas poupadas/mês: ${formatInt(summary.hoursRecoveredMonthly || 0)}h · Variação conservadora: ${formatBRL(summary.cashConservative30dBRL || 0)} · Meta 30d: ${formatBRL(summary.cashPotential30dBRL || 0)} (${formatPct(details.currentConversionPct || details.weightedCurrentMarginPct || 0)} base)`, s: 0 }] }
   );
 
   return buildWorkbookFromSheets([

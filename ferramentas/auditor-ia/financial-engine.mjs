@@ -386,12 +386,11 @@ export function calculatePricingAudit(input = {}) {
   const hasTarget = input.targetNetMarginPct !== undefined && String(input.targetNetMarginPct).trim() !== '';
   const targetNetMarginPct = clamp(parsePtBrNumber(hasTarget ? input.targetNetMarginPct : 20, 20, { mode: 'percent' }), 1, 75);
 
-  const deductionRate = clamp((cardFeePct + taxRatePct + hiddenCostsPct) / 100, 0, 0.95);
-  const deductionPct = round1(deductionRate * 100);
-  const targetRate = targetNetMarginPct / 100;
-  const idealDenominator = 1 - deductionRate - targetRate;
-  const isTargetMathematicallyInfeasible = idealDenominator <= 0.02;
-  const safeDenominator = isTargetMathematicallyInfeasible ? 0.05 : idealDenominator;
+  const deductionPercent = cardFeePct + taxRatePct + hiddenCostsPct;
+  const deductionRate = deductionPercent / 100;
+  const deductionPct = round1(deductionPercent);
+  // Trabalhar em pontos percentuais evita subtrair duas frações de 1 no limite de 100%.
+  const remainingPct = 100 - (deductionPercent + targetNetMarginPct);
 
   const rawItems = Array.isArray(input.items) ? input.items : [];
   const normalized = normalizePricingItems(rawItems);
@@ -412,7 +411,10 @@ export function calculatePricingAudit(input = {}) {
       : (unitCost > 0 ? -100 : 0);
     const markupIllusionGapPct = round1(markupPct - realMarginPct);
 
-    const idealPrice = unitCost > 0 ? round2(unitCost / safeDenominator) : currentPrice;
+    const isTargetMathematicallyInfeasible = remainingPct < -1e-12 || (remainingPct <= 1e-12 && unitCost > 0);
+    let idealPrice = null;
+    let monthlyIdealContribution = null;
+    let monthlyMarginGapBRL = null;
 
     let status = 'saudavel';
     if (unitContributionBRL < -0.005) {
@@ -423,9 +425,12 @@ export function calculatePricingAudit(input = {}) {
 
     const monthlyRevenue = round2(currentPrice * monthlyQty);
     const monthlyContribution = round2(unitContributionBRL * monthlyQty);
-    const idealUnitContribution = idealPrice - unitCost - idealPrice * deductionRate;
-    const monthlyIdealContribution = round2(idealUnitContribution * monthlyQty);
-    const monthlyMarginGapBRL = round2(Math.max(0, (idealPrice - currentPrice) * (1 - deductionRate) * monthlyQty));
+    if (!isTargetMathematicallyInfeasible) {
+      idealPrice = unitCost > 0 ? round2(unitCost * 100 / remainingPct) : currentPrice;
+      const idealUnitContribution = idealPrice - unitCost - idealPrice * deductionRate;
+      monthlyIdealContribution = round2(idealUnitContribution * monthlyQty);
+      monthlyMarginGapBRL = round2(Math.max(0, (idealPrice - currentPrice) * (1 - deductionRate) * monthlyQty));
+    }
     const directMonthlyLossBRL = unitContributionBRL < 0
       ? round2(Math.abs(unitContributionBRL) * monthlyQty)
       : 0;
@@ -464,10 +469,17 @@ export function calculatePricingAudit(input = {}) {
   const healthyCount = items.filter((item) => item.status === 'saudavel').length;
 
   const totalDirectMonthlyLossBRL = round2(items.reduce((acc, item) => acc + item.directMonthlyLossBRL, 0));
-  const monthlyRecoverableProfitBRL = round2(items.reduce((acc, item) => acc + item.monthlyMarginGapBRL, 0));
-  const annualRecoverableProfitBRL = round2(monthlyRecoverableProfitBRL * 12);
-  const totalPotentialContribution = round2(totalCurrentContribution + monthlyRecoverableProfitBRL);
-  const projectedNetOperatingResultBRL = round2(totalPotentialContribution - fixedMonthlyOverhead);
+  const isTargetMathematicallyInfeasible = items.some((item) => item.isTargetMathematicallyInfeasible);
+  let monthlyRecoverableProfitBRL = null;
+  let annualRecoverableProfitBRL = null;
+  let totalPotentialContribution = null;
+  let projectedNetOperatingResultBRL = null;
+  if (!isTargetMathematicallyInfeasible) {
+    monthlyRecoverableProfitBRL = round2(items.reduce((acc, item) => acc + item.monthlyMarginGapBRL, 0));
+    annualRecoverableProfitBRL = round2(monthlyRecoverableProfitBRL * 12);
+    totalPotentialContribution = round2(totalCurrentContribution + monthlyRecoverableProfitBRL);
+    projectedNetOperatingResultBRL = round2(totalPotentialContribution - fixedMonthlyOverhead);
+  }
   const hoursRecoveredMonthly = items.length > 0 ? round1(4 + items.length * 0.6) : 0;
 
   return {
@@ -580,13 +592,13 @@ export function runFinancialAudit(payload = {}) {
     const details = calculatePricingAudit(payload.pricing || payload);
     const summary = {
       monthlyLeakageBRL: details.monthlyRecoverableProfitBRL,
-      cashConservative30dBRL: round2(details.monthlyRecoverableProfitBRL * 0.5),
+      cashConservative30dBRL: details.isTargetMathematicallyInfeasible ? null : round2(details.monthlyRecoverableProfitBRL * 0.5),
       cashPotential30dBRL: details.monthlyRecoverableProfitBRL,
-      cashAggressive30dBRL: round2(details.monthlyRecoverableProfitBRL + details.totalDirectMonthlyLossBRL),
+      cashAggressive30dBRL: details.isTargetMathematicallyInfeasible ? null : round2(details.monthlyRecoverableProfitBRL + details.totalDirectMonthlyLossBRL),
       projection12mBRL: details.annualRecoverableProfitBRL,
       hoursRecoveredMonthly: details.hoursRecoveredMonthly,
       criticalItemsCount: details.lossMakingCount + details.erodedCount,
-      comparisonBars: [
+      comparisonBars: details.isTargetMathematicallyInfeasible ? [] : [
         { label: 'Margem Contrib. Atual/mês', valueBRL: Math.max(0, details.totalCurrentContribution), tone: 'muted' },
         { label: 'Vazamento Mensal (Subprecificação)', valueBRL: details.monthlyRecoverableProfitBRL, tone: 'danger' },
         { label: 'Margem Otimizada/mês', valueBRL: Math.max(0, details.totalPotentialContribution), tone: 'positive' }

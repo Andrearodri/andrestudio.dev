@@ -420,6 +420,26 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
   }
 
   if (moduleId === 'pricing') {
+    if (details.isTargetMathematicallyInfeasible) {
+      return {
+        executiveHeadline: 'Meta de margem inviável com as taxas atuais',
+        rootCauseDiagnosis: `As deduções somam ${formatPct(details.deductionPct)} da venda. Com a meta de ${formatPct(details.targetNetMarginPct)}, o preço não cobre a margem desejada e os custos dos itens sinalizados. A margem atual da carteira é ${formatPct(details.weightedCurrentMarginPct)}.`,
+        plan48h: [
+          { window: 'Hoje', title: 'Conferir as taxas', action: 'Compare as taxas informadas com o extrato de uma venda.', expectedImpact: 'Deduções conferidas por canal.' },
+          { window: 'A seguir', title: 'Revisar a meta', action: 'Reserve parte do preço para cobrir o custo de cada item depois das taxas.', expectedImpact: 'Uma meta que comporte os custos.' },
+          { window: 'Após a revisão', title: 'Recalcular', action: 'Use Ajustar Números e rode a auditoria com as condições revisadas.', expectedImpact: 'Uma nova simulação com as premissas corrigidas.' }
+        ],
+        deliverables: [
+          { title: 'Conferência de taxas', badge: 'Extrato', content: 'Qual foi o preço de venda? Quanto ficou com a plataforma? Quanto foi recolhido em impostos?', usageTip: 'Confira uma venda por canal.' },
+          { title: 'Conferência de custos', badge: 'Custos', content: 'Confira o custo unitário e identifique despesas já incluídas nas taxas.', usageTip: 'Use a ficha de custo do item.' },
+          { title: 'Revisão da meta', badge: 'Margem', content: 'Quanto do preço sobra depois das deduções para pagar o custo do produto e remunerar a operação?', usageTip: 'Atualize os percentuais e simule novamente.' }
+        ],
+        implementationSplit: {
+          teamWithAiTraining: ['Conferir extratos por canal.', 'Atualizar fichas de custo.', 'Revisar metas por produto.'],
+          customEngineeringStudio: ['Importar taxas por canal.', 'Integrar custos do catálogo.', 'Sinalizar metas inviáveis na precificação.']
+        }
+      };
+    }
     const items = details.items || [];
     const sortedWorst = [...items].sort((a, b) => a.realMarginPct - b.realMarginPct);
     const worstItem = sortedWorst[0];
@@ -432,10 +452,6 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
 
     const worstText = worstItem
       ? `O caso mais crítico é "${worstItem.name}": o markup aparente sobre o custo de ${formatBRL(worstItem.unitCost)} é de ${formatPct(worstItem.markupPct)}, mas após descontar ${formatPct(details.deductionPct)} de taxas, impostos e custos ocultos, a margem líquida real cai para ${formatPct(worstItem.realMarginPct)} (contribuição de ${formatBRL(worstItem.unitContributionBRL)}/un). O preço ideal matematicamente calculado é ${formatBRL(worstItem.idealPrice)}.`
-      : '';
-
-    const feasibilityNote = details.isTargetMathematicallyInfeasible
-      ? ` Atenção matemática: a soma das deduções (${formatPct(details.deductionPct)}) com a meta de lucro (${formatPct(details.targetNetMarginPct)}) aproxima ou ultrapassa 100%, exigindo redução de taxas ou migração para canal direto.`
       : '';
 
     const reajusteLines = items.slice(0, 6).map((it) => {
@@ -452,7 +468,7 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
       executiveHeadline: `${nicheLabel}: ${formatBRL(summary.monthlyLeakageBRL)}/mês corroídos por confusão entre Markup e Margem Real`,
       rootCauseDiagnosis:
         `Sua tabela em ${nicheLabel} sofre um desconto variável real de ${formatPct(details.deductionPct)} sobre cada venda (${formatPct(details.cardFeePct)} maquininha/app + ${formatPct(details.taxRatePct)} impostos + ${formatPct(details.hiddenCostsPct)} custos ocultos). Como resultado, ${lossSummary}. A margem ponderada atual está em ${formatPct(details.weightedCurrentMarginPct)} frente à meta de ${formatPct(details.targetNetMarginPct)}, deixando ${formatBRL(details.monthlyRecoverableProfitBRL)}/mês (${formatBRL(details.annualRecoverableProfitBRL)}/ano) na mesa.\n\n` +
-        `${worstText}${feasibilityNote} Corrigindo os preços e reposicionando combos, o resultado operacional mensal salta de ${formatBRL(details.netOperatingResultBRL)} para ${formatBRL(details.projectedNetOperatingResultBRL)}.`,
+        `${worstText} Corrigindo os preços e reposicionando combos, o resultado operacional mensal salta de ${formatBRL(details.netOperatingResultBRL)} para ${formatBRL(details.projectedNetOperatingResultBRL)}.`,
       plan48h: [
         {
           window: 'Hoje (0–4h)',

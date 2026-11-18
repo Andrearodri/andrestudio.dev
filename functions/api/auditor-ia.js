@@ -197,7 +197,21 @@ async function callWorkersAiProvider(aiBinding, modelId, systemPrompt, userPromp
   return { analysis: validated, provider: 'cloudflare-workers-ai', model };
 }
 
+function localAnalysis(auditResult, sanitizedInput) {
+  return {
+    analysis: buildContingencyAnalysis(auditResult, sanitizedInput),
+    meta: {
+      mode: 'contingency',
+      provider: 'local-deterministic',
+      model: 'business-rules-v1'
+    }
+  };
+}
+
 async function resolveAnalysisWithAdapters(auditResult, sanitizedInput, env = {}) {
+  if (auditResult.details.isTargetMathematicallyInfeasible) {
+    return localAnalysis(auditResult, sanitizedInput);
+  }
   const { systemPrompt, userPrompt } = buildBusinessEngineeringPrompts(auditResult, sanitizedInput);
   const preferred = String(env.AI_PROVIDER || '').trim().toLowerCase();
   const modelId = String(env.AI_MODEL_ID || '').trim();
@@ -229,14 +243,7 @@ async function resolveAnalysisWithAdapters(auditResult, sanitizedInput, env = {}
     }
   }
 
-  return {
-    analysis: buildContingencyAnalysis(auditResult, sanitizedInput),
-    meta: {
-      mode: 'contingency',
-      provider: 'local-deterministic',
-      model: 'business-rules-v1'
-    }
-  };
+  return localAnalysis(auditResult, sanitizedInput);
 }
 
 export async function onRequestPost(context) {
