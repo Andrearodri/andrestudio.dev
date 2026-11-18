@@ -1,0 +1,754 @@
+/* ============================================================================
+   AUDITOR DE LUCRO & AUTOMAÇÃO COM IA — ANDRÉ STUDIO
+   Alinhado aos design tokens Cinema (dark) e Studio (light) de style.css
+   ============================================================================ */
+
+.auditor-shell {
+  display: grid;
+  gap: 1.5rem;
+  min-height: 540px;
+}
+
+.auditor-stepper {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.auditor-step-btn {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: .95rem;
+  background: var(--surface);
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.auditor-step-btn:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.auditor-step-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.auditor-step-btn.is-active {
+  border-color: var(--red);
+  background: linear-gradient(135deg, rgba(226, 27, 35, .14), var(--surface));
+  color: var(--text);
+}
+
+.auditor-step-btn.is-done {
+  border-color: rgba(141, 216, 164, .45);
+  color: var(--text-soft);
+}
+
+.auditor-step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  font-family: var(--display);
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.auditor-step-btn.is-active .auditor-step-num {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.auditor-step-btn.is-done .auditor-step-num {
+  background: rgba(141, 216, 164, .18);
+  border-color: rgba(141, 216, 164, .6);
+  color: var(--green);
+}
+
+.auditor-step-meta {
+  display: grid;
+  gap: .1rem;
+}
+
+.auditor-step-meta small {
+  font-size: .68rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+
+.auditor-step-meta strong {
+  font-family: var(--display);
+  font-size: .92rem;
+  line-height: 1.2;
+}
+
+.auditor-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  box-shadow: 0 14px 36px var(--shadow);
+}
+
+.auditor-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.auditor-block-head h3 {
+  font-size: clamp(1.25rem, 2.3vw, 1.7rem);
+}
+
+.auditor-block-sub {
+  margin-top: .35rem;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.auditor-niche-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .85rem;
+  margin-bottom: 1.5rem;
+}
+
+.auditor-choice-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: 1.05rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.auditor-choice-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+}
+
+.auditor-choice-card[aria-pressed="true"] {
+  border-color: var(--red);
+  background: linear-gradient(155deg, rgba(226, 27, 35, .15), var(--surface));
+  box-shadow: 0 0 0 1px rgba(226, 27, 35, .4);
+}
+
+.auditor-choice-tag {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--red-soft);
+}
+
+.auditor-choice-card strong {
+  font-family: var(--display);
+  font-size: 1.04rem;
+  line-height: 1.22;
+}
+
+.auditor-choice-card small {
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.auditor-custom-niche {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: .9rem;
+  background: var(--surface-2);
+}
+
+.auditor-module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .85rem;
+}
+
+.auditor-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .85rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.auditor-actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.auditor-preset-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(226, 27, 35, .38);
+  border-radius: .95rem;
+  background: linear-gradient(120deg, rgba(226, 27, 35, .12), var(--surface-2));
+}
+
+.auditor-preset-banner p {
+  font-size: .9rem;
+  color: var(--text-soft);
+}
+
+.auditor-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.auditor-field {
+  display: flex;
+  flex-direction: column;
+  gap: .38rem;
+}
+
+.auditor-field--full {
+  grid-column: 1 / -1;
+}
+
+.auditor-field label {
+  font-size: .83rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.auditor-field input,
+.auditor-field select,
+.auditor-field textarea,
+.auditor-custom-niche input,
+.auditor-lead-form input {
+  width: 100%;
+  padding: .72rem .85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: .65rem;
+  background: var(--bg);
+  color: var(--text);
+  font-size: .94rem;
+}
+
+.auditor-field textarea {
+  min-height: 112px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.auditor-field-hint {
+  font-size: .76rem;
+  color: var(--muted);
+}
+
+.auditor-upload-zone {
+  margin-top: 1.35rem;
+  padding: 1.25rem;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: .95rem;
+  background: var(--surface-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+
+.auditor-upload-zone.is-dragover {
+  border-color: var(--red);
+  background: rgba(226, 27, 35, .1);
+}
+
+.auditor-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.auditor-items-wrap {
+  margin-top: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: .95rem;
+  overflow-x: auto;
+  background: var(--surface);
+}
+
+.auditor-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+.auditor-items-table th,
+.auditor-items-table td {
+  padding: .65rem .75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: .86rem;
+}
+
+.auditor-items-table th {
+  font-size: .74rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface-2);
+}
+
+.auditor-items-table input {
+  width: 100%;
+  padding: .45rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: .45rem;
+  background: var(--bg);
+  color: var(--text);
+  font-size: .86rem;
+}
+
+.auditor-icon-btn {
+  padding: .4rem .68rem;
+  border: 1px solid var(--line);
+  border-radius: .45rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.auditor-icon-btn:hover {
+  border-color: var(--red);
+  color: var(--red-soft);
+}
+
+.auditor-loading-box {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.auditor-loading-stages {
+  display: grid;
+  gap: .65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.auditor-loading-stages li {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .75rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.auditor-loading-stages li.is-current {
+  border-color: var(--red);
+  color: var(--text);
+  background: rgba(226, 27, 35, .08);
+}
+
+.auditor-loading-stages li.is-done {
+  border-color: rgba(141, 216, 164, .45);
+  color: var(--green);
+}
+
+/* Dashboard Executivo (Etapa 3) */
+.auditor-result-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.auditor-result-head h3 {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  max-width: 780px;
+}
+
+.auditor-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .9rem;
+  margin-top: 1.35rem;
+}
+
+.auditor-kpi {
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  display: grid;
+  gap: .35rem;
+}
+
+.auditor-kpi--danger {
+  border-color: rgba(226, 27, 35, .45);
+}
+
+.auditor-kpi--positive {
+  border-color: rgba(141, 216, 164, .5);
+}
+
+.auditor-kpi span {
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.auditor-kpi strong {
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.auditor-kpi small {
+  font-size: .8rem;
+  color: var(--text-soft);
+}
+
+.auditor-section-card {
+  margin-top: 1.35rem;
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.auditor-section-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: .85rem;
+}
+
+.auditor-bars {
+  display: grid;
+  gap: .85rem;
+}
+
+.auditor-bar-row {
+  display: grid;
+  gap: .35rem;
+}
+
+.auditor-bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .88rem;
+  color: var(--text-soft);
+}
+
+.auditor-bar-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.auditor-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--muted);
+  transition: width .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.auditor-bar-fill--danger { background: var(--red); }
+.auditor-bar-fill--accent { background: #f59e0b; }
+.auditor-bar-fill--positive { background: #10b981; }
+
+.auditor-diagnosis-text {
+  display: grid;
+  gap: .85rem;
+  color: var(--text-soft);
+  font-size: .96rem;
+  line-height: 1.65;
+}
+
+.auditor-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .9rem;
+}
+
+.auditor-plan-step {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+  background: var(--surface-2);
+  display: grid;
+  gap: .45rem;
+  align-content: start;
+}
+
+.auditor-plan-window {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--red-soft);
+}
+
+.auditor-plan-step strong {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.auditor-plan-step p {
+  font-size: .88rem;
+  color: var(--text-soft);
+}
+
+.auditor-plan-impact {
+  font-size: .8rem;
+  color: var(--green);
+  padding-top: .4rem;
+  border-top: 1px solid var(--line);
+}
+
+.auditor-split-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.auditor-split-col {
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: .9rem;
+  background: var(--surface-2);
+}
+
+.auditor-split-col h5 {
+  margin: 0 0 .75rem;
+  font-family: var(--display);
+  font-size: 1.02rem;
+}
+
+.auditor-deliverables {
+  display: grid;
+  gap: .9rem;
+}
+
+.auditor-deliverable-card {
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: .9rem;
+  background: var(--surface-2);
+  display: grid;
+  gap: .65rem;
+}
+
+.auditor-deliverable-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .65rem;
+}
+
+.auditor-deliverable-pre {
+  margin: 0;
+  padding: .9rem;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: .88rem;
+  line-height: 1.58;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.auditor-deliverable-card.is-locked .auditor-deliverable-pre {
+  filter: blur(4px);
+  user-select: none;
+}
+
+.auditor-lead-box {
+  margin-top: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(226, 27, 35, .5);
+  border-radius: var(--radius);
+  background: linear-gradient(130deg, rgba(226, 27, 35, .15), var(--surface));
+}
+
+.auditor-lead-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: .8rem;
+  align-items: end;
+  margin-top: 1rem;
+}
+
+.auditor-conversion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.auditor-conv-card {
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.auditor-conv-card--highlight {
+  border-color: rgba(226, 27, 35, .5);
+}
+
+.auditor-conv-card h4 {
+  font-size: 1.25rem;
+}
+
+.auditor-conv-card p {
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.auditor-conv-actions {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  padding-top: .5rem;
+}
+
+.auditor-status-msg {
+  min-height: 1.4em;
+  margin-top: .65rem;
+  font-size: .88rem;
+  color: var(--text-soft);
+}
+
+.auditor-status-msg--error {
+  color: var(--red-soft);
+}
+
+.auditor-pill {
+  display: inline-block;
+  padding: .22rem .55rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 1px solid var(--line-strong);
+}
+
+.auditor-pill--danger {
+  border-color: rgba(226, 27, 35, .55);
+  color: var(--red-soft);
+}
+
+.auditor-pill--warn {
+  border-color: rgba(245, 158, 11, .55);
+  color: #fbbf24;
+}
+
+.auditor-pill--ok {
+  border-color: rgba(141, 216, 164, .55);
+  color: var(--green);
+}
+
+html[data-theme="light"] .auditor-pill--warn {
+  color: #b45309;
+}
+
+html[data-theme="light"] .auditor-pill--ok,
+html[data-theme="light"] .auditor-plan-impact,
+html[data-theme="light"] .auditor-step-btn.is-done .auditor-step-num {
+  color: #065f46;
+}
+
+html[data-theme="light"] .auditor-bar-fill--positive {
+  background: #059669;
+}
+
+html[data-theme="light"] .auditor-lead-box {
+  background: linear-gradient(130deg, rgba(217, 4, 18, .08), #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auditor-choice-card,
+  .auditor-bar-fill,
+  .auditor-step-btn {
+    transition: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .auditor-niche-grid,
+  .auditor-module-grid,
+  .auditor-form-grid,
+  .auditor-plan-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .auditor-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .auditor-lead-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .auditor-stepper,
+  .auditor-niche-grid,
+  .auditor-module-grid,
+  .auditor-form-grid,
+  .auditor-kpi-grid,
+  .auditor-plan-grid,
+  .auditor-split-grid,
+  .auditor-lead-form,
+  .auditor-conversion-grid {
+    grid-template-columns: 1fr;
+  }
+}
