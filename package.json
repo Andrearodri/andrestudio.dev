@@ -13,7 +13,7 @@
     "lint": "node scripts/lint-and-typecheck.mjs",
     "typecheck": "node scripts/lint-and-typecheck.mjs",
     "test:security": "node scripts/test-security-fixes.cjs",
-    "test:unit": "node --test scripts/test-video-planner.mjs scripts/test-auditor-engine.mjs scripts/test-auditor-edge-and-ui.mjs",
+    "test:unit": "node --test scripts/test-video-planner.mjs scripts/test-auditor-engine.mjs scripts/test-auditor-edge-and-ui.mjs scripts/test-crm.mjs",
     "test": "npm run test:security && npm run test:unit",
     "check": "npm run build:test && npm run build && npm run lint && npm run test",
     "dev": "node scripts/dev-edge-server.mjs"

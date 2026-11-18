@@ -1,0 +1,18 @@
+.crm main { max-width: 1600px; margin: auto; padding: clamp(1rem, 3vw, 3rem); }
+.crm-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+.crm-heading p, .crm .empty { color: var(--text-muted); }
+.crm h1 { font-size: clamp(1.5rem, 4vw, 2.6rem); }
+.crm a { color: #c4b5fd; }
+.crm .kanban-board { min-width: 0; height: auto; align-items: stretch; }
+.crm .kanban-column { min-width: 0; }
+.crm .lead-card { cursor: default; overflow-wrap: anywhere; }
+.crm h3 { margin: .45rem 0 .15rem; }
+.crm .lead-card form { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; margin-top: .85rem; }
+.crm label { display: grid; gap: .25rem; font-size: .8rem; }
+.crm select, .crm button { font: inherit; color: var(--text-main); background: var(--bg-surface); border: 1px solid #465066; border-radius: .4rem; padding: .45rem; }
+.crm button { cursor: pointer; }
+.crm nav { margin-top: 1rem; display: flex; gap: 1.5rem; }
+@media (max-width: 950px) {
+  .crm .kanban-board { width: max-content; }
+  .crm .kanban-column { width: min(80vw, 300px); flex: none; }
+}
