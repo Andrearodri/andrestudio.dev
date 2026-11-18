@@ -39,3 +39,6 @@ jobs:
 
       - name: Run security regression checks
         run: node scripts/test-security-fixes.cjs
+
+      - name: Test video planner and commerce configuration
+        run: node --test scripts/test-video-planner.mjs

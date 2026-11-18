@@ -20,3 +20,10 @@ content/*
 .backup-original-media
 .vscode
 .vscode/*
+ROADMAP_ESTRATEGICO.md
+paid
+paid/*
+private
+private/*
+api
+api/*

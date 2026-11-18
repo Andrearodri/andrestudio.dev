@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motion Lab — estudos de movimento | AndreStudio.dev</title>
+  <meta name="description" content="Estudos de motion com Guaraná Jesus, Cheetos e André Rodrigues. Experimente cenas, personalize textos e leve um prompt para produzir com Remotion.">
+  <link rel="canonical" href="https://andrestudio.dev.br/ferramentas/motion-lab/">
+  <link rel="icon" href="/assets/optimized/logo-96.png" type="image/png">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="./lab.css">
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="lab-header container">
+    <a class="brand" href="/"><img src="/assets/optimized/logo-96.png" width="34" height="34" alt=""><span>AndreStudio.dev</span></a>
+    <nav aria-label="Navegação do laboratório"><a href="/">← Início</a><a href="#estudos">Os estudos</a></nav>
+  </header>
+  <main id="conteudo" class="container">
+    <section class="lab-intro">
+      <div><p class="lab-eyebrow">LAB / 001 — IMAGEM EM MOVIMENTO</p><h1>Sua presença.<br><em>Outro ritmo.</em></h1></div>
+      <div class="intro-note"><p>Produto em destaque, movimento com intenção. Experimente Guaraná Jesus, um carrossel com Cheetos e cachorrinho, e uma apresentação com André Rodrigues.</p><span>PRÉVIA INTERATIVA · SEM CADASTRO</span></div>
+    </section>
+    <section class="workspace" aria-label="Estúdio de prévia">
+      <div class="viewer">
+        <div class="viewer-top"><span id="scene-label">01 / Guaraná Jesus · Hero</span><span id="format-label">16:9 · 6 segundos</span></div>
+        <div class="stage-wrap">
+          <div class="stage" id="stage" data-scene="intro" role="img" aria-label="Composição de apresentação de André Rodrigues">
+
+            <div class="product-view hero-product-view" id="hero-view" aria-hidden="true">
+              <div class="hero-rays" id="hero-rays"></div><span class="hero-word" id="hero-word">JESUS</span><div class="hero-shadow" id="hero-shadow"></div>
+              <div class="hero-can" id="hero-can"><img src="/assets/motion-lab/guarana-jesus.png" alt=""><div class="hero-sheen" id="hero-sheen"></div></div>
+              <div class="hero-side hero-left" id="hero-left-group"><small>GUARANÁ JESUS</small><strong id="hero-left">Sabor que marca</strong></div>
+              <div class="hero-side hero-right" id="hero-right-group"><strong id="hero-right">Do Maranhão</strong><span id="hero-underline"></span></div>
+              <span class="product-note-footer">Estudo visual independente · sem vínculo com as marcas</span><b class="product-signature">ANDRESTUDIO</b>
+            </div>
+            <div class="product-view carousel-view" id="carousel-view" hidden aria-hidden="true">
+              <strong class="carousel-heading" id="carousel-heading">Escolha o seu</strong><div class="carousel-dots"><i class="carousel-dot active"></i><i class="carousel-dot"></i><i class="carousel-dot"></i></div>
+              <span class="carousel-number" id="carousel-number">01</span><div id="carousel-track"></div>
+              <div class="carousel-label" id="carousel-label"><strong id="carousel-name">Mix de queijos</strong><span id="carousel-weight">131 g</span></div>
+              <span class="product-note-footer">Estudo visual independente · sem vínculo com as marcas</span><b class="product-signature">ANDRESTUDIO</b>
+            </div>
+<div class="stage-grid"></div><div class="orbit" data-layer="orbit"></div>
+            <div class="photo-frame" data-layer="photo"><img id="model-photo" src="/assets/motion-lab/andre-retrato.png" width="1024" height="1536" alt="André Rodrigues de blazer preto"></div>
+            <div class="photo-shade"></div>
+            <div class="scene-copy"><span class="scene-kicker" data-layer="kicker">DIREÇÃO CRIATIVA / ANDRESTUDIO</span><h2 id="scene-title" data-layer="title">Ideias que<br>ganham vida.</h2><p id="scene-subtitle" data-layer="subtitle">André Rodrigues · Produção audiovisual</p><span id="scene-cta" class="scene-cta" data-layer="cta">Vamos criar juntos ↗</span></div>
+            <span class="scene-index">A<span>／</span>S</span><span class="scene-foot">ANDRESTUDIO.DEV.BR</span><span class="frame-rule" data-layer="rule"></span>
+          </div>
+        </div>
+        <div class="transport"><button id="play" type="button">▶ Reproduzir</button><button id="restart" type="button" aria-label="Voltar ao início">↺</button><label class="sr-only" for="timeline">Posição da animação</label><input id="timeline" type="range" min="0" max="6" step="0.01" value="6"><output id="time" for="timeline">6.0 / 6s</output></div>
+        <p class="preview-note">Prévia de composição no navegador. O download contém o prompt e o roteiro; a exportação de vídeo é feita em um projeto Remotion separado.</p>
+      </div>
+      <aside class="editor" aria-labelledby="editor-title">
+        <p class="lab-eyebrow">DÊ O SEU TOM</p><h2 id="editor-title">Ajuste a mensagem.</h2>
+        <label for="headline" id="headline-label">Palavra ao fundo</label><textarea id="headline" rows="2" maxlength="48">Ideias que ganham vida.</textarea>
+        <label for="subtitle" id="subtitle-label">Texto à esquerda</label><input id="subtitle" maxlength="70" value="André Rodrigues · Produção audiovisual">
+        <label for="cta" id="cta-label">Texto à direita</label><input id="cta" maxlength="36" value="Vamos criar juntos">
+        <div id="puppy-field" hidden><label for="puppy-name">Nome do convidado</label><input id="puppy-name" maxlength="32" value="Cachorrinho"></div>
+        <div class="editor-note"><span>01—03</span><p>Escolha um estudo abaixo. Cada cena tem seu próprio ritmo e formato.</p></div>
+        <a class="primary-action" id="order-whatsapp" href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none;display:block">Encomendar esta cena no WhatsApp ↗</a>
+        <button class="secondary-action" id="copy-prompt" type="button">Copiar prompt para Remotion ↗</button>
+        <button class="secondary-action" id="download" type="button">Baixar prompt + roteiro .md</button>
+        <p id="feedback" role="status" aria-live="polite"></p>
+      </aside>
+    </section>
+    <section class="studies" id="estudos" aria-labelledby="studies-title">
+      <div class="section-heading"><h2 id="studies-title">Escolha um movimento.</h2><span>03 ESTUDOS AUTORAIS</span></div>
+      <div class="study-grid">
+        <button class="study-card" data-select="intro" aria-pressed="true"><span class="study-art art-intro"><img src="/assets/motion-lab/guarana-jesus.png" width="1254" height="1254" alt="" loading="lazy"><span>GUARANÁ<br>JESUS.</span></span><span class="study-info"><span>01 / Guaraná Jesus · Hero</span><small>16:9 · 6s · Mola, raios e brilho</small></span></button>
+        <button class="study-card" data-select="profile" aria-pressed="false"><span class="study-art art-profile"><img src="/assets/motion-lab/cheetos-mix.png" width="1024" height="1536" alt="" loading="lazy"><span>CHEETOS<br>EM MOVIMENTO.</span></span><span class="study-info"><span>02 / Cheetos + cachorrinho</span><small>16:9 · 8s · Três itens, foco e movimento</small></span></button>
+        <button class="study-card" data-select="vertical" aria-pressed="false"><span class="study-art art-vertical"><img src="/assets/motion-lab/andre-corpo.png" width="1024" height="1536" alt="" loading="lazy"><span>DO BRIEF<br>À ENTREGA.</span></span><span class="study-info"><span>03 / Chamada para serviços</span><small>9:16 · 8s · Composição vertical</small></span></button>
+      </div>
+    </section>
+    <section class="recipe"><div><p class="lab-eyebrow">DA PRÉVIA À PRODUÇÃO</p><h2>Leve a direção.<br>Ou encomende pronta.</h2><p>Quer um vídeo com esse ritmo adaptado para a sua marca ou produto? Envie a configuração que você acabou de testar direto para o WhatsApp do estúdio, ou copie o prompt técnico para produzir no Remotion.</p><p><a class="primary-action" id="order-whatsapp-bottom" href="https://wa.me/5598981483900" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;padding:10px 16px;margin-top:4px">Pedir orçamento desta cena no WhatsApp ↗</a></p><p>Conceitos de galeria e demonstração inspirados na <a href="https://www.aicitybuilders.com/remotion" target="_blank" rel="noopener noreferrer">referência AI City Builders ↗</a>. Layout e prompts adaptados para o AndreStudio; o carrossel segue os parâmetros do código fornecido pelo usuário.</p></div><details><summary>Ver prompt e roteiro deste estudo</summary><textarea id="prompt-output" readonly rows="18" aria-label="Prompt autoral e roteiro para Remotion"></textarea></details></section>
+  </main>
+  <footer class="lab-footer container"><span>ANDRESTUDIO / MOTION LAB</span><a href="/contato/">Produza seu próximo projeto com o estúdio ↗</a></footer>
+  <noscript><p class="container">Ative o JavaScript para reproduzir as cenas e gerar o prompt personalizado.</p></noscript>
+  <script type="module" src="./app.mjs"></script>
+</body></html>

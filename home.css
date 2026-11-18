@@ -17,14 +17,14 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(8,9,11,.98) 0%, rgba(8,9,11,.88) 43%, rgba(8,9,11,.2) 72%),
-    linear-gradient(0deg, rgba(8,9,11,.95), transparent 45%);
+    linear-gradient(90deg, rgba(8,9,11,.82) 0%, rgba(8,9,11,.68) 30%, rgba(8,9,11,.48) 48%, rgba(8,9,11,.18) 68%, rgba(8,9,11,.02) 86%),
+    linear-gradient(0deg, rgba(8,9,11,.48), transparent 38%);
   z-index: 1;
 }
 
 .hero-visual {
   position: absolute;
-  inset: 0 0 0 42%;
+  inset: 0;
   overflow: hidden;
 }
 
@@ -34,7 +34,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(.75) contrast(1.12) brightness(.72);
+  filter: saturate(.9) contrast(1.06) brightness(.92);
 }
 
 .hero-visual::after {
@@ -50,6 +50,11 @@
 .hero-copy h1 { max-width: 850px; color: #f5f5f2; }
 .hero-copy h1 em { color: var(--red-soft); font-style: normal; }
 .hero-copy .lede { max-width: 680px; margin-top: 1.5rem; color: #d0d1d4; }
+.hero-copy h1,
+.hero-copy .eyebrow,
+.hero-copy .lede,
+.hero-copy .hero-proof,
+.hero-copy .home-location { text-shadow: 0 2px 10px rgba(0,0,0,.38); }
 .hero-copy .actions { margin-top: 2rem; }
 .hero-copy .btn-primary { background: var(--red); border-color: var(--red); color: #fff; }
 .hero-copy .btn:not(.btn-primary) { color: #fff; border-color: rgba(255,255,255,.22); }
@@ -72,10 +77,10 @@
 
 @media (max-width: 760px) {
   .home-hero { min-height: calc(100svh - 76px); }
-  .home-hero::before { background: linear-gradient(90deg, rgba(8,9,11,.97), rgba(8,9,11,.72)), linear-gradient(0deg, #08090b, transparent 60%); }
+  .home-hero::before { background: linear-gradient(90deg, rgba(8,9,11,.78), rgba(8,9,11,.56)), linear-gradient(0deg, rgba(8,9,11,.58), transparent 60%); }
   .hero-visual { inset: 0; }
   .hero-visual img,
-  .hero-visual video { object-position: 58% center; filter: saturate(.6) contrast(1.15) brightness(.48); }
+  .hero-visual video { object-position: 58% center; filter: saturate(.78) contrast(1.08) brightness(.68); }
   .home-intro { grid-template-columns: 1fr; gap: 1rem; }
 }
 
@@ -559,4 +564,100 @@ html[data-theme="light"] .tech-chip {
   .bento-link-text {
     align-self: flex-end;
   }
+}
+
+/* Commercial home: scoped to preserve the internal service pages. */
+.home-page .header-inner {
+  display: flex;
+  gap: 1rem;
+}
+
+.home-page .header-inner > .brand,
+.home-page .theme-toggle,
+.home-page .header-cta { flex-shrink: 0; }
+.home-page .site-nav { margin-left: auto; }
+.home-page .site-nav ul { gap: 1.2rem; }
+.home-page .header-cta { white-space: nowrap; }
+.home-page .btn-primary { background: var(--red); border-color: var(--red); color: #fff; }
+.home-page .btn-primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+.home-page main section[id] { scroll-margin-top: 100px; }
+
+.home-page .hero-copy .eyebrow { color: #d7d8db; }
+.home-page .hero-copy .eyebrow::before { flex-shrink: 0; }
+.home-page .hero-copy h1 em { color: #ff4c52; }
+.home-page .hero-copy :focus-visible { outline-color: #fff; }
+.home-page .home-location { margin-top: 1rem; color: #c0c1c4; font-size: .82rem; }
+
+.home-page .home-solution { display: flex; flex-direction: column; }
+.home-page .home-solution h3 { margin-top: 1.8rem; }
+.home-page .home-examples {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--text-soft);
+  font-size: .86rem;
+}
+
+.home-page .home-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  min-height: 44px;
+  color: var(--red-soft);
+  font-size: .86rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: .25em;
+}
+
+.home-page .home-text-link:hover { text-decoration: underline; }
+.home-page .home-text-link span { flex-shrink: 0; }
+.home-page .home-solution .home-text-link { margin-top: auto; padding-top: 1.25rem; }
+.home-page .home-project { display: flex; flex-direction: column; }
+.home-page .home-project .project-card-body { display: flex; flex: 1; flex-direction: column; padding: 1.4rem; }
+.home-page .home-project h3 { font-size: clamp(1.45rem, 2.1vw, 1.9rem); }
+.home-page .home-project .project-card-body > p { font-size: .94rem; }
+.home-page .home-project .home-project-role { padding-top: .3rem; font-size: .82rem; }
+.home-page .home-project-role strong { color: var(--text-soft); }
+.home-page .home-project .home-project-note {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: .8rem;
+}
+.home-page .home-project .home-text-link { margin-top: auto; padding-top: 1.1rem; }
+.home-page .home-project-media--motion { background: #08090b; }
+.home-page .home-project-media--motion img,
+.home-page .home-project-media--motion video { object-fit: contain; }
+.home-page .home-projects-more { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+.home-page .cta-band .actions { align-items: center; gap: 1rem 1.5rem; }
+.home-page .home-footer-description,
+.home-page .home-footer-location { margin-top: 1rem; }
+
+@media (max-width: 1120px) {
+  .home-page .header-cta { display: none; }
+}
+
+@media (max-width: 980px) {
+  .home-page .header-inner { gap: .7rem; }
+  .home-page .nav-toggle { margin-left: auto; flex-shrink: 0; }
+  .home-page .site-nav { margin-left: 0; }
+  .home-page .site-nav ul { gap: 0; }
+}
+
+@media (max-width: 760px) {
+  .home-page .hero-copy { padding: 3.5rem 0; }
+  .home-page .hero-copy h1 { font-size: clamp(2.65rem, 11.2vw, 4.5rem); }
+  .home-page .hero-copy .eyebrow { font-size: .68rem; letter-spacing: .1em; }
+  .home-page .hero-proof { flex-direction: column; gap: .35rem; margin-top: 1.5rem; }
+  .home-page .home-projects { gap: 1.5rem; }
+  .home-page .home-project .project-card-media { aspect-ratio: 16 / 10; }
+  .home-page .home-projects-more { justify-content: flex-start; }
+  .home-page .cta-band .actions { align-items: stretch; }
+  .home-page .cta-band .home-text-link { justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .home-page .header-inner > .brand { gap: .45rem; font-size: .9rem; }
+  .home-page .header-inner > .brand img { width: 30px; height: 30px; }
 }

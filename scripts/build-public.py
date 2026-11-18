@@ -41,6 +41,30 @@ ALLOWED_FILES = (
     "style.css",
     "sobre.html",
     "theme.js",
+    "platform.css",
+    "data/commerce.mjs",
+    "kits/commerce.mjs",
+    "kits/index.html",
+    "kits/video-pronto/index.html",
+    "kits/video-pronto/amostra/index.html",
+    "ferramentas/index.html",
+    "ferramentas/motion-lab/index.html",
+    "ferramentas/motion-lab/lab.css",
+    "ferramentas/motion-lab/app.mjs",
+    "ferramentas/motion-lab/products.mjs",
+    "assets/motion-lab/guarana-jesus.png",
+    "assets/motion-lab/cheetos-mix.png",
+    "assets/motion-lab/cheetos-lua.png",
+    "assets/motion-lab/cachorrinho.png",
+    "assets/motion-lab/andre-retrato.png",
+    "assets/motion-lab/andre-corpo.png",
+    "ferramentas/brief-para-video/index.html",
+    "ferramentas/brief-para-video/engine.mjs",
+    "ferramentas/brief-para-video/app.mjs",
+    "ferramentas/arquiteto-de-escopo/index.html",
+    "ferramentas/arquiteto-de-escopo/app.mjs",
+    "assets/recursos/checklist-briefing.md",
+    "assets/recursos/checklist-briefing.pdf",
     "assets/automotive.png",
     "assets/hero-video.mp4",
     "assets/in_the_nuvens.jpg",
@@ -101,6 +125,8 @@ ALLOWED_FILES = (
     "cases/objeto-em-camadas/index.html",
     "cases/omniagent-ai-studio/index.html",
     "contato/index.html",
+    "contato/briefing.js",
+    "contato/briefing.css",
     "data/projectData.js",
     "demo/app.js",
     "demo/index.html",
@@ -142,8 +168,38 @@ ALLOWED_FILES = (
 LOCAL_REF_RE = re.compile(r"(?:src|href|poster)\s*=\s*(['\"])(.*?)\1", re.IGNORECASE)
 CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)(.*?)\1\s*\)", re.IGNORECASE)
 
+PRIVATE_PARTS = {
+    "content", "paid", "private", "kits-pagos", "ativos-pagos", "docs", "deploy",
+    "scripts", "api", "server", "workers", "node_modules", "tmp", "build", ".git", ".codex", ".agents",
+}
+PRIVATE_SUFFIXES = {".key", ".pem", ".sql", ".bak", ".zip"}
+
+
+def validate_public_paths(source_root: Path, allowed_files: tuple[str, ...]) -> None:
+    """Fail closed even if a private path is accidentally added to the allowlist."""
+    if len(set(allowed_files)) != len(allowed_files):
+        raise ValueError("Duplicate public allowlist path")
+    root = source_root.resolve()
+    for relative in allowed_files:
+        path = Path(relative)
+        parts = tuple(part.lower() for part in path.parts)
+        if (path.is_absolute() or ".." in parts or not parts
+                or any(part in PRIVATE_PARTS for part in parts)
+                or any(part.startswith(".") and part != ".well-known" for part in parts)
+                or path.suffix.lower() in PRIVATE_SUFFIXES
+                or path.name.lower() in {"roadmap_estrategico.md", "agents.md", "claude.md", "skill.md"}):
+            raise ValueError(f"Private or unsafe path in public allowlist: {relative}")
+        candidate = source_root / path
+        # A public-looking symlink must never smuggle private files into the build.
+        for length in range(1, len(path.parts) + 1):
+            if (source_root.joinpath(*path.parts[:length])).is_symlink():
+                raise ValueError(f"Symlink is not allowed in public sources: {relative}")
+        if root not in candidate.resolve().parents:
+            raise ValueError(f"Source escapes the public source root: {relative}")
+
 
 def copy_allowlist(source_root: Path, output: Path, allowed_files: tuple[str, ...]) -> list[str]:
+    validate_public_paths(source_root, allowed_files)
     missing = []
     for relative in allowed_files:
         source = source_root / relative
@@ -223,6 +279,9 @@ def validate_output_set(output: Path, allowed_files: list[str]) -> None:
 
 
 def build(source_root: Path, output: Path, inventory_path: Path, allowed_files: tuple[str, ...] = ALLOWED_FILES) -> None:
+    validate_public_paths(source_root, allowed_files)
+    if output.resolve() == source_root.resolve() or output.resolve() in source_root.resolve().parents:
+        raise ValueError("Build output must not replace the source root or its parents")
     if output.exists():
         shutil.rmtree(output)
     output.mkdir(parents=True)
@@ -248,13 +307,31 @@ def run_self_test() -> None:
         (fixture / ".well-known/security.txt").write_text("Contact: security@example.invalid\n", encoding="utf-8")
         (fixture / "docs/internal-report.md").write_text("internal", encoding="utf-8")
         (fixture / "tmp/backup.html").write_text("backup", encoding="utf-8")
+        (fixture / "content/paid/video-pronto").mkdir(parents=True)
+        (fixture / "content/paid/video-pronto/material.md").write_text("PAID_SECRET", encoding="utf-8")
+        (fixture / ".env.local").write_text("AI_API_KEY=SECRET_FIXTURE", encoding="utf-8")
         allowed = ("404.html", "style.css", "_headers", ".well-known/security.txt")
         output.mkdir(parents=True)
         (output / "stale-internal.txt").write_text("must be removed", encoding="utf-8")
         build(fixture, output, Path(temporary) / "inventory.json", allowed)
-        forbidden = [output / "docs/internal-report.md", output / "tmp/backup.html"]
+        forbidden = [output / "docs/internal-report.md", output / "tmp/backup.html", output / "content/paid/video-pronto/material.md", output / ".env.local"]
         if any(path.exists() for path in forbidden) or (output / "stale-internal.txt").exists():
             raise AssertionError("Fixture proved an internal or stale file entered the package")
+
+        for forbidden_path in ("content/paid/video-pronto/material.md", ".env.local", "../secret.txt", "assets/paid/lesson.pdf", "ROADMAP_ESTRATEGICO.md"):
+            try:
+                build(fixture, output, Path(temporary) / "inventory.json", (*allowed, forbidden_path))
+            except ValueError:
+                pass
+            else:
+                raise AssertionError(f"Build accepted a forbidden allowlist entry: {forbidden_path}")
+        (fixture / "leaked.md").symlink_to(fixture / "content/paid/video-pronto/material.md")
+        try:
+            build(fixture, output, Path(temporary) / "inventory.json", (*allowed, "leaked.md"))
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Build accepted a symlink to paid content")
 
         (fixture / "style.css").unlink()
         try:

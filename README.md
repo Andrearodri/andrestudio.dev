@@ -101,3 +101,14 @@ O código e os materiais autorais do projeto são de André Rodrigues. A origem 
 ## Licença
 
 Este repositório ainda não possui uma licença de software definida. Recursos de terceiros permanecem sujeitos às licenças descritas em [ASSETS.md](ASSETS.md).
+
+## Produtos e ferramenta de planejamento
+
+O roadmap aprovado está em `ROADMAP_ESTRATEGICO.md`; o estado implementado e os passos de ativação estão em `docs/IMPLEMENTACAO_ROADMAP.md`.
+
+- `/kits/` e `/kits/video-pronto/`: oferta em preparação e amostra gratuita.
+- `/ferramentas/brief-para-video/`: planejador local de 30/45s, sem API, cadastro ou persistência de briefings.
+- `data/commerce.mjs`: checkout externo desativado até configuração e validação da entrega.
+- `content/paid/video-pronto/`: materiais internos; nunca publicar essa pasta.
+
+Depois do build, execute também `node --test scripts/test-video-planner.mjs`. Nenhum endpoint de IA foi implementado. A variável futura `AI_MODEL_ID` permanece vazia em `.env.example`.

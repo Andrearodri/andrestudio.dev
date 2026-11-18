@@ -62,3 +62,6 @@ deploy/nginx/adigitalartes.duckdns.org.conf
 deploy/nginx/andrestudiodev.duckdns.org.conf
 deploy/nginx/default.conf
 deploy/nginx/feemdeusribamar-redirect.conf
+
+# Safe, empty server configuration template
+!.env.example
