@@ -95,7 +95,7 @@ test('Edge API /api/auditor-ia usa Gemini, OpenAI ou Workers AI quando configura
   };
   const preset = getPresetForNiche('clinica');
   const geminiRes = await onAuditorIaPost({
-    request: makePostRequest('/api/auditor-ia', { moduleId: 'whatsapp', nicheId: 'clinica', nicheLabel: preset.nicheLabel, whatsapp: preset.whatsapp }),
+    request: makePostRequest('/api/auditor-ia', { moduleId: 'automation', nicheId: 'clinica', nicheLabel: preset.nicheLabel, automation: preset.automation }),
     env: { GEMINI_API_KEY: 'gem-test-key' }
   });
   const geminiBody = await geminiRes.json();
@@ -112,7 +112,7 @@ test('Edge API /api/auditor-ia usa Gemini, OpenAI ou Workers AI quando configura
     }), { status: 200, headers: { 'content-type': 'application/json' } });
   };
   const openAiRes = await onAuditorIaPost({
-    request: makePostRequest('/api/auditor-ia', { moduleId: 'whatsapp', nicheId: 'clinica', nicheLabel: preset.nicheLabel, whatsapp: preset.whatsapp }),
+    request: makePostRequest('/api/auditor-ia', { moduleId: 'automation', nicheId: 'clinica', nicheLabel: preset.nicheLabel, automation: preset.automation }),
     env: { OPENAI_API_KEY: 'oa-test-key' }
   });
   const openAiBody = await openAiRes.json();
@@ -122,7 +122,7 @@ test('Edge API /api/auditor-ia usa Gemini, OpenAI ou Workers AI quando configura
 
   // 3) Workers AI binding mock
   const workersRes = await onAuditorIaPost({
-    request: makePostRequest('/api/auditor-ia', { moduleId: 'whatsapp', nicheId: 'clinica', nicheLabel: preset.nicheLabel, whatsapp: preset.whatsapp }),
+    request: makePostRequest('/api/auditor-ia', { moduleId: 'automation', nicheId: 'clinica', nicheLabel: preset.nicheLabel, automation: preset.automation }),
     env: { AI: { run: async () => ({ response: JSON.stringify(validAiJson) }) } }
   });
   const workersBody = await workersRes.json();
@@ -132,7 +132,7 @@ test('Edge API /api/auditor-ia usa Gemini, OpenAI ou Workers AI quando configura
   // 4) API externa retorna HTTP 500 -> cai graciosamente no fallback local 200 OK
   globalThis.fetch = async () => new Response('upstream error', { status: 500 });
   const fallbackRes = await onAuditorIaPost({
-    request: makePostRequest('/api/auditor-ia', { moduleId: 'whatsapp', nicheId: 'clinica', nicheLabel: preset.nicheLabel, whatsapp: preset.whatsapp }),
+    request: makePostRequest('/api/auditor-ia', { moduleId: 'automation', nicheId: 'clinica', nicheLabel: preset.nicheLabel, automation: preset.automation }),
     env: { GEMINI_API_KEY: 'gem-broken' }
   });
   assert.equal(fallbackRes.status, 200);
@@ -361,5 +361,32 @@ test('Meta inviável usa o diagnóstico local e exporta margens atuais sem proje
     'assert "PROJEÇÃO DE CAIXA ACUMULADA" not in texts[0]',
     'assert "Preço Ideal Sugerido" not in texts[1]',
     'assert "Projeção indisponível" in texts[2] and "Meta 30d:" not in texts[2]'
+  ].join('\n')], { input: bytes });
+});
+
+
+test('WhatsApp mantém hipóteses no diagnóstico e leva campos de teste à planilha', async () => {
+  const payload = {
+    moduleId: 'whatsapp',
+    whatsapp: { leadsPerMonth: 240, currentConversionPct: 18, averageTicket: 420, eligibleQuotes: 40, recoveryRatePct: 5, conversationsSample: 'Aceita convênio?' }
+  };
+  const response = await onAuditorIaPost({
+    request: makePostRequest('/api/auditor-ia', payload),
+    env: { AI: { run() { assert.fail('Diagnóstico de WhatsApp usa regras locais'); } } }
+  });
+  assert.equal(response.status, 200);
+  const report = await response.json();
+  assert.equal(report.meta.mode, 'contingency');
+  assert.equal(report.audit.summary.cashPotential30dBRL, 840);
+  assert.match(report.analysis.rootCauseDiagnosis, /R\$ 840,00/);
+  assert.doesNotMatch(report.analysis.rootCauseDiagnosis, /frete|destrava|janela crítica|82\.656/);
+  const bytes = await buildExecutiveWorkbookXlsx(report);
+  execFileSync('python3', ['-c', [
+    'import io, sys, zipfile',
+    'with zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read())) as workbook:',
+    '    cash = workbook.read("xl/worksheets/sheet1.xml").decode()',
+    '    plan = workbook.read("xl/worksheets/sheet3.xml").decode()',
+    '    assert "Receita adicional simulada" in cash and "PROJEÇÃO DE CAIXA" not in cash',
+    '    assert "REGISTRO DO TESTE" in plan and "Vendas pagas" in plan'
   ].join('\n')], { input: bytes });
 });

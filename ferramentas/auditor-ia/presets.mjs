@@ -49,6 +49,8 @@ const NICHE_PRESETS = {
   clinica: {
     whatsapp: {
       leadsPerMonth: 240,
+      eligibleQuotes: 40,
+      recoveryRatePct: 5,
       currentConversionPct: 18,
       averageTicket: 420,
       grossMarginPct: 68,
@@ -86,6 +88,8 @@ const NICHE_PRESETS = {
   comercio: {
     whatsapp: {
       leadsPerMonth: 380,
+      eligibleQuotes: 55,
+      recoveryRatePct: 5,
       currentConversionPct: 14,
       averageTicket: 265,
       grossMarginPct: 44,
@@ -123,6 +127,8 @@ const NICHE_PRESETS = {
   restaurante: {
     whatsapp: {
       leadsPerMonth: 620,
+      eligibleQuotes: 65,
+      recoveryRatePct: 5,
       currentConversionPct: 26,
       averageTicket: 84,
       grossMarginPct: 54,
@@ -160,6 +166,8 @@ const NICHE_PRESETS = {
   servicos: {
     whatsapp: {
       leadsPerMonth: 135,
+      eligibleQuotes: 24,
+      recoveryRatePct: 5,
       currentConversionPct: 21,
       averageTicket: 780,
       grossMarginPct: 62,
@@ -197,6 +205,8 @@ const NICHE_PRESETS = {
   escritorio: {
     whatsapp: {
       leadsPerMonth: 95,
+      eligibleQuotes: 16,
+      recoveryRatePct: 5,
       currentConversionPct: 19,
       averageTicket: 1350,
       grossMarginPct: 74,
@@ -265,6 +275,8 @@ export function getPresetForNiche(nicheId, customNicheName = '') {
     exampleCompany: safeCustom ? `${safeCustom} Studio` : 'Empresa Modelo PME',
     whatsapp: {
       leadsPerMonth: 180,
+      eligibleQuotes: 30,
+      recoveryRatePct: 5,
       currentConversionPct: 17,
       averageTicket: 490,
       grossMarginPct: 60,

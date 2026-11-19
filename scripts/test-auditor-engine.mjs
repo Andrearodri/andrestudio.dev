@@ -84,36 +84,22 @@ test('Round-trip nativo XLSX (buildSampleCatalogXlsx -> parseXlsxBuffer) e rejei
   await assert.rejects(() => parseXlsxBuffer(new Uint8Array([1, 2, 3, 4])), /inválido|corrompido/i);
 });
 
-test('Modulo A (WhatsApp): calculos exatos e casos extremos', () => {
-  const res = calculateWhatsappAudit({
-    leadsPerMonth: 200,
-    currentConversionPct: 20,
-    averageTicket: 500,
-    grossMarginPct: 60,
-    avgResponseMinutes: 45,
-    followUpSteps: 1
-  });
-  assert.equal(res.closedCurrent, 40);
-  assert.equal(res.lostLeadsMonthly, 160);
-  assert.equal(res.currentMonthlyRevenue, 20000);
-  assert.equal(res.revenueLeftOnTableMonthly, 80000);
-  assert.equal(res.scenarios.conservative.recoveredDeals, 8);
-  assert.equal(res.scenarios.conservative.revenue30dBRL, 4000);
-  assert.equal(res.scenarios.moderate.recoveredDeals, 19.2);
-  assert.equal(res.scenarios.moderate.revenue30dBRL, 9600);
-  assert.equal(res.scenarios.moderate.margin30dBRL, 5760);
-  assert.equal(res.scenarios.aggressive.recoveredDeals, 32);
-  assert.equal(res.scenarios.aggressive.revenue30dBRL, 16000);
-  assert.equal(res.annualizedModerateRevenue, 115200);
-  assert.ok(res.annualRoiPct > 500);
-
-  // Casos extremos: 0 leads e conversao 98%
-  const zeroRes = calculateWhatsappAudit({ leadsPerMonth: 0, currentConversionPct: 0, averageTicket: 0 });
-  assert.equal(zeroRes.revenueLeftOnTableMonthly, 0);
-  assert.equal(zeroRes.annualRoiPct, 0);
-
-  const highConv = calculateWhatsappAudit({ leadsPerMonth: 100, currentConversionPct: 98, averageTicket: 100 });
-  assert.equal(highConv.scenarios.moderate.recoveredDeals, 0);
+test('WhatsApp usa os orçamentos elegíveis e a taxa informada, sem extrapolar ganhos', () => {
+  const input = { leadsPerMonth: 240, currentConversionPct: 18, averageTicket: 420, eligibleQuotes: 40 };
+  const audit = runFinancialAudit({ moduleId: 'whatsapp', whatsapp: { ...input, recoveryRatePct: '5%', grossMarginPct: 68 } });
+  const { details, summary } = audit;
+  assert.equal(details.lostLeadsMonthly, 196.8);
+  assert.equal(details.eligibleQuotes, 40);
+  assert.equal(details.scenarios.hypothetical.recoveredDeals, 2);
+  assert.equal(details.scenarios.hypothetical.revenue30dBRL, 840);
+  assert.equal(details.scenarios.hypothetical.margin30dBRL, 571.2);
+  assert.deepEqual(summary.comparisonBars.map(bar => bar.valueBRL), [420, 840, 2100]);
+  assert.equal(summary.monthlyLeakageBRL, null);
+  assert.equal(summary.projection12mBRL, null);
+  assert.equal(calculateWhatsappAudit(input).scenarios, null);
+  assert.equal(calculateWhatsappAudit({ ...input, recoveryRatePct: 0 }).scenarios.hypothetical.revenue30dBRL, 0);
+  assert.equal(calculateWhatsappAudit({ ...input, recoveryRatePct: 5 }).scenarios.hypothetical.margin30dBRL, null);
+  assert.equal(calculateWhatsappAudit({ ...input, currentConversionPct: 98 }).eligibleQuotes, 5);
 });
 
 test('Modulo B (Margem vs Markup): diferencia markup de margem real, detecta prejuizo invisivel e evita divisao por zero', () => {
@@ -235,8 +221,13 @@ test('Presets de todos os 5 nichos + nicho customizado produzem auditorias valid
         pricing: preset.pricing,
         automation: preset.automation
       });
-      assert.ok(Number.isFinite(audit.summary.monthlyLeakageBRL) && audit.summary.monthlyLeakageBRL > 0, `${niche.id}/${moduleId}`);
-      assert.ok(Number.isFinite(audit.summary.projection12mBRL) && audit.summary.projection12mBRL > 0, `${niche.id}/${moduleId}`);
+      if (moduleId === 'whatsapp') {
+        assert.ok(audit.summary.cashPotential30dBRL > 0, `${niche.id}/${moduleId}`);
+        assert.equal(audit.summary.projection12mBRL, null);
+      } else {
+        assert.ok(Number.isFinite(audit.summary.monthlyLeakageBRL) && audit.summary.monthlyLeakageBRL > 0, `${niche.id}/${moduleId}`);
+        assert.ok(Number.isFinite(audit.summary.projection12mBRL) && audit.summary.projection12mBRL > 0, `${niche.id}/${moduleId}`);
+      }
       assert.ok(audit.summary.comparisonBars.length >= 3);
       if (moduleId === 'pricing') {
         assert.ok(audit.details.lossMakingCount + audit.details.erodedCount >= 1, `${niche.id} pricing deve demonstrar vazamento`);

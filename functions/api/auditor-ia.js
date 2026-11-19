@@ -209,7 +209,7 @@ function localAnalysis(auditResult, sanitizedInput) {
 }
 
 async function resolveAnalysisWithAdapters(auditResult, sanitizedInput, env = {}) {
-  if (auditResult.details.isTargetMathematicallyInfeasible) {
+  if (auditResult.moduleId === 'whatsapp' || auditResult.details.isTargetMathematicallyInfeasible) {
     return localAnalysis(auditResult, sanitizedInput);
   }
   const { systemPrompt, userPrompt } = buildBusinessEngineeringPrompts(auditResult, sanitizedInput);

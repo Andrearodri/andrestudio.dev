@@ -303,75 +303,54 @@ export function calculateWhatsappAudit(input = {}) {
   const leadsPerMonth = Math.max(0, Math.round(parsePtBrNumber(input.leadsPerMonth, 0, { mode: 'integer' })));
   const currentConversionPct = clamp(parsePtBrNumber(input.currentConversionPct, 0, { mode: 'percent' }), 0, 100);
   const averageTicket = Math.max(0, round2(parsePtBrNumber(input.averageTicket, 0, { mode: 'currency' })));
-  const hasMarginInput = input.grossMarginPct !== undefined && String(input.grossMarginPct).trim() !== '';
-  const grossMarginPct = clamp(parsePtBrNumber(hasMarginInput ? input.grossMarginPct : 65, 65, { mode: 'percent' }), 1, 100);
-  const avgResponseMinutes = Math.max(1, Math.round(parsePtBrNumber(input.avgResponseMinutes, 45, { mode: 'integer' })));
+  const hasMargin = input.grossMarginPct != null && String(input.grossMarginPct).trim() !== '';
+  const grossMarginPct = hasMargin ? clamp(parsePtBrNumber(input.grossMarginPct, 0, { mode: 'percent' }), 0, 100) : null;
+  const hasResponseTime = input.avgResponseMinutes != null && String(input.avgResponseMinutes).trim() !== '';
+  const avgResponseMinutes = hasResponseTime ? Math.max(0, Math.round(parsePtBrNumber(input.avgResponseMinutes, 0, { mode: 'integer' }))) : null;
   const followUpSteps = clamp(Math.round(parsePtBrNumber(input.followUpSteps, 1, { mode: 'integer' })), 0, 5);
 
   const closedCurrent = round2(leadsPerMonth * (currentConversionPct / 100));
   const lostLeadsMonthly = Math.max(0, round2(leadsPerMonth - closedCurrent));
   const currentMonthlyRevenue = round2(closedCurrent * averageTicket);
-  const revenueLeftOnTableMonthly = round2(lostLeadsMonthly * averageTicket);
-
-  const maxAdditionalDeals = Math.max(0, round2(leadsPerMonth * 0.95 - closedCurrent));
+  const eligibleQuotes = clamp(Math.round(parsePtBrNumber(input.eligibleQuotes, 0, { mode: 'integer' })), 0, Math.round(lostLeadsMonthly));
+  const hasRate = input.recoveryRatePct != null && String(input.recoveryRatePct).trim() !== '';
+  const recoveryRatePct = hasRate ? round2(clamp(parsePtBrNumber(input.recoveryRatePct, 0, { mode: 'percent' }), 0, 100)) : null;
   const marginRatio = grossMarginPct / 100;
 
   const buildScenario = (label, ratePct) => {
-    const recoveredDeals = round2(Math.min(maxAdditionalDeals, lostLeadsMonthly * (ratePct / 100)));
+    const recoveredDeals = eligibleQuotes * ratePct / 100;
     const revenue30dBRL = round2(recoveredDeals * averageTicket);
-    const margin30dBRL = round2(revenue30dBRL * marginRatio);
+    const margin30dBRL = grossMarginPct === null ? null : round2(revenue30dBRL * marginRatio);
     const projectedConversionPct = leadsPerMonth > 0
-      ? round1(((closedCurrent + recoveredDeals) / leadsPerMonth) * 100)
+      ? round1(Math.min(100, ((closedCurrent + recoveredDeals) / leadsPerMonth) * 100))
       : 0;
     return {
       label,
       reactivationRatePct: ratePct,
-      recoveredDeals,
+      recoveredDeals: round2(recoveredDeals),
       revenue30dBRL,
       margin30dBRL,
       projectedConversionPct
     };
   };
 
-  const conservative = buildScenario('Conservadora (5%)', 5);
-  const moderate = buildScenario('Moderada (12%)', 12);
-  const aggressive = buildScenario('Agressiva (20%)', 20);
-
-  const annualizedModerateRevenue = round2(moderate.revenue30dBRL * 12);
-  const annualizedModerateMargin = round2(moderate.margin30dBRL * 12);
-  const referenceProjectInvestment = leadsPerMonth > 0 && averageTicket > 0
-    ? Math.max(1800, Math.min(6500, Math.round(moderate.margin30dBRL * 1.15)))
-    : 0;
-  const annualRoiPct = referenceProjectInvestment > 0
-    ? round1(((annualizedModerateMargin - referenceProjectInvestment) / referenceProjectInvestment) * 100)
-    : 0;
-  const paybackDays = moderate.margin30dBRL > 0
-    ? Math.max(1, Math.round((referenceProjectInvestment / moderate.margin30dBRL) * 30))
-    : 0;
-  const hoursSavedMonthly = round1((leadsPerMonth * 7.5) / 60);
+  const scenarios = recoveryRatePct === null ? null : {
+    hypothetical: buildScenario('Cenário informado', recoveryRatePct)
+  };
 
   return {
     leadsPerMonth,
     currentConversionPct: round1(currentConversionPct),
     averageTicket,
-    grossMarginPct: round1(grossMarginPct),
+    grossMarginPct,
     avgResponseMinutes,
     followUpSteps,
     closedCurrent,
     lostLeadsMonthly,
     currentMonthlyRevenue,
-    revenueLeftOnTableMonthly,
-    scenarios: {
-      conservative,
-      moderate,
-      aggressive
-    },
-    annualizedModerateRevenue,
-    annualizedModerateMargin,
-    referenceProjectInvestment,
-    annualRoiPct,
-    paybackDays,
-    hoursSavedMonthly
+    eligibleQuotes,
+    recoveryRatePct,
+    scenarios
   };
 }
 
@@ -570,20 +549,20 @@ export function runFinancialAudit(payload = {}) {
 
   if (moduleId === 'whatsapp') {
     const details = calculateWhatsappAudit(payload.whatsapp || payload);
+    const scenario = details.scenarios?.hypothetical;
     const summary = {
-      monthlyLeakageBRL: details.revenueLeftOnTableMonthly,
-      cashConservative30dBRL: details.scenarios.conservative.revenue30dBRL,
-      cashPotential30dBRL: details.scenarios.moderate.revenue30dBRL,
-      cashAggressive30dBRL: details.scenarios.aggressive.revenue30dBRL,
-      projection12mBRL: details.annualizedModerateRevenue,
-      hoursRecoveredMonthly: details.hoursSavedMonthly,
-      criticalItemsCount: Math.round(details.lostLeadsMonthly),
-      comparisonBars: [
-        { label: 'Faturamento Atual/mês', valueBRL: details.currentMonthlyRevenue, tone: 'muted' },
-        { label: 'Deixado na Mesa/mês', valueBRL: details.revenueLeftOnTableMonthly, tone: 'danger' },
-        { label: 'Reativação 30d (Moderada)', valueBRL: details.scenarios.moderate.revenue30dBRL, tone: 'accent' },
-        { label: 'Novo Potencial Mensal', valueBRL: round2(details.currentMonthlyRevenue + details.scenarios.moderate.revenue30dBRL), tone: 'positive' }
-      ]
+      monthlyLeakageBRL: null,
+      cashConservative30dBRL: null,
+      cashPotential30dBRL: scenario?.revenue30dBRL ?? null,
+      cashAggressive30dBRL: null,
+      projection12mBRL: null,
+      hoursRecoveredMonthly: 0,
+      criticalItemsCount: details.eligibleQuotes,
+      comparisonBars: [1, 2, 5].filter(count => count <= details.eligibleQuotes).map(count => ({
+        label: count === 1 ? '1 venda adicional' : `${count} vendas adicionais`,
+        valueBRL: round2(count * details.averageTicket),
+        tone: 'accent'
+      }))
     };
     return { moduleId, nicheId, nicheLabel, summary, details };
   }

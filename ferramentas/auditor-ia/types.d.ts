@@ -12,6 +12,8 @@ export interface WhatsappAuditInput {
   leadsPerMonth: number | string;
   currentConversionPct: number | string;
   averageTicket: number | string;
+  eligibleQuotes?: number | string;
+  recoveryRatePct?: number | string | null;
   grossMarginPct?: number | string;
   avgResponseMinutes?: number | string;
   followUpSteps?: number | string;
@@ -23,7 +25,7 @@ export interface WhatsappScenario {
   reactivationRatePct: number;
   recoveredDeals: number;
   revenue30dBRL: number;
-  margin30dBRL: number;
+  margin30dBRL: number | null;
   projectedConversionPct: number;
 }
 
@@ -31,24 +33,15 @@ export interface WhatsappAuditDetails {
   leadsPerMonth: number;
   currentConversionPct: number;
   averageTicket: number;
-  grossMarginPct: number;
-  avgResponseMinutes: number;
+  grossMarginPct: number | null;
+  avgResponseMinutes: number | null;
   followUpSteps: number;
   closedCurrent: number;
   lostLeadsMonthly: number;
   currentMonthlyRevenue: number;
-  revenueLeftOnTableMonthly: number;
-  scenarios: {
-    conservative: WhatsappScenario;
-    moderate: WhatsappScenario;
-    aggressive: WhatsappScenario;
-  };
-  annualizedModerateRevenue: number;
-  annualizedModerateMargin: number;
-  referenceProjectInvestment: number;
-  annualRoiPct: number;
-  paybackDays: number;
-  hoursSavedMonthly: number;
+  eligibleQuotes: number;
+  recoveryRatePct: number | null;
+  scenarios: { hypothetical: WhatsappScenario } | null;
 }
 
 export interface PricingCatalogItemInput {

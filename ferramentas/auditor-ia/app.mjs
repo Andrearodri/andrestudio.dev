@@ -20,7 +20,7 @@ const MODULES_META = [
     id: 'whatsapp',
     tag: 'MÓDULO A · VENDAS & ATENDIMENTO',
     title: 'Recuperação de Orçamentos no WhatsApp',
-    desc: 'Calcula leads perdidos, receita deixada na mesa, meta em 30 dias, ROI anual e gera scripts prontos.'
+    desc: 'Simule o efeito de retomar orçamentos em aberto e monte um teste de follow-up.'
   },
   {
     id: 'pricing',
@@ -70,8 +70,9 @@ function createInitialState() {
     loadingStage: 0,
     statusMessage: '',
     statusIsError: false,
+    whatsappExample: false,
     form: {
-      whatsapp: { ...initialPreset.whatsapp },
+      whatsapp: { followUpSteps: 0 },
       pricing: {
         ...initialPreset.pricing,
         items: initialPreset.pricing.items.map((item) => ({ ...item }))
@@ -126,13 +127,17 @@ function buildExecutiveWhatsappMessage(state, result) {
       ? 'Margem & Precificação'
       : 'Automação & Produtividade';
   const company = state.lead.company.trim() || nicheLabel;
+  const details = audit.details;
 
   return [
     `Olá, ${BRAND_CONFIG.founder}! Rodei o Auditor de Lucro & Automação IA no site (${BRAND_CONFIG.siteName}).`,
     '',
     `Empresa/Nicho: ${company} (${nicheLabel})`,
     `Módulo auditado: ${modLabel}`,
-    ...(audit.details.isTargetMathematicallyInfeasible ? [] : [
+    ...(moduleId === 'whatsapp' ? [
+      `Orçamentos elegíveis: ${formatInt(details.eligibleQuotes)}`,
+      ...(summary.cashPotential30dBRL === null ? [] : [`Simulação em 30 dias: ${formatBRL(summary.cashPotential30dBRL)} (${formatPct(details.recoveryRatePct, 2)} de recuperação adicional)`])
+    ] : details.isTargetMathematicallyInfeasible ? [] : [
       `Vazamento mensal identificado: ${formatBRL(summary.monthlyLeakageBRL)}/mês`,
       `Potencial de caixa em 30 dias: ${formatBRL(summary.cashPotential30dBRL)}`,
       `Projeção acumulada em 12 meses: ${formatBRL(summary.projection12mBRL)}`,
@@ -150,6 +155,7 @@ export function mountAuditorApp(rootEl) {
   function applyPresetToForm(nicheId, customName) {
     const preset = getPresetForNiche(nicheId, customName);
     state.form.whatsapp = { ...preset.whatsapp };
+    state.whatsappExample = true;
     state.form.pricing = {
       ...preset.pricing,
       items: preset.pricing.items.map((item) => ({ ...item }))
@@ -444,7 +450,7 @@ export function mountAuditorApp(rootEl) {
         { class: 'auditor-actions-bar' },
         el(
           'span',
-          { class: 'auditor-field-hint', text: 'Cálculo matemático determinístico no cliente e Edge API sem risco de alucinação numérica.' }
+          { class: 'auditor-field-hint', text: 'Os indicadores são calculados a partir dos dados informados.' }
         ),
         el(
           'div',
@@ -453,7 +459,7 @@ export function mountAuditorApp(rootEl) {
             type: 'button',
             class: 'btn',
             id: 'auditor-quick-test-btn',
-            text: '⚡ Testar com Caso Real deste Nicho',
+            text: '⚡ Testar com exemplo fictício',
             onclick: () => {
               applyPresetToForm(state.nicheId, state.customNicheName);
               runAuditFlow();
@@ -495,10 +501,12 @@ export function mountAuditorApp(rootEl) {
     return el(
       'div',
       { class: 'auditor-form-grid' },
-      renderNumberField('wa-leads', 'Orçamentos / contatos no WhatsApp por mês', wa.leadsPerMonth, 'Ex.: 240 mensagens comerciais/mês', (v) => { wa.leadsPerMonth = v; }, 'numeric'),
+      renderNumberField('wa-leads', 'Contatos únicos no WhatsApp por mês', wa.leadsPerMonth, 'Conte cada pessoa uma vez. Ex.: 240 contatos', (v) => { wa.leadsPerMonth = v; }, 'numeric'),
       renderNumberField('wa-conv', 'Taxa média de fechamento atual (%)', wa.currentConversionPct, 'Ex.: 18 ou 18,5%', (v) => { wa.currentConversionPct = v; }),
       renderNumberField('wa-ticket', 'Ticket médio por venda fechada (R$)', wa.averageTicket, 'Ex.: 420 ou R$ 1.250,00', (v) => { wa.averageTicket = v; }),
-      renderNumberField('wa-margin', 'Margem bruta média (%)', wa.grossMarginPct, 'Padrão 65% se não souber exato', (v) => { wa.grossMarginPct = v; }),
+      renderNumberField('wa-eligible', 'Orçamentos elegíveis para retomada', wa.eligibleQuotes, 'Conte só os já enviados, ainda em aberto e que vale retomar.', (v) => { wa.eligibleQuotes = v; }, 'numeric'),
+      renderNumberField('wa-recovery-rate', 'Taxa de recuperação adicional (%)', wa.recoveryRatePct, 'Opcional. Use uma hipótese ou a diferença observada num teste com dois grupos.', (v) => { wa.recoveryRatePct = v; }),
+      renderNumberField('wa-margin', 'Margem de contribuição média (%)', wa.grossMarginPct, 'Opcional. Considere o valor pago menos os custos variáveis.', (v) => { wa.grossMarginPct = v; }),
       renderNumberField('wa-response', 'Tempo médio para 1ª resposta (minutos)', wa.avgResponseMinutes, 'Ex.: 45 minutos', (v) => { wa.avgResponseMinutes = v; }, 'numeric'),
       el(
         'div',
@@ -743,7 +751,7 @@ export function mountAuditorApp(rootEl) {
     if (state.loading) {
       const stages = [
         '1/3 Validando entradas PT-BR e executando motor financeiro determinístico...',
-        '2/3 Identificando vazamentos mensais, gargalos do nicho e potencial em 12 meses...',
+        '2/3 Calculando os indicadores e o cenário informado...',
         '3/3 Gerando plano de ação de 48h, scripts prontos e estrutura da planilha .XLSX...'
       ];
       return el(
@@ -789,15 +797,15 @@ export function mountAuditorApp(rootEl) {
       el(
         'div',
         { class: 'auditor-preset-banner' },
-        el('p', { text: `Quer ver a auditoria completa funcionando na hora com números reais de ${getEffectiveNicheLabel(state)}?` }),
+        el('p', { text: `Quer ver a auditoria completa funcionando na hora com dados fictícios de ${getEffectiveNicheLabel(state)}?` }),
         el('button', {
           type: 'button',
           class: 'btn btn-small',
           id: 'auditor-fill-preset-btn',
-          text: '⚡ Preencher com Caso Real deste Nicho',
+          text: '⚡ Preencher com exemplo fictício',
           onclick: () => {
             applyPresetToForm(state.nicheId, state.customNicheName);
-            state.statusMessage = `✓ Cenário realista de ${getEffectiveNicheLabel(state)} carregado nos campos abaixo.`;
+            state.statusMessage = `✓ Exemplo fictício de ${getEffectiveNicheLabel(state)} carregado nos campos abaixo.`;
             state.statusIsError = false;
             render();
           }
@@ -809,7 +817,9 @@ export function mountAuditorApp(rootEl) {
           ? renderModuleBForm()
           : renderModuleCForm(),
       el('p', { class: 'auditor-field-hint', id: 'auditor-analysis-notice' },
-        'Ao gerar o diagnóstico, você envia os dados do negócio ao Auditor. Um provedor de IA pode receber parte deles para redigir a análise. ',
+        state.moduleId === 'whatsapp'
+          ? 'O Auditor usa os dados informados para calcular a simulação e sugerir um teste. '
+          : 'Ao gerar o diagnóstico, você envia os dados do negócio ao Auditor. Um provedor de IA pode receber parte deles para redigir a análise. ',
         el('a', { href: '/privacidade/#auditor-ia', text: 'Saiba como os dados são usados', target: '_blank', rel: 'noopener' })
       ),
       state.statusMessage
@@ -907,14 +917,16 @@ export function mountAuditorApp(rootEl) {
     const { audit, analysis, meta } = result;
     const { summary, details, moduleId, nicheLabel } = audit;
     const infeasible = details.isTargetMathematicallyInfeasible;
+    const isWhatsapp = moduleId === 'whatsapp';
+    const scenario = isWhatsapp ? details.scenarios?.hypothetical : null;
     const maxBarValue = Math.max(1, ...summary.comparisonBars.map((b) => Math.max(0, b.valueBRL)));
 
     const whatsappExecutiveHref = buildWhatsappLink(buildExecutiveWhatsappMessage(state, result));
     const trainingWaHref = buildWhatsappLink(
-      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Educação em IA após auditar ${state.lead.company || nicheLabel}${infeasible ? '' : ` (vazamento de ${formatBRL(summary.monthlyLeakageBRL)}/mês)`} e quero saber sobre cursos e treinamento prático para minha equipe.`
+      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Educação em IA após auditar ${state.lead.company || nicheLabel}${infeasible || isWhatsapp ? '' : ` (vazamento de ${formatBRL(summary.monthlyLeakageBRL)}/mês)`} e quero saber sobre cursos e treinamento prático para minha equipe.`
     );
     const engineeringWaHref = buildWhatsappLink(
-      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Engenharia Full-Stack após auditar ${state.lead.company || nicheLabel}${infeasible ? '' : ` (potencial de ${formatBRL(summary.projection12mBRL)}/ano)`} e quero cotar um site, sistema ou agente de IA no WhatsApp.`
+      `Olá, ${BRAND_CONFIG.founder}! Vi a Frente de Engenharia Full-Stack após auditar ${state.lead.company || nicheLabel}${infeasible || isWhatsapp ? '' : ` (potencial de ${formatBRL(summary.projection12mBRL)}/ano)`} e quero cotar um site, sistema ou agente de IA no WhatsApp.`
     );
 
     const kpi4Label = moduleId === 'pricing'
@@ -962,10 +974,31 @@ export function mountAuditorApp(rootEl) {
           })
         )
       ),
+      isWhatsapp && state.whatsappExample
+        ? el('p', { class: 'auditor-field-hint', text: 'Simulação iniciada com um exemplo fictício. Revise os campos para usar os dados do seu negócio.' })
+        : null,
       el(
         'div',
         { class: 'auditor-kpi-grid' },
-        infeasible ? el(
+        isWhatsapp ? [
+          el('article', { class: 'auditor-kpi' },
+            el('span', { text: 'Orçamentos elegíveis' }),
+            el('strong', { text: formatInt(details.eligibleQuotes) }),
+            el('small', { text: 'Base usada na simulação de retomada' })
+          ),
+          el('article', { class: 'auditor-kpi' },
+            el('span', { text: 'Receita por venda adicional' }),
+            el('strong', { text: formatBRL(details.averageTicket) }),
+            el('small', { text: 'Ticket médio informado' })
+          ),
+          el('article', { class: 'auditor-kpi auditor-kpi--positive' },
+            el('span', { text: 'Receita adicional simulada em 30 dias' }),
+            el('strong', { text: scenario ? formatBRL(scenario.revenue30dBRL) : 'Taxa em aberto' }),
+            el('small', { text: scenario
+              ? `Premissa de ${formatPct(details.recoveryRatePct, 2)}${scenario.margin30dBRL == null ? '' : ` · ${formatBRL(scenario.margin30dBRL)} de contribuição simulada`}`
+              : 'Informe uma taxa para calcular o cenário.' })
+          )
+        ] : infeasible ? el(
           'article',
           { class: 'auditor-kpi' },
           el('span', { text: 'Margem atual da carteira' }),
@@ -994,7 +1027,7 @@ export function mountAuditorApp(rootEl) {
             el('small', { text: 'Impacto acumulado anualizado' })
           )
         ],
-        el(
+        isWhatsapp ? null : el(
           'article',
           { class: 'auditor-kpi' },
           el('span', { text: moduleId === 'pricing' ? 'Itens para Reajuste' : 'Horas Recuperadas' }),
@@ -1002,10 +1035,10 @@ export function mountAuditorApp(rootEl) {
           el('small', { text: kpi4Sub })
         )
       ),
-      infeasible ? null : el(
+      infeasible || !summary.comparisonBars.length ? null : el(
         'section',
         { class: 'auditor-section-card', 'aria-labelledby': 'auditor-chart-title' },
-        el('h4', { id: 'auditor-chart-title', text: 'Comparativo Financeiro Mensal (Antes vs Otimizado)' }),
+        el('h4', { id: 'auditor-chart-title', text: isWhatsapp ? 'Quanto representam vendas adicionais' : 'Comparativo Financeiro Mensal (Antes vs Otimizado)' }),
         el(
           'div',
           { class: 'auditor-bars' },
@@ -1036,7 +1069,7 @@ export function mountAuditorApp(rootEl) {
       el(
         'section',
         { class: 'auditor-section-card', 'aria-labelledby': 'auditor-diag-title' },
-        el('h4', { id: 'auditor-diag-title', text: 'Diagnóstico Cirúrgico da Causa Raiz' }),
+        el('h4', { id: 'auditor-diag-title', text: isWhatsapp ? 'Possíveis gargalos a investigar' : 'Diagnóstico Cirúrgico da Causa Raiz' }),
         el(
           'div',
           { class: 'auditor-diagnosis-text' },
@@ -1137,6 +1170,7 @@ export function mountAuditorApp(rootEl) {
           style: 'font-size: clamp(1.2rem, 2.2vw, 1.65rem)',
           text: state.lead.unlocked
             ? 'Planilha Executiva (.XLSX) e Todos os Scripts Desbloqueados!'
+            : isWhatsapp ? 'Baixe a planilha com a simulação e o roteiro de teste'
             : infeasible ? 'Baixe a planilha com as margens atuais e os itens para revisão'
             : 'Baixe sua Planilha Executiva (.XLSX) com Projeção de 12 Meses + Todos os Scripts'
         }),

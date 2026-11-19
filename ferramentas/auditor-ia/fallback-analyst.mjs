@@ -48,14 +48,24 @@ export function sanitizeAuditPayload(rawBody) {
     const leadsPerMonth = Math.max(0, Math.min(10_000_000, parsePtBrNumber(src.leadsPerMonth, 0, { mode: 'integer' })));
     const averageTicket = Math.max(0, Math.min(10_000_000, parsePtBrNumber(src.averageTicket, 0, { mode: 'currency' })));
     if (leadsPerMonth <= 0 || averageTicket <= 0) {
-      throw new PayloadValidationError('Informe quantidade de orçamentos/mês e ticket médio maiores que zero.');
+      throw new PayloadValidationError('Informe a quantidade de contatos/mês e ticket médio maiores que zero.');
+    }
+    const currentConversionPct = Math.max(0, Math.min(100, parsePtBrNumber(src.currentConversionPct, 0, { mode: 'percent' })));
+    const eligibleQuotes = Math.max(0, Math.round(parsePtBrNumber(src.eligibleQuotes, 0, { mode: 'integer' })));
+    if (eligibleQuotes > Math.round(leadsPerMonth * (1 - currentConversionPct / 100))) {
+      throw new PayloadValidationError('Revise os orçamentos elegíveis. A quantidade deve caber no total estimado de contatos que ainda não fecharam.');
     }
     result.whatsapp = {
       leadsPerMonth,
-      currentConversionPct: Math.max(0, Math.min(100, parsePtBrNumber(src.currentConversionPct, 15, { mode: 'percent' }))),
+      currentConversionPct,
       averageTicket,
-      grossMarginPct: Math.max(1, Math.min(100, parsePtBrNumber(src.grossMarginPct ?? 65, 65, { mode: 'percent' }))),
-      avgResponseMinutes: Math.max(1, Math.min(10080, parsePtBrNumber(src.avgResponseMinutes ?? 45, 45, { mode: 'integer' }))),
+      eligibleQuotes,
+      recoveryRatePct: src.recoveryRatePct == null || String(src.recoveryRatePct).trim() === ''
+        ? null : Math.max(0, Math.min(100, parsePtBrNumber(src.recoveryRatePct, 0, { mode: 'percent' }))),
+      grossMarginPct: src.grossMarginPct == null || String(src.grossMarginPct).trim() === ''
+        ? null : Math.max(0, Math.min(100, parsePtBrNumber(src.grossMarginPct, 0, { mode: 'percent' }))),
+      avgResponseMinutes: src.avgResponseMinutes == null || String(src.avgResponseMinutes).trim() === ''
+        ? null : Math.max(0, Math.min(10080, parsePtBrNumber(src.avgResponseMinutes, 0, { mode: 'integer' }))),
       followUpSteps: Math.max(0, Math.min(5, Math.round(parsePtBrNumber(src.followUpSteps ?? 1, 1, { mode: 'integer' })))),
       conversationsSample: sanitizeFreeText(src.conversationsSample || '', 1800)
     };
@@ -136,10 +146,9 @@ export function buildBusinessEngineeringPrompts(auditResult, sanitizedInput) {
       leadsMes: details.leadsPerMonth,
       conversaoAtual: formatPct(details.currentConversionPct),
       ticketMedio: formatBRL(details.averageTicket),
-      leadsPerdidosMes: Math.round(details.lostLeadsMonthly),
+      orcamentosElegiveis: details.eligibleQuotes,
       tempoRespostaMin: details.avgResponseMinutes,
-      followUps: details.followUpSteps,
-      roiAnualizado: formatPct(details.annualRoiPct)
+      followUps: details.followUpSteps
     });
   } else if (moduleId === 'pricing') {
     Object.assign(compactMetrics, {
@@ -309,18 +318,9 @@ function getNicheVocabulary(nicheId, nicheLabel) {
 function detectWhatsappObjectionContext(rawSample) {
   const sample = String(rawSample || '').toLowerCase();
   const signals = [];
-  if (/pre[çc]o|caro|barato|valor|desconto|or[çc]amento/.test(sample)) {
-    signals.push('objeção de preço/comparação direta');
-  }
-  if (/agenda|hor[áa]rio|depois|amanh[ãa]|semana|pensar|retorno/.test(sample)) {
-    signals.push('procrastinação pós-orçamento ("vou ver e te retorno")');
-  }
-  if (/parcel|cart[ãa]o|conv[êe]nio|pix|frete|entrega/.test(sample)) {
-    signals.push('dúvida sobre pagamento, parcelamento ou frete');
-  }
-  if (/pdf|demora|noite|18h|fim de semana|atendente|visualiz/.test(sample)) {
-    signals.push('atraso na primeira resposta ou material difícil de ler no celular');
-  }
+  if (/car[oa]\b|mais barato|desconto|compar/.test(sample)) signals.push('comparação de preço');
+  if (/agenda|hor[áa]rio|vaga/.test(sample)) signals.push('disponibilidade de horário');
+  if (/parcel|cart[ãa]o|conv[êe]nio|pix/.test(sample)) signals.push('formas de pagamento ou convênio');
   return signals;
 }
 
@@ -335,40 +335,41 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
   if (moduleId === 'whatsapp') {
     const sample = sanitizedInput.whatsapp?.conversationsSample || '';
     const objectionSignals = detectWhatsappObjectionContext(sample);
-    const delayLabel = details.avgResponseMinutes > 30
-      ? `o tempo médio de resposta de ${details.avgResponseMinutes} minutos já esfria o interesse na janela crítica dos primeiros 5 minutos`
-      : `mesmo respondendo em ${details.avgResponseMinutes} minutos, falta cadência estruturada após o envio do preço`;
-    const followUpGap = details.followUpSteps <= 1
-      ? `Com apenas ${details.followUpSteps} tentativa(s) de follow-up, a maior parte dos ${formatInt(details.lostLeadsMonthly)} orçamentos não fechados evapora sem segunda abordagem.`
-      : `Mesmo com ${details.followUpSteps} retornos, mensagens genéricas de "conseguiu ver?" não quebram objeções.`;
-
-    const detectedText = objectionSignals.length > 0
-      ? ` Nos relatos informados aparecem sinais claros de ${objectionSignals.join(', ')}.`
+    const scenario = details.scenarios?.hypothetical;
+    const scenarioText = scenario
+      ? `Se ${formatPct(details.recoveryRatePct, 2)} dos ${formatInt(details.eligibleQuotes)} orçamentos elegíveis virarem vendas adicionais, o cenário indica ${formatBRL(scenario.revenue30dBRL)} em 30 dias no ticket médio informado. Meça vendas pagas para validar essa premissa.`
+      : 'Informe uma taxa para simular a recuperação ou use o ticket médio para avaliar o ganho por venda adicional.';
+    const responseTime = details.avgResponseMinutes === null
+      ? 'Meça o tempo até a primeira resposta.'
+      : `A primeira resposta leva em média ${formatInt(details.avgResponseMinutes)} minutos pelos dados informados.`;
+    const themes = objectionSignals.length
+      ? ` O relato menciona ${objectionSignals.join(', ')}. Confira em quais etapas esses temas aparecem.`
       : '';
 
     return {
-      executiveHeadline: `${nicheLabel}: ${formatBRL(summary.monthlyLeakageBRL)}/mês deixados na mesa no WhatsApp — ${formatBRL(summary.cashPotential30dBRL)} recuperáveis em 30 dias`,
+      executiveHeadline: `${nicheLabel}: ${formatInt(details.eligibleQuotes)} orçamentos para avaliar a retomada`,
       rootCauseDiagnosis:
-        `Sua operação em ${nicheLabel} recebe ${formatInt(details.leadsPerMonth)} contatos por mês com conversão de ${formatPct(details.currentConversionPct)}, o que gera ${formatInt(details.lostLeadsMonthly)} oportunidades perdidas mensalmente (equivalente a ${formatBRL(details.revenueLeftOnTableMonthly)}/mês em faturamento potencial com ticket de ${formatBRL(details.averageTicket)}). O gargalo central está em dois pontos combinados: ${delayLabel}, e ${followUpGap.toLowerCase()}${detectedText}\n\n` +
-        `Aplicando uma sequência de reativação moderada de 12% sobre os contatos perdidos, seu negócio destrava ${formatBRL(details.scenarios.moderate.revenue30dBRL)} extras em 30 dias (${formatBRL(details.scenarios.moderate.margin30dBRL)} de margem de contribuição direta) e projeta ${formatBRL(details.annualizedModerateRevenue)} em 12 meses — além de liberar ${details.hoursSavedMonthly}h/mês da equipe com triagem assistida.`,
+        `Pelos dados informados, ${formatInt(details.leadsPerMonth)} contatos por mês convertem a ${formatPct(details.currentConversionPct)}. Aplique a retomada apenas à base elegível de ${formatInt(details.eligibleQuotes)} orçamentos.\n\n` +
+        `${responseTime} Você informou ${formatInt(details.followUpSteps)} tentativa(s) de retorno. Compare atendimentos por tempo de resposta e por etapa para ver onde as conversas param.${themes}\n\n` +
+        scenarioText,
       plan48h: [
         {
-          window: 'Hoje (0–4h)',
-          title: 'Resgate imediato da base dos últimos 15 dias',
-          action: `Separe os últimos 30 ${vocab.customerNoun}s que pediram ${vocab.offerNoun} e não fecharam. Envie o Script 01 (Reabertura sem pressão) destacando ${vocab.objectionAngle}.`,
-          expectedImpact: `Primeiras respostas reativadas no mesmo dia rumo à meta conservadora de ${formatBRL(summary.cashConservative30dBRL)}.`
+          window: 'Hoje',
+          title: 'Revisar os orçamentos em aberto',
+          action: 'Conte apenas orçamentos enviados que ainda fazem sentido retomar. Registre a etapa de cada conversa.',
+          expectedImpact: 'Uma lista de contatos elegíveis para o teste.'
         },
         {
-          window: 'Amanhã (4–24h)',
-          title: 'Padronização de resposta em até 3 minutos + âncora de valor',
-          action: 'Substitua respostas secas de preço pelo Script 02 (Qualificação + Ancoragem em 2 opções) e crie atalhos rápidos no WhatsApp Business.',
-          expectedImpact: `Redução direta da queda de atenção após o primeiro contato e elevação da conversão de ${formatPct(details.currentConversionPct)} para ${formatPct(details.scenarios.moderate.projectedConversionPct)}.`
+          window: 'Amanhã',
+          title: 'Testar uma sequência de retorno',
+          action: 'Divida os orçamentos elegíveis em dois grupos semelhantes. Mantenha a rotina habitual em um e teste uma sequência de retorno no outro.',
+          expectedImpact: 'Uma comparação entre grupos no mesmo período.'
         },
         {
-          window: 'Em 48h (24–48h)',
-          title: 'Cadência D+1 e D+3 com encerramento elegante',
-          action: 'Configure etiqueta "Orçamento Enviado" e aplique o Script 03 após 48h para converter indecisos em agendamentos ou pedidos no Pix.',
-          expectedImpact: `Consolidação do ganho mensal estimado em ${formatBRL(summary.cashPotential30dBRL)}/mês (${formatBRL(summary.projection12mBRL)}/ano).`
+          window: 'Em 48h',
+          title: 'Definir o que será medido',
+          action: 'Combine a janela do teste e acompanhe respostas, vendas pagas e tempo da equipe por grupo.',
+          expectedImpact: 'Uma base para revisar a taxa e estimar vendas adicionais.'
         }
       ],
       deliverables: [
@@ -377,9 +378,9 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
           badge: 'Copie e envie hoje',
           content:
             `Oi [Nome], tudo bem? Aqui é [Seu Nome], da equipe de ${nicheLabel}.\n\n` +
-            `Vi que conversamos recentemente sobre ${vocab.offerNoun}, mas não quero te mandar mensagem automática — queria só confirmar se você ainda precisa resolver isso nesta semana.\n\n` +
-            `Se a dúvida foi condição de pagamento ou encaixe de agenda, consegui liberar uma condição facilitada para quem confirmar até amanhã. Prefere que eu te mande os detalhes por aqui ou um áudio curto de 30s?`,
-          usageTip: 'Envie entre 9h30–11h30 ou 14h30–16h30. A pergunta binária no final dobra a taxa de resposta.'
+            `Vi que conversamos recentemente sobre ${vocab.offerNoun}, e queria confirmar se você ainda precisa resolver isso nesta semana.\n\n` +
+            `Se a dúvida foi condição de pagamento ou encaixe de agenda, posso verificar as opções disponíveis. Prefere receber os detalhes por aqui ou por áudio?`,
+          usageTip: 'Teste o horário e registre as respostas antes de adotar um padrão.'
         },
         {
           title: 'Script 02 · Resposta de Alto Valor (Quebra de Objeção de Preço)',
@@ -397,9 +398,9 @@ export function buildContingencyAnalysis(auditResult, sanitizedInput = {}) {
           badge: 'Recuperação D+2',
           content:
             `Oi [Nome], passando só para organizar nossa fila da semana por aqui.\n\n` +
-            `Como não tivemos retorno sobre ${vocab.offerNoun}, vou liberar a pré-reserva de horário/condição especial para outro ${vocab.customerNoun} da lista de espera, tudo bem?\n\n` +
-            `Se ainda fizer sentido ${vocab.closingAction} esta semana, me responda apenas com "QUERO" que seguro uma janela hoje ainda pra você.`,
-          usageTip: 'O gatilho de organização de fila gera urgência real sem parecer insistente ou desesperado.'
+            `Como não tivemos retorno sobre ${vocab.offerNoun}, vou encerrar este acompanhamento por aqui.\n\n` +
+            `Se ainda fizer sentido ${vocab.closingAction} esta semana, pode me responder por aqui e eu verifico as opções disponíveis.`,
+          usageTip: 'Use no último retorno e respeite a escolha de quem pedir para encerrar o contato.'
         }
       ],
       implementationSplit: {

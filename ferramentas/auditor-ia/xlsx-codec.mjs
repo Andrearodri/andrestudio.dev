@@ -574,6 +574,8 @@ export async function buildExecutiveWorkbookXlsx(report) {
   const summary = audit.summary || {};
   const details = audit.details || {};
   const moduleId = audit.moduleId || 'whatsapp';
+  const isWhatsapp = moduleId === 'whatsapp';
+  const scenario = isWhatsapp ? details.scenarios?.hypothetical : null;
   const infeasible = moduleId === 'pricing' && details.isTargetMathematicallyInfeasible;
   const moduleNames = {
     whatsapp: 'Módulo A — Recuperação de Orçamentos no WhatsApp',
@@ -595,7 +597,15 @@ export async function buildExecutiveWorkbookXlsx(report) {
     { ht: 24, cells: [{ v: '1. INDICADORES FINANCEIROS AUDITADOS (DETERMINÍSTICOS)', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
     { cells: [{ v: 'Indicador', s: 3 }, { v: 'Valor Auditado', s: 3 }, { v: 'Unidade / Horizonte', s: 3 }, { v: 'Leitura Executiva', s: 3 }] },
   ];
-  if (infeasible) {
+  if (isWhatsapp) {
+    sheet1Rows.push(
+      { cells: [{ v: 'Orçamentos elegíveis', s: 4 }, { v: details.eligibleQuotes ?? '', s: 8 }, { v: '30 dias', s: 0 }, { v: 'Orçamentos enviados, em aberto e elegíveis para retomada.', s: 0 }] },
+      { cells: [{ v: 'Taxa adicional usada na simulação', s: 4 }, { v: scenario ? scenario.reactivationRatePct / 100 : 'Em aberto', s: 7 }, { v: '', s: 0 }, { v: 'Premissa editável no Auditor. Valide com um teste.', s: 0 }] },
+      { cells: [{ v: 'Receita adicional simulada', s: 4 }, { v: scenario?.revenue30dBRL ?? 'Em aberto', s: 6 }, { v: 'R$ em 30 dias', s: 0 }, { v: 'Orçamentos elegíveis × taxa × ticket médio.', s: 0 }] },
+      { cells: [{ v: 'Margem de contribuição simulada', s: 4 }, { v: scenario?.margin30dBRL ?? 'Em aberto', s: 5 }, { v: 'R$ em 30 dias', s: 0 }, { v: 'Depende da margem informada.', s: 0 }] },
+      ...(summary.comparisonBars || []).map(bar => ({ cells: [{ v: bar.label, s: 4 }, { v: bar.valueBRL, s: 5 }] }))
+    );
+  } else if (infeasible) {
     sheet1Rows.push({ cells: [{ v: 'Meta de margem', s: 4 }, { v: 'Inviável com as taxas atuais', s: 11 }] });
   } else {
     sheet1Rows.push(
@@ -629,9 +639,9 @@ export async function buildExecutiveWorkbookXlsx(report) {
 
   if (moduleId === 'whatsapp') {
     sheet1Rows.push(
-      { cells: [{ v: 'Orçamentos / Leads por Mês', s: 4 }, { v: Number(details.leadsPerMonth || 0), s: 8 }, { v: 'Taxa de Conversão Atual', s: 4 }, { v: Number(details.currentConversionPct || 0) / 100, s: 7 }] },
-      { cells: [{ v: 'Ticket Médio (R$)', s: 4 }, { v: Number(details.averageTicket || 0), s: 5 }, { v: 'Margem Bruta (%)', s: 4 }, { v: Number(details.grossMarginPct || 0) / 100, s: 7 }] },
-      { cells: [{ v: 'Leads Perdidos por Mês', s: 4 }, { v: Number(details.lostLeadsMonthly || 0), s: 9 }, { v: 'ROI Anualizado Estimado (%)', s: 4 }, { v: Number(details.annualRoiPct || 0) / 100, s: 7 }] }
+      { cells: [{ v: 'Contatos únicos por mês', s: 4 }, { v: Number(details.leadsPerMonth || 0), s: 8 }, { v: 'Taxa de Conversão Atual', s: 4 }, { v: Number(details.currentConversionPct || 0) / 100, s: 7 }] },
+      { cells: [{ v: 'Ticket Médio (R$)', s: 4 }, { v: Number(details.averageTicket || 0), s: 5 }, { v: 'Margem de contribuição (%)', s: 4 }, { v: details.grossMarginPct == null ? 'Em aberto' : details.grossMarginPct / 100, s: 7 }] },
+      { cells: [{ v: 'Retornos por orçamento', s: 4 }, { v: details.followUpSteps ?? '', s: 8 }, { v: 'Tempo médio da primeira resposta (min)', s: 4 }, { v: details.avgResponseMinutes ?? 'Em aberto', s: 8 }] }
     );
   } else if (moduleId === 'pricing') {
     sheet1Rows.push(
@@ -717,7 +727,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
   // --- ABA 3: Plano_Implementacao_30D ---
   const sheet3Rows = [
     { ht: 28, cells: [{ v: `Plano de Implementação em 30 Dias — ${companyName}`, s: 1 }, { v: '', s: 1 }, { v: '', s: 1 }, { v: '', s: 1 }] },
-    { cells: [{ v: 'Base Numérica', s: 4 }, { v: infeasible ? 'Projeção indisponível para a meta informada.' : `Potencial de 30 dias: ${formatBRL(summary.cashPotential30dBRL || 0)} | Projeção 12 meses: ${formatBRL(summary.projection12mBRL || 0)}`, s: 0 }] },
+    { cells: [{ v: 'Base Numérica', s: 4 }, { v: isWhatsapp ? (scenario ? `Receita adicional simulada em 30 dias: ${formatBRL(scenario.revenue30dBRL)}` : 'Informe uma taxa no Auditor para simular a receita adicional.') : infeasible ? 'Projeção indisponível para a meta informada.' : `Potencial de 30 dias: ${formatBRL(summary.cashPotential30dBRL || 0)} | Projeção 12 meses: ${formatBRL(summary.projection12mBRL || 0)}`, s: 0 }] },
     { cells: [] },
     { ht: 24, cells: [{ v: '1. AÇÕES IMEDIATAS DE 48 HORAS', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }, { v: '', s: 2 }] },
     { cells: [{ v: 'Janela', s: 3 }, { v: 'Passo Prioritário', s: 3 }, { v: 'Execução Prática', s: 3 }, { v: 'Impacto Esperado', s: 3 }] }
@@ -732,6 +742,16 @@ export async function buildExecutiveWorkbookXlsx(report) {
         { v: step.expectedImpact || '', s: 10 }
       ]
     });
+  }
+
+  if (isWhatsapp) {
+    sheet3Rows.push(
+      { cells: [] },
+      { cells: [{ v: 'REGISTRO DO TESTE', s: 2 }] },
+      { cells: [{ v: 'Indicador', s: 3 }, { v: 'Atendimento habitual', s: 3 }, { v: 'Novo follow-up', s: 3 }] },
+      ...['Orçamentos incluídos', 'Respostas recebidas', 'Vendas pagas', 'Receita recebida (R$)', 'Tempo total da equipe (min)']
+        .map(label => ({ cells: [{ v: label, s: 4 }, { v: '', s: 5 }, { v: '', s: 5 }] }))
+    );
   }
 
   const split = analysis.implementationSplit || { teamWithAiTraining: [], customEngineeringStudio: [] };
@@ -766,7 +786,7 @@ export async function buildExecutiveWorkbookXlsx(report) {
     { cells: [{ v: 'WhatsApp Direto', s: 4 }, { v: `${BRAND_CONFIG.whatsappFormatted} — ${BRAND_CONFIG.whatsappUrl}`, s: 10 }] },
     { cells: [{ v: 'E-mail Oficial', s: 4 }, { v: BRAND_CONFIG.email, s: 0 }] },
     { cells: [{ v: 'Site e Soluções', s: 4 }, { v: `${BRAND_CONFIG.siteUrl} | Capacitação: ${BRAND_CONFIG.siteUrl}${BRAND_CONFIG.links.kits} | Engenharia: ${BRAND_CONFIG.siteUrl}${BRAND_CONFIG.links.services}`, s: 0 }] },
-    { cells: [{ v: 'Resumo Compartilhável', s: 4 }, { v: infeasible ? analysis.executiveHeadline : `Horas poupadas/mês: ${formatInt(summary.hoursRecoveredMonthly || 0)}h · Variação conservadora: ${formatBRL(summary.cashConservative30dBRL || 0)} · Meta 30d: ${formatBRL(summary.cashPotential30dBRL || 0)} (${formatPct(details.currentConversionPct || details.weightedCurrentMarginPct || 0)} base)`, s: 0 }] }
+    { cells: [{ v: 'Resumo Compartilhável', s: 4 }, { v: isWhatsapp ? analysis.executiveHeadline : infeasible ? analysis.executiveHeadline : `Horas poupadas/mês: ${formatInt(summary.hoursRecoveredMonthly || 0)}h · Variação conservadora: ${formatBRL(summary.cashConservative30dBRL || 0)} · Meta 30d: ${formatBRL(summary.cashPotential30dBRL || 0)} (${formatPct(details.currentConversionPct || details.weightedCurrentMarginPct || 0)} base)`, s: 0 }] }
   );
 
   return buildWorkbookFromSheets([
