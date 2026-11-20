@@ -32,11 +32,16 @@
    - `/solucoes/servicos/?area=advocacia|contabilidade|clinicas|imobiliarias|outros`:
      página para escritórios e empresas de serviço com seletor de área.
 
+4. `feat/integracao` (**a mais recente, use esta**): junta tudo acima com a branch do Codex
+   `fix/consistent-public-navigation` (cursos e 7 aulas, /assista/, posts Epoch AI e GPT-6.2,
+   menu padronizado em 43 páginas, `npm run test:navigation`). Ficaram fora: os 12 posts de
+   notícias de tecnologia e o feed "Direto da fonte" do blog (radar.js continua no repo, mas
+   não é usado no blog). No /assista/ saiu o vídeo recomendado do YouTube (o dono não quer).
+
 ## ANTES DE PUBLICAR (importante)
-O site no ar tem páginas que **não estão no GitHub**: `/cursos/` (e aulas), `/assista/`,
-`/blog/epoch-ia-trabalho-equipe/`. Elas vêm do Mac do dono. Antes de juntar as branches na
-main, enviar esses arquivos do Mac para o GitHub e confirmar na Cloudflare de qual branch a
-publicação sai. Senão a próxima publicação apaga essas páginas.
+Resolvido em 20/11: as páginas que só estavam no Mac (`/cursos/`, `/assista/`, post da Epoch)
+chegaram pelo Codex e estão em `feat/integracao`. Antes de publicar, ainda confirmar na Cloudflare
+de qual branch a publicação sai.
 
 ## Próximos passos combinados
 - Dono está testando `/solucoes/servicos/` e quer terminar a página hoje.
