@@ -26,7 +26,7 @@
    "Scout" é provisório, o dono pode trocar).
 2. `feat/blog-negocios`: blog limpo (12 posts de tecnologia/urna saíram com 301 para /blog/ no
    `_redirects`), 2 posts novos com fontes e capas próprias.
-3. `feat/portfolio-telas-reais` (a mais recente, contém as anteriores):
+3. `feat/portfolio-telas-reais` (contém as anteriores):
    - capturas reais das demos no lugar das imagens de IA (Lead Flow, OmniAgent, Nexus);
    - nova demo `/portfolio/nexus-bi-demo/` (projeção de caixa 30/60/90, faturas, alertas);
    - `/solucoes/servicos/?area=advocacia|contabilidade|clinicas|imobiliarias|outros`:
