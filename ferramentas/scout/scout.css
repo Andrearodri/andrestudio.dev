@@ -1,0 +1,33 @@
+/* Scout: vitrine e demonstração com dados fictícios */
+.scout-passos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.scout-nichos { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.5rem; }
+.scout-nichos .btn { background: transparent; cursor: pointer; }
+.scout-nichos .btn[aria-pressed="true"] { border-color: var(--red); color: #fff; background: var(--red); }
+.scout-demo { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.5rem; align-items: start; }
+.scout-lista { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; }
+.scout-linha { width: 100%; display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; text-align: left;
+  background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; cursor: pointer; font: inherit; }
+.scout-linha:hover, .scout-linha[aria-pressed="true"] { border-color: var(--red); }
+.scout-linha:focus-visible { outline: 2px solid var(--red-soft); outline-offset: 2px; }
+.scout-pos { font-family: var(--display); color: var(--muted); font-size: 1.1rem; }
+.scout-info { display: grid; gap: .25rem; min-width: 0; }
+.scout-gancho { color: var(--text-soft); font-size: .92rem; }
+.scout-porque { color: var(--muted); font-size: .8rem; }
+.scout-nota { font-family: var(--display); font-weight: 700; font-size: 1.2rem; min-width: 3rem; text-align: center; padding: .35rem .5rem; border-radius: 999px; border: 1px solid var(--line-strong); }
+.scout-nota.alta { background: var(--red); border-color: var(--red); color: #fff; }
+.scout-nota.media { border-color: var(--red-soft); color: var(--red-soft); }
+.scout-nota.baixa { color: var(--muted); }
+.scout-detalhe h3 { font-size: 1.25rem; margin: .5rem 0 1rem; }
+.scout-detalhe h4 { margin: 1.2rem 0 .6rem; font-size: 1rem; }
+.scout-pesos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.scout-pesos strong { display: block; font-family: var(--display); font-size: 1.8rem; color: var(--red-soft); }
+.scout-pacotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.scout-preco { font-family: var(--display); font-size: 1.6rem; color: var(--text); margin: .5rem 0; }
+@media (max-width: 900px) {
+  .scout-passos, .scout-demo, .scout-pacotes { grid-template-columns: 1fr; }
+  .scout-pesos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .scout-linha { grid-template-columns: 1fr auto; }
+  .scout-pos { display: none; }
+}

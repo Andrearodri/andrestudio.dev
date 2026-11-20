@@ -271,7 +271,7 @@ p { margin: 0; }
 
 .header-inner {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
   gap: 1.2rem;
   min-height: 76px;
@@ -290,7 +290,8 @@ p { margin: 0; }
 .brand img { width: 34px; height: 34px; border-radius: 50%; }
 
 .site-nav { justify-self: end; }
-.site-nav ul { display: flex; align-items: center; gap: 1.55rem; margin: 0; padding: 0; list-style: none; }
+.header-cta { display: none; }
+.site-nav ul { display: flex; align-items: center; gap: .9rem; margin: 0; padding: 0; list-style: none; }
 .site-nav a { color: var(--nav-link); font-size: .87rem; font-weight: 600; text-decoration: none; transition: color .2s ease; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--nav-link-active); }
 
@@ -769,15 +770,18 @@ html[data-theme="light"] .pillar-card span[style*="color: #f87171"] {
 /* ===========================================
    RESPONSIVE
    =========================================== */
-@media (max-width: 980px) {
+@media (max-width: 1280px) {
   .header-cta { display: none; }
   .header-inner { grid-template-columns: auto auto auto; justify-content: space-between; }
   .js .nav-toggle { display: inline-grid; place-items: center; z-index: 2; }
-  .site-nav { position: absolute; top: 76px; left: 0; right: 0; display: block; padding: 1rem var(--gutter) 1.5rem; border-bottom: 1px solid var(--line); background: var(--header-bg-scroll); }
+  .site-nav { position: absolute; top: 76px; left: 0; right: 0; justify-self: stretch; display: block; padding: 1rem var(--gutter) 1.5rem; border-bottom: 1px solid var(--line); background: var(--header-bg-scroll); }
   .js .site-nav { display: none; }
   .js .site-nav.is-open { display: block; }
   .site-nav ul { align-items: stretch; flex-direction: column; gap: 0; }
   .site-nav a { display: block; padding: .8rem 0; font-size: 1rem; }
+}
+
+@media (max-width: 980px) {
   .project-feature, .article-layout, .page-hero .grid-2 { grid-template-columns: 1fr; }
   .page-hero .hero-illustration { max-width: 320px; }
   .project-feature .project-card-media { min-height: 380px; }
