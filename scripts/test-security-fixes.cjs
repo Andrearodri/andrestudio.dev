@@ -47,7 +47,7 @@ must(omni.includes('message.textContent = msg'), 'OmniAgent toast uses textConte
 must(omni.includes('code.textContent = formatted'), 'OmniAgent JSON preview uses textContent');
 must(!read('cases/omniagent-ai-studio/index.html').includes('Dados coletados em ambiente de produção de clientes'), 'OmniAgent has no unsupported client metric claim');
 
-const positioning = ['index.html', 'portfolio/index.html', 'servicos/index.html', 'cases/omniagent-ai-studio/index.html', 'portfolio/omniagent-ai-demo/app.js', 'blog/github-copilot-code-review-equipe-agentes/index.html', 'blog/claude-code-256-agentes-avaliacao-plugins/index.html', 'blog/meta-muse-agente-ia-whatsapp-secure-vm/index.html', 'blog/cloudflare-os-agentes-ia-empresas/index.html', 'blog/salesforce-agentforce-agentes-dias-semanas/index.html'].map(read).join('\n');
+const positioning = ['index.html', 'portfolio/index.html', 'servicos/index.html', 'cases/omniagent-ai-studio/index.html', 'portfolio/omniagent-ai-demo/app.js', 'blog/ia-do-whatsapp-business-o-que-ela-resolve/index.html', 'blog/como-ver-anuncios-dos-concorrentes/index.html'].map(read).join('\n');
 must(!/Engenheiro de Software Sênior|Falar com Arquiteto Tech/.test(positioning), 'Public positioning has no unsupported senior or architect title');
 
 const checkout = read('portfolio/cardapio-digital-demo/app.js');

@@ -1,4 +1,28 @@
 # Cloudflare Pages Redirects (Exact matches first for maximum routing performance)
+
+# Posts de noticias de tecnologia retirados em 20/11/2026 (foco em donos de negocio)
+/blog/agentes-ia-custo-credencial-continuidade /blog/ 301
+/blog/agentes-ia-custo-credencial-continuidade/ /blog/ 301
+/blog/claude-code-256-agentes-avaliacao-plugins /blog/ 301
+/blog/claude-code-256-agentes-avaliacao-plugins/ /blog/ 301
+/blog/cloudflare-os-agentes-ia-empresas /blog/ 301
+/blog/cloudflare-os-agentes-ia-empresas/ /blog/ 301
+/blog/github-copilot-code-review-equipe-agentes /blog/ 301
+/blog/github-copilot-code-review-equipe-agentes/ /blog/ 301
+/blog/google-gemini-3-6-flash /blog/ 301
+/blog/google-gemini-3-6-flash/ /blog/ 301
+/blog/google-gemini-3-7-flash /blog/ 301
+/blog/google-gemini-3-7-flash/ /blog/ 301
+/blog/grounding-with-parallel-foi-anunciado-oficialmente /blog/ 301
+/blog/grounding-with-parallel-foi-anunciado-oficialmente/ /blog/ 301
+/blog/meta-muse-agente-ia-whatsapp-secure-vm /blog/ 301
+/blog/meta-muse-agente-ia-whatsapp-secure-vm/ /blog/ 301
+/blog/radar-tech-do-chat-a-execucao-agentes-ia /blog/ 301
+/blog/radar-tech-do-chat-a-execucao-agentes-ia/ /blog/ 301
+/blog/salesforce-agentforce-agentes-dias-semanas /blog/ 301
+/blog/salesforce-agentforce-agentes-dias-semanas/ /blog/ 301
+/blog/urna-trocada-prova-fraude-auditoria-eleicoes-2026 /blog/ 301
+/blog/urna-trocada-prova-fraude-auditoria-eleicoes-2026/ /blog/ 301
 /portfolio /servicos/ 301
 /portfolio/ /servicos/ 301
 /sobre.html /sobre/ 301
