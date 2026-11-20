@@ -1,0 +1,26 @@
+/* Soluções para escritórios e empresas de serviço */
+.sol-areas { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 0; }
+.sol-areas .btn { background:transparent; cursor:pointer; }
+.sol-areas .btn[aria-pressed="true"] { background:var(--red); border-color:var(--red); color:#fff; }
+.sol-resumo { margin-top:1.2rem; color:var(--text-soft); font-size:1.05rem; min-height:3.2em; }
+.sol-etapa { display:grid; grid-template-columns:1fr 1.25fr; gap:2.5rem; align-items:center; }
+.sol-etapa.inverte > :first-child { order:2; }
+.sol-etapa figure { margin:0; }
+.sol-etapa img { width:100%; height:auto; display:block; border-radius:var(--radius); border:1px solid var(--line); box-shadow:0 30px 60px -30px rgba(0,0,0,.6); }
+.sol-etapa figcaption { font-size:.8rem; color:var(--muted); margin-top:.6rem; }
+.sol-num { font-family:var(--display); color:var(--red-soft); font-size:.9rem; letter-spacing:.12em; text-transform:uppercase; }
+.sol-etapa h2 { margin:.6rem 0 1rem; }
+.sol-exemplo { border-left:3px solid var(--red); padding:.9rem 1.1rem; background:var(--surface); border-radius:0 var(--radius) var(--radius) 0; margin:1.2rem 0; }
+.sol-exemplo small { display:block; color:var(--muted); font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.35rem; }
+.sol-cuidado { border:1px solid var(--line-strong); border-radius:var(--radius); padding:1.4rem 1.6rem; background:var(--surface); }
+.sol-passos { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1.2rem; margin-top:2rem; counter-reset:passo; }
+.sol-passos li { list-style:none; border:1px solid var(--line); border-radius:var(--radius); padding:1.3rem; background:var(--surface); }
+.sol-passos li:before { counter-increment:passo; content:"0" counter(passo); display:block; font-family:var(--display); color:var(--red-soft); font-size:1.4rem; margin-bottom:.5rem; }
+.sol-passos h3 { font-size:1.05rem; margin-bottom:.4rem; }
+.sol-passos p { color:var(--muted); font-size:.92rem; margin:0; }
+@media (max-width: 900px) {
+  .sol-etapa, .sol-etapa.inverte { grid-template-columns:1fr; gap:1.5rem; }
+  .sol-etapa.inverte > :first-child { order:0; }
+  .sol-passos { grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 520px) { .sol-passos { grid-template-columns:1fr; } }
