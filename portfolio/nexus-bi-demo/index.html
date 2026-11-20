@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexus BI &amp; Finance — Painel Financeiro | Demo AndreStudio.dev</title>
+<meta name="description" content="Demonstração interativa de um painel financeiro para pequenas e médias empresas: projeção de caixa de 30, 60 e 90 dias, faturas por situação e alertas. Dados fictícios.">
+<link rel="canonical" href="https://andrestudio.dev.br/portfolio/nexus-bi-demo/"><meta name="theme-color" content="#0a0c10">
+<meta property="og:type" content="website"><meta property="og:title" content="Nexus BI &amp; Finance — demonstração interativa"><meta property="og:description" content="Painel financeiro com projeção de caixa, faturas e alertas. Dados fictícios.">
+<meta property="og:url" content="https://andrestudio.dev.br/portfolio/nexus-bi-demo/"><meta property="og:image" content="https://andrestudio.dev.br/assets/optimized/nexus-bi-tela-real.jpg">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="/assets/optimized/logo-96.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portfolio/nexus-bi-demo/nexus.css">
+</head><body>
+<div class="nx-barra"><a href="/cases/nexus-bi-finance/">← Voltar ao case</a><span class="nx-selo">DEMONSTRAÇÃO — DADOS FICTÍCIOS</span><span class="nx-dica nx-nota">Troque o período da projeção e filtre as faturas.</span><a class="nx-cta" href="/contato/">Quero um painel assim</a></div>
+<div class="nx-app">
+  <aside class="nx-lado" aria-label="Menu da demonstração">
+    <div class="nx-marca"><i aria-hidden="true"></i>Nexus BI</div>
+    <ul class="nx-menu"><li class="ativo">Visão geral</li><li>Fluxo de caixa</li><li>Faturas</li><li>Despesas</li><li>Relatórios</li></ul>
+    <div class="nx-empresa"><b>Empresa Exemplo Ltda.</b>Serviços · 14 colaboradores<br>Dados fictícios</div>
+  </aside>
+  <main class="nx-main" id="conteudo">
+    <div class="nx-topo"><div><h1>Visão financeira</h1><p>Novembro de 2026 · atualizado hoje às 08:00 (simulação)</p></div></div>
+    <section class="nx-kpis" aria-label="Indicadores principais">
+      <article class="nx-card"><h2>Saldo em caixa</h2><div class="nx-valor" id="nx-saldo">—</div><div class="nx-delta">soma das contas bancárias</div></article>
+      <article class="nx-card"><h2>A receber</h2><div class="nx-valor" id="nx-receber">—</div><div class="nx-delta alerta">faturas pendentes e atrasadas</div></article>
+      <article class="nx-card"><h2>Em atraso</h2><div class="nx-valor" id="nx-atrasado">—</div><div class="nx-delta ruim">2 clientes · cobrar esta semana</div></article>
+      <article class="nx-card"><h2>Margem bruta</h2><div class="nx-valor">38%</div><div class="nx-delta bom">meta do mês: 35%</div></article>
+    </section>
+    <div class="nx-grade">
+      <section class="nx-card nx-grafico" aria-label="Projeção de caixa">
+        <div class="nx-tabela-topo"><h2>Projeção de caixa</h2><div class="nx-abas" role="group" aria-label="Período da projeção"><button type="button" data-dias="30">30 dias</button><button type="button" data-dias="60">60 dias</button><button type="button" data-dias="90">90 dias</button></div></div>
+        <svg id="nx-projecao" role="img" aria-label="Gráfico de linha com o saldo de caixa previsto"></svg>
+        <p class="nx-nota" id="nx-projecao-resumo"></p>
+        <div class="nx-legenda"><span style="--c:#22c55e">Saldo previsto</span><span style="--c:#22c55e">Entrada grande</span><span style="--c:#f59e0b">Saída grande</span></div>
+      </section>
+      <section class="nx-card" aria-label="Alertas">
+        <h2>Alertas da semana</h2>
+        <ul class="nx-alertas">
+          <li style="--c:#ef4444"><i></i><div>Escritório Lima &amp; Souza está 16 dias em atraso<small>R$ 3.200 · enviar lembrete pelo WhatsApp</small></div></li>
+          <li style="--c:#f59e0b"><i></i><div>Folha de pagamento em 5 dias<small>R$ 12.400 · saldo suficiente</small></div></li>
+          <li style="--c:#f59e0b"><i></i><div>Compra de equipamento prevista no dia +78<small>R$ 18.000 · leva o caixa ao menor ponto dos 90 dias (R$ 21.860)</small></div></li>
+          <li style="--c:#22c55e"><i></i><div>Construtora Alvorada confirmou pagamento<small>R$ 9.800 previsto para 18/11</small></div></li>
+        </ul>
+      </section>
+    </div>
+    <section class="nx-card" aria-label="Faturas">
+      <div class="nx-tabela-topo"><h2>Faturas</h2><div class="nx-filtros" role="group" aria-label="Filtrar faturas"><button type="button" data-filtro="todas" aria-pressed="true">Todas</button><button type="button" data-filtro="pendente" aria-pressed="false">Pendentes</button><button type="button" data-filtro="atrasada" aria-pressed="false">Atrasadas</button><button type="button" data-filtro="paga" aria-pressed="false">Pagas</button></div></div>
+      <table><thead><tr><th>Cliente</th><th class="nx-ocultar-celular">Vencimento</th><th>Situação</th><th style="text-align:right">Valor</th></tr></thead><tbody id="nx-faturas"></tbody></table>
+      <p class="nx-nota" style="margin-top:.8rem">Empresas e valores inventados para a demonstração. Num projeto real, os dados vêm do banco, do sistema de vendas ou da planilha do cliente.</p>
+    </section>
+  </main>
+</div>
+<script type="module" src="/portfolio/nexus-bi-demo/app.mjs"></script>
+</body></html>

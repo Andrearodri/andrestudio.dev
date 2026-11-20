@@ -13,9 +13,12 @@ Não foram inventadas datas, ferramentas ou créditos de produção. Os arquivos
 | `assets/optimized/showcase-cinematic.jpg` | Estudos de motion e criação digital; também substitui a imagem de `In the Nuvens` | André Rodrigues / AndreStudio.dev | Composição autoral | Uso interno do portfólio |
 | `assets/optimized/showcase-web.jpg` | Sites premium, contato e referências de interfaces web | André Rodrigues / AndreStudio.dev | Composição autoral | Uso interno do portfólio |
 | `assets/optimized/showcase-ai.jpg` | Exemplo de arquitetura e automação com IA | André Rodrigues / AndreStudio.dev | Composição autoral | Uso interno do portfólio |
-| `assets/optimized/saas-showcase-dark.png` | Dashboard conceitual e estudos de produto digital | André Rodrigues / AndreStudio.dev | Mockup de UI próprio | Uso interno do portfólio |
-| `assets/optimized/lead-flow-studio-crm.png` | Showcase do Lead Flow Studio | André Rodrigues / AndreStudio.dev | Mockup de UI próprio | Uso interno do portfólio |
-| `assets/optimized/omniagent-ai-hero.png` | Showcase do OmniAgent Studio | André Rodrigues / AndreStudio.dev | Mockup de UI próprio | Uso interno do portfólio |
+| `assets/optimized/nexus-bi-tela-real.jpg` | Case Nexus BI | André Rodrigues / AndreStudio.dev | Captura da demonstração própria (/portfolio/nexus-bi-demo/) | Dados fictícios |
+| `assets/optimized/lead-flow-tela-real.jpg` | Case Lead Flow Studio | André Rodrigues / AndreStudio.dev | Captura da demonstração própria (/demo/) | Dados fictícios |
+| `assets/optimized/omniagent-tela-real.jpg` | Case OmniAgent Studio | André Rodrigues / AndreStudio.dev | Captura da demonstração própria | Dados fictícios |
+| `assets/optimized/omniagent-modo-tecnico.jpg` | Case OmniAgent Studio (modo técnico) | André Rodrigues / AndreStudio.dev | Captura da demonstração própria | Dados fictícios |
+| `assets/optimized/blog-ia-whatsapp-business-cover.jpg` | Capa do post sobre a IA do WhatsApp Business | André Rodrigues / AndreStudio.dev | Arte tipográfica própria | — |
+| `assets/optimized/blog-anuncios-concorrentes-cover.jpg` | Capa do post sobre anúncios dos concorrentes | André Rodrigues / AndreStudio.dev | Arte tipográfica própria | — |
 | `assets/optimized/agenda-cheia-slz.png` | Estudo visual de CRM e operação | André Rodrigues / AndreStudio.dev | Mockup de UI próprio | Uso interno do portfólio |
 | `assets/optimized/in-the-nuvens.jpg` | Arquivo-fonte mantido no acervo do case | André Rodrigues / AndreStudio.dev | Imagem criada para o projeto | Não é mais a imagem ativa da apresentação após este refresh |
 | `assets/in_the_nuvens.jpg` | Arquivo-fonte original do mesmo estudo | André Rodrigues / AndreStudio.dev | Imagem criada para o projeto | Mantido no acervo; não referenciado diretamente no site |
