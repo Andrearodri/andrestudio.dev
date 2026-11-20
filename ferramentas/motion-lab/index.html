@@ -11,11 +11,23 @@
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <header class="lab-header container">
-    <a class="brand" href="/"><img src="/assets/optimized/logo-96.png" width="34" height="34" alt=""><span>AndreStudio.dev</span></a>
-    <nav aria-label="Navegação do laboratório"><a href="/">← Início</a><a href="#estudos">Os estudos</a></nav>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="AndreStudio.dev — página inicial">
+        <img src="/assets/optimized/logo-96.png" width="34" height="34" decoding="async" alt="">
+        <span>AndreStudio.dev</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu">☰</button>
+      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema claro">
+        <span class="theme-toggle-label">Claro</span>
+        <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+      </button>
+      <nav class="site-nav" id="primary-nav" aria-label="Navegação principal"><ul><li><a href="/#auditor-ia">Auditor IA</a></li><li><a href="/ferramentas/" aria-current="page">Ferramentas</a></li><li><a href="/kits/">Kits</a></li><li><a href="/#solucoes">Soluções</a></li><li><a href="/#projetos">Projetos</a></li><li><a href="/sobre/">Sobre</a></li><li><a href="/blog/">Conteúdo</a></li><li><a href="/cursos/">Cursos</a></li><li><a href="/assista/">Assista</a></li><li><a href="/contato/">Contato</a></li></ul></nav>
+      <a class="btn btn-primary btn-small header-cta" href="/contato/">Solicitar orçamento</a>
+    </div>
   </header>
   <main id="conteudo" class="container">
+    <nav aria-label="Navegação do laboratório"><a href="#estudos">Os estudos</a></nav>
     <section class="lab-intro">
       <div><p class="lab-eyebrow">LAB / 001 — IMAGEM EM MOVIMENTO</p><h1>Sua presença.<br><em>Outro ritmo.</em></h1></div>
       <div class="intro-note"><p>Produto em destaque, movimento com intenção. Experimente Guaraná Jesus, um carrossel com Cheetos e cachorrinho, e uma apresentação com André Rodrigues.</p><span>PRÉVIA INTERATIVA · SEM CADASTRO</span></div>
@@ -75,4 +87,5 @@
   <footer class="lab-footer container"><span>ANDRESTUDIO / MOTION LAB</span><a href="/contato/">Produza seu próximo projeto com o estúdio ↗</a></footer>
   <noscript><p class="container">Ative o JavaScript para reproduzir as cenas e gerar o prompt personalizado.</p></noscript>
   <script type="module" src="./app.mjs"></script>
+<script src="/script.js" defer></script>
 </body></html>

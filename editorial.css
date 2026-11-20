@@ -1,0 +1,18 @@
+.ed-grid {display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(1.4rem,4vw,4rem);align-items:start}
+.ed-feature {display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.ed-feature img {width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.ed-feature .ed-pad,.ed-pad {padding:clamp(1.2rem,3vw,2rem)}
+.ed-feature h2,.ed-grid h2 {font-size:clamp(1.5rem,3.2vw,2.75rem);line-height:1.1;margin:.6rem 0}
+.ed-list {list-style:none;padding:0;margin:.75rem 0 1.25rem}
+.ed-list li {padding:.85rem 0;border-bottom:1px solid var(--line);display:grid;gap:.3rem}
+.ed-list time,.ed-list small {color:var(--text-soft);font-size:.8rem}
+.ed-list a,.ed-nav a {text-decoration:underline;text-underline-offset:4px}
+.ed-nav {display:flex;flex-wrap:wrap;gap:.8rem 1.45rem;margin-top:1.3rem}
+.ed-lesson {max-width:48rem;margin-inline:auto}
+.ed-lesson h1 {font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.03;margin:.8rem 0 1.2rem}
+.ed-lesson .actions {margin:1.5rem 0}
+.actions [hidden] {display:none}
+.ed-short {width:min(100%,19rem);border-radius:12px;background:#101216}
+.ed-check {display:grid;gap:.9rem;margin-block:1.25rem}
+.ed-check label {display:flex;gap:.75rem;align-items:baseline}
+@media(max-width:760px){.ed-grid {grid-template-columns:1fr}}

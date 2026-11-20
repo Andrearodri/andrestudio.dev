@@ -12,6 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { onRequest as onAuditorIaRequest } from '../functions/api/auditor-ia.js';
 import { onRequest as onAuditorLeadRequest } from '../functions/api/auditor-lead.js';
+import { onRequestGet as onRadarRequest } from '../functions/api/radar.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC_DIR = path.join(ROOT, 'build', 'public');
@@ -118,6 +119,16 @@ const headerRules = parseHeadersRules();
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url || '/', `http://127.0.0.1:${PORT}`);
   const reqPath = decodeURIComponent(url.pathname);
+
+  if (reqPath === '/api/radar') {
+    if (req.method !== 'GET') {
+      res.writeHead(405, { allow: 'GET' });
+      res.end();
+      return;
+    }
+    await handleApiRoute(req, res, url, onRadarRequest, env);
+    return;
+  }
 
   if (reqPath === '/api/auditor-ia') {
     await handleApiRoute(req, res, url, onAuditorIaRequest, env);
