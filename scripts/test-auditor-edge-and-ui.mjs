@@ -18,6 +18,7 @@ import { runFinancialAudit } from '../ferramentas/auditor-ia/financial-engine.mj
 import { getPresetForNiche } from '../ferramentas/auditor-ia/presets.mjs';
 import { buildContingencyAnalysis, sanitizeAuditPayload } from '../ferramentas/auditor-ia/fallback-analyst.mjs';
 import { buildExecutiveWorkbookXlsx } from '../ferramentas/auditor-ia/xlsx-codec.mjs';
+import { PYTHON } from './run-python.mjs';
 
 const originalFetch = globalThis.fetch;
 
@@ -301,7 +302,7 @@ test('Gerador executivo .XLSX gera arquivo OOXML valido com 3 abas, estilos, lar
       await fs.writeFile(outFile, bytes);
 
       // Validação OOXML via Python zipfile + ElementTree
-      const pyCheck = execFileSync('python3', [
+      const pyCheck = execFileSync(PYTHON, [
         '-c',
         [
           'import sys, zipfile, xml.etree.ElementTree as ET',
@@ -350,7 +351,7 @@ test('Meta inviável usa o diagnóstico local e exporta margens atuais sem proje
   assert.equal(result.audit.summary.projection12mBRL, null);
   assert.doesNotMatch(JSON.stringify(result.analysis), /1\.000,00/);
   const bytes = await buildExecutiveWorkbookXlsx(result);
-  execFileSync('python3', ['-c', [
+  execFileSync(PYTHON, ['-c', [
     'import io, sys, zipfile, xml.etree.ElementTree as ET',
     'with zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read())) as z:',
     '    sheets = [ET.fromstring(z.read(f"xl/worksheets/sheet{i}.xml")) for i in (1, 2, 3)]',
@@ -381,7 +382,7 @@ test('WhatsApp mantém hipóteses no diagnóstico e leva campos de teste à plan
   assert.match(report.analysis.rootCauseDiagnosis, /R\$ 840,00/);
   assert.doesNotMatch(report.analysis.rootCauseDiagnosis, /frete|destrava|janela crítica|82\.656/);
   const bytes = await buildExecutiveWorkbookXlsx(report);
-  execFileSync('python3', ['-c', [
+  execFileSync(PYTHON, ['-c', [
     'import io, sys, zipfile',
     'with zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read())) as workbook:',
     '    cash = workbook.read("xl/worksheets/sheet1.xml").decode()',
