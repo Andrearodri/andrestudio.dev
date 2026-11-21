@@ -32,11 +32,18 @@
    - `/solucoes/servicos/?area=advocacia|contabilidade|clinicas|imobiliarias|outros`:
      página para escritórios e empresas de serviço com seletor de área.
 
-4. `feat/integracao` (**a mais recente, use esta**): junta tudo acima com a branch do Codex
+4. `feat/integracao` (publicada na main em 21/11): junta tudo acima com a branch do Codex
    `fix/consistent-public-navigation` (cursos e 7 aulas, /assista/, posts Epoch AI e GPT-6.2,
    menu padronizado em 43 páginas, `npm run test:navigation`). Ficaram fora: os 12 posts de
    notícias de tecnologia e o feed "Direto da fonte" do blog (radar.js continua no repo, mas
    não é usado no blog). No /assista/ saiu o vídeo recomendado do YouTube (o dono não quer).
+
+5. `feat/enxugar` (**a mais recente, use esta**; a `main` já publicada = `feat/integracao`):
+   menu de 6 itens + botão "Raio-X grátis"; Assista dentro de Cursos (301); saem a demo
+   Agenda Cheia e os estudos In the Nuvens e Mundo em Evolução (301); página inicial nova
+   ("Do primeiro contato ao pagamento") com seção Três frentes. 40 menus, 68 testes.
+   Nome "Raio-X" em discussão: o dono pode trocar (botão do menu, home, blog, soluções e o
+   repo `raiox-negocio`).
 
 ## ANTES DE PUBLICAR (importante)
 Resolvido em 20/11: as páginas que só estavam no Mac (`/cursos/`, `/assista/`, post da Epoch)
