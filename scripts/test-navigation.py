@@ -61,7 +61,7 @@ def main():
             if url.fragment:
                 assert url.fragment in Page(target.read_text(encoding='utf-8')).ids, f'{name}: missing {href}'
         count += 1
-    assert count == 43, f'Expected 43 public shared menus, found {count}'
+    assert count == 40, f'Expected 40 public shared menus, found {count}'
     print(f'PASS: {count} consistent menus; all public destinations and fragments exist')
 
 

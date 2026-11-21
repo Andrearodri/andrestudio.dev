@@ -76,7 +76,7 @@ for (const expected of ['_headers', '_redirects', '.well-known/security.txt', 't
 for (const page of [
   'index.html', 'portfolio/index.html', 'blog/index.html', 'servicos/index.html',
   'sobre/index.html', 'contato/index.html', 'privacidade/index.html',
-  'demo/index.html', 'portfolio/agenda-cheia-slz-demo/index.html',
+  'demo/index.html',
   'portfolio/cardapio-digital-demo/index.html', 'portfolio/omniagent-ai-demo/index.html'
 ]) {
   must(inventory.files.some((entry) => entry.path === page), `Primary/demo page included: ${page}`);

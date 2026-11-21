@@ -144,7 +144,7 @@ async function main() {
   })()`);
 
   await command('Emulation.setDeviceMetricsOverride', {width: 390, height: 844, deviceScaleFactor: 1, mobile: true});
-  for (const path of ['/', '/demo/', '/portfolio/agenda-cheia-slz-demo/', '/portfolio/cardapio-digital-demo/', '/portfolio/omniagent-ai-demo/']) {
+  for (const path of ['/', '/demo/', '/portfolio/cardapio-digital-demo/', '/portfolio/omniagent-ai-demo/']) {
     await navigate(path);
     const mobile = await evaluate('({path: location.pathname, width: visualViewport?.width || document.documentElement.clientWidth, layoutWidth: document.documentElement.clientWidth, overflow: Math.max(0, document.documentElement.scrollWidth - (visualViewport?.width || document.documentElement.clientWidth))})');
     results.push({name: 'mobile layout', ...mobile});

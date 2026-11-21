@@ -1,5 +1,15 @@
 # Cloudflare Pages Redirects (Exact matches first for maximum routing performance)
 
+# Enxugamento 21/11/2026: paginas que sairam do site publico
+/assista /cursos/ 301
+/assista/ /cursos/ 301
+/portfolio/agenda-cheia-slz-demo /demo/ 301
+/portfolio/agenda-cheia-slz-demo/ /demo/ 301
+/cases/in-the-nuvens /cases/objeto-em-camadas/ 301
+/cases/in-the-nuvens/ /cases/objeto-em-camadas/ 301
+/cases/mundo-em-evolucao /cases/objeto-em-camadas/ 301
+/cases/mundo-em-evolucao/ /cases/objeto-em-camadas/ 301
+
 # Posts de noticias de tecnologia retirados em 20/11/2026 (foco em donos de negocio)
 /blog/agentes-ia-custo-credencial-continuidade /blog/ 301
 /blog/agentes-ia-custo-credencial-continuidade/ /blog/ 301
