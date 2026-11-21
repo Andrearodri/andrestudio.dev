@@ -19,7 +19,7 @@ for (const demo of ['/portfolio/omniagent-ai-demo/', '/demo/', '/portfolio/carda
 }
 must(portfolio.includes('url=/servicos/'), 'Legacy portfolio path forwards visitors to the combined page');
 must(read('_redirects').includes('/portfolio/ /servicos/ 301'), 'Legacy portfolio route redirects to the combined page');
-must(home.includes('Apresente <em>melhor</em> seu negócio.'), 'Home uses the approved business-first positioning');
+must(home.includes('Do primeiro contato ao pagamento, <em>cada etapa</em> à vista.'), 'Home uses the approved business-first positioning');
 must(!home.includes('aria-label="Ver case do OmniAgent Studio"'), 'Bento links derive accessible names from visible content');
 must(read('script.js').includes("'Ativar tema escuro'"), 'Theme toggle exposes a clear action label');
 
