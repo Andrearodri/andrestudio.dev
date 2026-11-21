@@ -744,3 +744,12 @@ html[data-theme="light"] .tech-chip {
     width: 100%;
   }
 }
+
+/* Tres frentes (secao logo apos o hero) */
+.home-page #verticais-pme .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.home-page #verticais-pme .product-card { border: 1px solid var(--line); background: var(--surface); padding: 2rem; border-radius: var(--radius); display: flex; flex-direction: column; gap: .8rem; }
+.home-page #verticais-pme .product-number { font-family: var(--display); color: var(--red-soft); font-size: 2rem; margin: 0; }
+.home-page #verticais-pme .product-card h3 { font-size: 1.45rem; margin: 0; }
+.home-page #verticais-pme .product-card p { color: var(--muted); margin: 0; flex: 1; }
+.home-page #verticais-pme .product-card a { font-weight: 600; color: var(--text); }
+@media (max-width: 900px) { .home-page #verticais-pme .product-grid { grid-template-columns: 1fr; } }
