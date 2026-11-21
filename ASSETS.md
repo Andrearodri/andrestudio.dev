@@ -32,4 +32,4 @@ Não foram inventadas datas, ferramentas ou créditos de produção. Os arquivos
 ## Critério editorial
 
 Os assets são apresentados como parte do portfólio e dos estudos autorais do AndreStudio.dev. A seleção de imagens deve continuar coerente com desenvolvimento Web, produtos digitais, IA aplicada, automação e criação digital, sem transformar estudos visuais em cases de clientes ou resultados comerciais.
-| `assets/optimized/dario-amodei-toquio-2025.webp` e `.jpg` | Foto do post sobre IA, indústria de trilhão | Gabinete do Primeiro-Ministro do Japão (内閣官房), kantei.go.jp, 29/10/2025 | Public Data License 1.0 / CC BY 4.0, recortada e ajustada (contraste e nitidez) | Crédito exibido na legenda do post; uso editorial, nunca em anúncio |
+| `assets/optimized/dario-amodei-toquio-2025.webp` e `.jpg` | Foto do post sobre IA, indústria de trilhão | Gabinete do Primeiro-Ministro do Japão (内閣官房), kantei.go.jp, 29/10/2025 | Public Data License 1.0 / CC BY 4.0, recortada e editada (cores, vinheta e faixa com nome e cargo; rostos sem alteração) | Crédito exibido na legenda do post; uso editorial, nunca em anúncio |
