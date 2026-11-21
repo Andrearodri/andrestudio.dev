@@ -39,6 +39,8 @@ ALLOWED_FILES = (
     "assets/optimized/blog-anuncios-concorrentes-cover.jpg",
     "assets/optimized/blog-ia-whatsapp-business-cover.jpg",
     "assets/optimized/blog-ia-trilhao-cover.jpg",
+    "assets/optimized/dario-amodei-toquio-2025.webp",
+    "assets/optimized/dario-amodei-toquio-2025.jpg",
     "assets/optimized/blog-orcamento-ia-cover.jpg",
     "assets/optimized/blog-revisar-ia-cover.jpg",
     "assets/optimized/cursos-cover.jpg",
