@@ -40,6 +40,8 @@ ALLOWED_FILES = (
     "assets/optimized/blog-ia-whatsapp-business-cover.jpg",
     "assets/optimized/blog-ia-trilhao-cover.jpg",
     "assets/optimized/blog-black-friday-confianca-cover.jpg",
+    "assets/optimized/black-friday-vitrine-real.webp",
+    "assets/optimized/black-friday-vitrine-real.jpg",
     "assets/optimized/dario-amodei-toquio-2025.webp",
     "assets/optimized/dario-amodei-toquio-2025.jpg",
     "assets/optimized/blog-orcamento-ia-cover.jpg",
