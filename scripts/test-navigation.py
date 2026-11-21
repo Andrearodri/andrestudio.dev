@@ -8,10 +8,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWED = runpy.run_path(str(ROOT / 'scripts/build-public.py'))['ALLOWED_FILES']
 EXPECTED = [
-    ('Auditor IA', '/#auditor-ia'), ('Ferramentas', '/ferramentas/'),
-    ('Kits', '/kits/'), ('Soluções', '/#solucoes'), ('Projetos', '/#projetos'),
-    ('Sobre', '/sobre/'), ('Conteúdo', '/blog/'), ('Cursos', '/cursos/'),
-    ('Assista', '/assista/'), ('Contato', '/contato/'),
+    ('Soluções', '/solucoes/servicos/'), ('Ferramentas', '/ferramentas/'), ('Projetos', '/servicos/#projetos-principais'), ('Conteúdo', '/blog/'), ('Sobre', '/sobre/'), ('Contato', '/contato/'),
 ]
 
 

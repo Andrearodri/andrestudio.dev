@@ -634,8 +634,7 @@ html[data-theme="light"] .tech-chip {
 .home-page .home-footer-description,
 .home-page .home-footer-location { margin-top: 1rem; }
 
-/* O menu tem 10 itens: o botao "Solicitar orcamento" (igual a Contato) so aparece em telas largas. */
-@media (max-width: 1440px) {
+@media (max-width: 1120px) {
   .home-page .header-cta { display: none; }
 }
 
