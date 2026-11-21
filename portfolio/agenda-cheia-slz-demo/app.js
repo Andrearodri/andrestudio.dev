@@ -424,3 +424,17 @@ document.addEventListener('DOMContentLoaded', function() {
     openDemoSystem('dashboard');
   }
 });
+
+
+// Busca de clientes na lista de conversas (antes o campo chamava uma funcao inexistente).
+(function ligarBuscaDeConversas() {
+  const campo = document.getElementById('chat-search');
+  if (!campo) return;
+  campo.addEventListener('input', () => {
+    const termo = campo.value.trim().toLocaleLowerCase('pt-BR');
+    for (const item of document.querySelectorAll('.chat-thread-item')) {
+      const texto = item.textContent.toLocaleLowerCase('pt-BR');
+      item.hidden = termo !== '' && !texto.includes(termo);
+    }
+  });
+})();
